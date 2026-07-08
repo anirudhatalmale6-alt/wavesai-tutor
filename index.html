@@ -216,6 +216,53 @@ input.f:focus,select.f:focus,textarea.f:focus{border-color:var(--gold)}
 .tip h4{font-size:17px;margin-bottom:5px}
 .tip p{font-size:14px;color:var(--muted)}
 
+/* Parents — progress dashboard */
+.prog-head{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:linear-gradient(135deg,var(--navy),var(--navy-soft));color:#fff;border-radius:22px;padding:24px 30px}
+.prog-head .kid{width:60px;height:60px;border-radius:16px;background:linear-gradient(140deg,var(--gold-lite),var(--gold));display:flex;align-items:center;justify-content:center;font-size:26px;font-family:var(--serif);font-weight:800;color:#fff;flex-shrink:0}
+.prog-head .who-txt b{font-family:var(--serif);font-size:23px;color:#fff;display:block}
+.prog-head .who-txt span{color:rgba(255,255,255,.72);font-size:14px}
+.prog-head select{margin-left:auto;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);color:#fff;border-radius:11px;padding:10px 13px;font-family:var(--sans);font-size:14px;outline:none;cursor:pointer}
+.prog-head select option{color:#1B2D4F}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:18px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+.stat .num{font-family:var(--serif);font-size:29px;font-weight:800;color:var(--navy);line-height:1}
+.stat .lbl{font-size:12.5px;color:var(--muted);margin-top:6px}
+.subj-prog{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px 26px;margin-top:18px}
+.subj-prog h4{font-size:19px;margin-bottom:18px}
+.pbar-row{margin-bottom:17px}
+.pbar-row:last-child{margin-bottom:0}
+.pbar-row .top{display:flex;justify-content:space-between;align-items:center;font-size:14.5px;margin-bottom:7px}
+.pbar-row .top b{color:var(--navy);font-weight:600;display:flex;align-items:center;gap:8px}
+.pbar-row .top .pct{color:var(--gold);font-weight:700}
+.pbar{height:9px;background:var(--panel-2);border-radius:999px;overflow:hidden}
+.pbar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--gold-lite),var(--gold));width:0;transition:width 1s cubic-bezier(.25,.9,.3,1)}
+.trend{font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px}
+.trend.up{color:#2e7d5b;background:rgba(46,125,91,.1)}
+.trend.flat{color:#B8922E;background:var(--gold-glow)}
+.trend.down{color:#c0392b;background:rgba(192,57,43,.08)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.info-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 24px}
+.info-card h4{font-size:17px;margin-bottom:12px;display:flex;align-items:center;gap:9px}
+.info-card ul{list-style:none}
+.info-card li{font-size:14.5px;color:var(--ink);padding:7px 0 7px 26px;position:relative;border-bottom:1px solid var(--panel-2)}
+.info-card li:last-child{border-bottom:none}
+.info-card li::before{position:absolute;left:0;top:7px}
+.info-card.good li::before{content:"✓";color:#2e7d5b;font-weight:800}
+.info-card.work li::before{content:"→";color:var(--gold);font-weight:800}
+.activity{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 26px;margin-top:18px}
+.activity h4{font-size:17px;margin-bottom:14px}
+.act-item{display:flex;gap:13px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--panel-2)}
+.act-item:last-child{border-bottom:none}
+.act-item .ae{width:38px;height:38px;border-radius:11px;background:var(--panel);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.act-item .ad b{font-size:14.5px;color:var(--navy);font-weight:600}
+.act-item .ad p{font-size:13px;color:var(--muted)}
+.act-item .at{margin-left:auto;font-size:12px;color:var(--muted);white-space:nowrap;flex-shrink:0}
+
+/* Coach */
+.coach-quick{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;justify-content:center}
+.coach-chip{padding:11px 18px;border-radius:999px;border:1.5px solid var(--line);background:#fff;font-weight:600;font-size:14px;color:var(--navy);transition:.15s;display:inline-flex;gap:7px;align-items:center}
+.coach-chip:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+
 /* Footer */
 footer{background:var(--navy);color:rgba(255,255,255,.7);margin-top:70px;padding:52px 0 30px}
 footer .cols{display:grid;grid-template-columns:2fr 1fr 1fr;gap:30px}
@@ -227,9 +274,10 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
 
 @media(max-width:900px){
   .navlinks{display:none}.burger{display:flex}.nav-cta .btn:not(.burger){display:none}
-  .g3,.g4,.subject-grid,.feat-grid,.fc-grid{grid-template-columns:1fr 1fr}
-  .tool-layout{grid-template-columns:1fr}
+  .g3,.g4,.subject-grid,.feat-grid,.fc-grid,.stat-row{grid-template-columns:1fr 1fr}
+  .tool-layout,.two-col{grid-template-columns:1fr}
   footer .cols{grid-template-columns:1fr}
+  .prog-head select{margin-left:0;width:100%}
 }
 @media(max-width:560px){
   .g2,.g3,.g4,.subject-grid,.fc-grid{grid-template-columns:1fr}
@@ -253,6 +301,8 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
       <a data-nav="students" onclick="go('students')">Students</a>
       <a data-nav="tutors" onclick="go('tutors')">Tutors</a>
       <a data-nav="exams" onclick="go('exams')">Exams &amp; Revision</a>
+      <a data-nav="parents" onclick="go('parents')">Parents</a>
+      <a data-nav="coach" onclick="go('coach')">Coach</a>
     </nav>
     <div class="nav-cta">
       <button class="btn btn-navy btn-sm" onclick="go('students')">Get Started</button>
@@ -264,6 +314,8 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
     <a data-nav="students" onclick="go('students')">Students</a>
     <a data-nav="tutors" onclick="go('tutors')">Tutors</a>
     <a data-nav="exams" onclick="go('exams')">Exams &amp; Revision</a>
+    <a data-nav="parents" onclick="go('parents')">Parents</a>
+    <a data-nav="coach" onclick="go('coach')">Coach</a>
     <button class="btn btn-navy" style="margin-top:8px" onclick="go('students')">Get Started</button>
   </div>
 </header>
@@ -512,6 +564,118 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
   </section>
 </div>
 
+<!-- ============ PARENTS ============ -->
+<div id="parents" class="view">
+  <section class="page-head">
+    <div class="wrap">
+      <p class="eyebrow">For parents</p>
+      <h1>See how your child is really doing</h1>
+      <p>A clear picture of your child's progress across every subject — then ask anything. What they're doing well, where they're stuck, and exactly how you can help at home.</p>
+    </div>
+  </section>
+  <section class="block" style="padding-top:26px">
+    <div class="wrap">
+      <div class="prog-head">
+        <div class="kid" id="kidAv">E</div>
+        <div class="who-txt">
+          <b id="kidName">Emma Roberts</b>
+          <span id="kidMeta">Year 10 · GCSE · Active this week</span>
+        </div>
+        <select id="kidSelect" onchange="loadChild(this.value)">
+          <option value="0">Emma (Year 10)</option>
+          <option value="1">Jack (Year 8)</option>
+        </select>
+      </div>
+
+      <div class="stat-row" id="kidStats"></div>
+
+      <div class="subj-prog">
+        <h4>📊 Progress by subject</h4>
+        <div id="kidBars"></div>
+      </div>
+
+      <div class="two-col">
+        <div class="info-card good">
+          <h4>💪 Doing well</h4>
+          <ul id="kidStrengths"></ul>
+        </div>
+        <div class="info-card work">
+          <h4>🎯 Areas to work on</h4>
+          <ul id="kidWork"></ul>
+        </div>
+      </div>
+
+      <div class="activity">
+        <h4>🕑 Recent activity</h4>
+        <div id="kidActivity"></div>
+      </div>
+
+      <!-- Ask about progress -->
+      <div class="panel">
+        <div class="panel-head">
+          <div class="who">
+            <div class="av">👨‍👩‍👧</div>
+            <div><b>Progress Assistant</b><span>Ask anything about your child</span></div>
+          </div>
+          <div class="toggle" onclick="toggleRead('pa')">
+            <span>Read answers aloud</span>
+            <div class="switch on" id="paSwitch"></div>
+          </div>
+        </div>
+        <div class="chat" id="paChat"></div>
+        <div class="composer">
+          <button class="mic" id="paMic" onclick="startVoice('pa')">🎙️</button>
+          <input id="paInput" placeholder="e.g. How is Emma doing in maths?" onkeydown="if(event.key==='Enter')sendPa()">
+          <button class="send" onclick="sendPa()">➤</button>
+        </div>
+      </div>
+      <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:16px">Try: “Where is she struggling?” · “How can I help with science at home?” · “Is she ready for her exam?”</p>
+    </div>
+  </section>
+</div>
+
+<!-- ============ COACH ============ -->
+<div id="coach" class="view">
+  <section class="page-head">
+    <div class="wrap">
+      <p class="eyebrow">Motivation coach</p>
+      <h1>Cheer your child on, the right way</h1>
+      <p>Not sure what to say? Tell the coach what's going on and it gives you an encouraging, age-appropriate message you can read to your child — plus practical ways to keep them motivated.</p>
+    </div>
+  </section>
+  <section class="block" style="padding-top:22px">
+    <div class="wrap">
+      <div class="coach-quick">
+        <button class="coach-chip" onclick="coachPreset('My child has an exam tomorrow and feels nervous')">😰 Nervous before an exam</button>
+        <button class="coach-chip" onclick="coachPreset('My child had a tough day and got a low mark')">😔 A tough day</button>
+        <button class="coach-chip" onclick="coachPreset('My child just got a great result and I want to celebrate')">🎉 Celebrate a win</button>
+        <button class="coach-chip" onclick="coachPreset('My child has lost motivation to study')">🔋 Low on motivation</button>
+        <button class="coach-chip" onclick="coachPreset('My child is comparing themselves to friends')">🤝 Comparing to others</button>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="who">
+            <div class="av">🌟</div>
+            <div><b>Motivation Coach</b><span>Encouragement that actually lands</span></div>
+          </div>
+          <div class="toggle" onclick="toggleRead('co')">
+            <span>Read aloud</span>
+            <div class="switch on" id="coSwitch"></div>
+          </div>
+        </div>
+        <div class="chat" id="coChat"></div>
+        <div class="composer">
+          <button class="mic" id="coMic" onclick="startVoice('co')">🎙️</button>
+          <input id="coInput" placeholder="Tell me what's happening with your child…" onkeydown="if(event.key==='Enter')sendCo()">
+          <button class="send" onclick="sendCo()">➤</button>
+        </div>
+      </div>
+      <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:16px">Tap 🔊 on any reply to hear it — or read it straight to your child.</p>
+    </div>
+  </section>
+</div>
+
 <footer>
   <div class="wrap">
     <div class="cols">
@@ -524,12 +688,15 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
         <a onclick="go('students')">Students</a>
         <a onclick="go('tutors')">Tutors</a>
         <a onclick="go('exams')">Exams &amp; Revision</a>
+        <a onclick="go('parents')">Parents</a>
+        <a onclick="go('coach')">Coach</a>
       </div>
       <div>
         <h5>Get started</h5>
         <a onclick="go('students')">Find a tutor</a>
         <a onclick="go('exams')">Take a practice exam</a>
-        <a onclick="go('tutors')">Prepare a lesson</a>
+        <a onclick="go('parents')">Track progress</a>
+        <a onclick="go('coach')">Motivate your child</a>
       </div>
     </div>
     <div class="bottom">© 2026 WavesAI Tutor · Learn · Teach · Examine</div>
@@ -549,7 +716,7 @@ function go(id){
 function toggleMenu(){var m=document.getElementById('mm');m.style.display=m.style.display==='flex'?'none':'flex';}
 
 /* ---------- Audio (text to speech) ---------- */
-var readOn={st:true,tu:true};
+var readOn={st:true,tu:true,pa:true,co:true};
 function toggleRead(k){readOn[k]=!readOn[k];document.getElementById(k+'Switch').classList.toggle('on',readOn[k]);if(!readOn[k])stopSpeak();}
 function pickVoice(){
   var vs=speechSynthesis.getVoices();
@@ -809,12 +976,129 @@ function renderTips(){
   });
 }
 
+/* ---------- Parents: progress dashboard ---------- */
+/* INTEGRATION POINT: replace CHILDREN with live data from the WavesAI progress API. */
+var CHILDREN=[
+  {name:'Emma Roberts',first:'Emma',av:'E',meta:'Year 10 · GCSE · Active this week',subj:'she',obj:'her',poss:'her',
+    stats:[['82%','Average score'],['24','Lessons this month'],['6','Exams sat'],['🔥 9','Day study streak']],
+    subjects:[['🧮 Maths',88,'up'],['🔬 Science',79,'up'],['📖 English',84,'flat'],['📜 History',68,'down'],['🌍 Geography',72,'up']],
+    strengths:['Algebra — consistently scoring 85%+','Strong at explaining answers in her own words','Revises little and often rather than cramming'],
+    work:['History dates and timelines need review','Longer essay questions — running out of time','Could ask more follow-up questions in science'],
+    activity:[
+      ['🧮','Completed a Maths practice exam','Scored 88% · algebra and fractions','2h ago'],
+      ['🔬','Chatted with the Science Tutor','Photosynthesis and the water cycle','Yesterday'],
+      ['🃏','Revised English flashcards','18 cards on literary techniques','2 days ago'],
+      ['📜','Sat a History practice paper','Scored 64% · needs work on dates','4 days ago']
+    ]},
+  {name:'Jack Roberts',first:'Jack',av:'J',meta:'Year 8 · KS3 · Active today',subj:'he',obj:'him',poss:'his',
+    stats:[['74%','Average score'],['17','Lessons this month'],['4','Exams sat'],['🔥 4','Day study streak']],
+    subjects:[['🧮 Maths',71,'up'],['🔬 Science',80,'up'],['📖 English',65,'flat'],['🌍 Geography',77,'up']],
+    strengths:['Science — really curious, asks great questions','Improving fast in maths (up 12% this term)','Enjoys the read-aloud tutor sessions'],
+    work:['Spelling and punctuation in English','Times tables — needs quicker recall','Building confidence to attempt harder questions'],
+    activity:[
+      ['🔬','Chatted with the Science Tutor','States of matter · asked 6 questions','Today'],
+      ['🧮','Completed a Maths worksheet','Multiplication · 8/10 correct','Today'],
+      ['🃏','Revised Science flashcards','12 cards on the human body','Yesterday'],
+      ['📖','Practised English comprehension','Reading a short story','3 days ago']
+    ]}
+];
+var curKid=CHILDREN[0];
+function loadChild(i){
+  curKid=CHILDREN[+i];
+  document.getElementById('kidAv').textContent=curKid.av;
+  document.getElementById('kidName').textContent=curKid.name;
+  document.getElementById('kidMeta').textContent=curKid.meta;
+  // stats
+  document.getElementById('kidStats').innerHTML=curKid.stats.map(function(s){
+    return '<div class="stat"><div class="num">'+s[0]+'</div><div class="lbl">'+s[1]+'</div></div>';}).join('');
+  // subject bars
+  document.getElementById('kidBars').innerHTML=curKid.subjects.map(function(s){
+    var tl=s[2]==='up'?'▲ Improving':s[2]==='down'?'▼ Slipping':'▬ Steady';
+    return '<div class="pbar-row"><div class="top"><b>'+s[0]+' <span class="trend '+s[2]+'">'+tl+'</span></b><span class="pct">'+s[1]+'%</span></div>'
+      +'<div class="pbar"><i data-w="'+s[1]+'"></i></div></div>';}).join('');
+  // strengths / work
+  document.getElementById('kidStrengths').innerHTML=curKid.strengths.map(function(x){return '<li>'+x+'</li>';}).join('');
+  document.getElementById('kidWork').innerHTML=curKid.work.map(function(x){return '<li>'+x+'</li>';}).join('');
+  // activity
+  document.getElementById('kidActivity').innerHTML=curKid.activity.map(function(a){
+    return '<div class="act-item"><div class="ae">'+a[0]+'</div><div class="ad"><b>'+a[1]+'</b><p>'+a[2]+'</p></div><div class="at">'+a[3]+'</div></div>';}).join('');
+  animateBars();
+  // reset chat with a personalised greeting
+  var c=document.getElementById('paChat');if(c){c.innerHTML='';
+    addMsg('paChat','bot',"Hi! I'm keeping an eye on "+curKid.first+"'s learning. Ask me anything — how "+curKid.subj+"'s doing overall, where "+curKid.subj+"'s strong, where "+curKid.subj+" needs a hand, or how you can support "+curKid.obj+" at home.",false);}
+}
+function animateBars(){
+  setTimeout(function(){document.querySelectorAll('#kidBars .pbar i').forEach(function(i){i.style.width=i.dataset.w+'%';});},60);
+}
+function sendPa(){
+  var inp=document.getElementById('paInput');var q=inp.value.trim();if(!q)return;
+  addMsg('paChat','me',q);inp.value='';typing('paChat',true);
+  setTimeout(function(){typing('paChat',false);addMsg('paChat','bot',progressReply(q),readOn.pa);},700+Math.random()*500);
+}
+/* INTEGRATION POINT: replace progressReply() with a call to the WavesAI progress-summary agent. */
+function progressReply(q){
+  var t=q.toLowerCase(),k=curKid,name=k.first,subj=k.subj,obj=k.obj,poss=k.poss;
+  var Subj=subj.charAt(0).toUpperCase()+subj.slice(1);
+  var top=k.subjects.slice().sort(function(a,b){return b[1]-a[1];})[0];
+  var low=k.subjects.slice().sort(function(a,b){return a[1]-b[1];})[0];
+  function subjLine(word){
+    var s=k.subjects.find(function(x){return x[0].toLowerCase().indexOf(word)>-1;});
+    if(!s)return null;
+    var tr=s[2]==='up'?'and it\'s been improving lately':s[2]==='down'?'and it has slipped a little recently — worth a look':'and it\'s holding steady';
+    return name+" is at "+s[1]+"% in "+s[0].replace(/^[^ ]+ /,'')+" "+tr+".";
+  }
+  var m;
+  if((m=t.match(/math|science|english|history|geograph/))){
+    var line=subjLine(m[0]);
+    if(line)return line+"\n\nIf you'd like, I can suggest one short thing you could do together this week to push that on.";
+  }
+  if(t.includes('strong')||t.includes('good at')||t.includes('doing well')||t.includes('best'))
+    return name+"'s strongest area is "+top[0].replace(/^[^ ]+ /,'')+" at "+top[1]+"%. Here's where "+subj+"'s doing well:\n\n• "+k.strengths.join("\n• ")+"\n\nA little praise for these goes a long way in keeping "+obj+" motivated.";
+  if(t.includes('home')||t.includes('support')||t.includes('how can i')||t.includes('help '+name.toLowerCase()))
+    return "Nice — the best things you can do at home for "+name+":\n\n• Ask "+obj+" to teach YOU something "+subj+" learned today — explaining it out loud locks it in.\n• Keep sessions short and regular (20–30 mins) rather than long cram sessions.\n• Celebrate effort, not just marks.\n• Let "+obj+" use the read-aloud tutor for revision on the go.\n\nWant me to turn this into a simple weekly plan?";
+  if(t.includes('struggl')||t.includes('weak')||t.includes('worst')||t.includes('behind')||t.includes('help'))
+    return "The main things to work on for "+name+" right now:\n\n• "+k.work.join("\n• ")+"\n\n"+low[0].replace(/^[^ ]+ /,'')+" is "+poss+" lowest subject at "+low[1]+"%. I'd focus a couple of short sessions there this week — I can set "+obj+" some practice questions if that helps.";
+  if(t.includes('ready')||t.includes('exam')||t.includes('test'))
+    return name+" has sat "+k.stats[2][0]+" practice exams with an average of "+k.stats[0][0]+". "+Subj+"'s in good shape in "+top[0].replace(/^[^ ]+ /,'')+", but I'd get a few more practice papers done in "+low[0].replace(/^[^ ]+ /,'')+" before the real thing. Steady revision plus a couple of timed papers would leave "+obj+" well prepared.";
+  if(t.includes('streak')||t.includes('how often')||t.includes('active'))
+    return name+" is on a "+k.stats[3][0].replace(/[^\d]/g,'')+"-day study streak and has done "+k.stats[1][0]+" lessons this month. Really consistent — that regular habit is exactly what lifts grades over time.";
+  return "Here's the quick picture for "+name+":\n\n• Average score: "+k.stats[0][0]+"\n• Strongest: "+top[0].replace(/^[^ ]+ /,'')+" ("+top[1]+"%)\n• Needs most work: "+low[0].replace(/^[^ ]+ /,'')+" ("+low[1]+"%)\n• "+k.stats[1][0]+" lessons this month\n\nAsk me about any subject, where "+subj+"'s struggling, or how to help at home.";
+}
+
+/* ---------- Coach: motivation ---------- */
+function coachPreset(text){
+  go('coach');
+  var inp=document.getElementById('coInput');inp.value=text;sendCo();
+}
+function sendCo(){
+  var inp=document.getElementById('coInput');var q=inp.value.trim();if(!q)return;
+  addMsg('coChat','me',q);inp.value='';typing('coChat',true);
+  setTimeout(function(){typing('coChat',false);addMsg('coChat','bot',coachReply(q),readOn.co);},700+Math.random()*500);
+}
+/* INTEGRATION POINT: replace coachReply() with a call to the WavesAI motivation-coach agent. */
+function coachReply(q){
+  var t=q.toLowerCase();
+  if(t.includes('nervous')||t.includes('anxious')||t.includes('worried')||t.includes('scared')||(t.includes('exam')&&t.includes('tomorrow')))
+    return "💛 Try saying this to them:\n\n\"I know tomorrow feels big, and it's okay to feel nervous — it just means you care. You've put the work in, and I'm proud of you no matter what the paper says. Just do your best, one question at a time. That's all anyone can ask.\"\n\nPractical tips for tonight:\n• Keep it light — a short walk or a favourite dinner beats last-minute cramming.\n• Get them to bed on time; sleep matters more than one more revision hour.\n• In the morning, remind them: read each question twice, and start with the ones they find easy.";
+  if(t.includes('low mark')||t.includes('failed')||t.includes('bad grade')||t.includes('tough day')||t.includes('disappoint')||t.includes('upset'))
+    return "💛 Something you could say:\n\n\"One result doesn't decide how clever you are or how far you'll go. Everyone has off days — what matters is what we do next. Let's look at it together, find one thing to improve, and move on. I believe in you.\"\n\nRemember:\n• Comfort first, fix later — let them feel heard before talking solutions.\n• Focus on the effort and the next step, not the number.\n• A setback they bounce back from teaches more than an easy win.";
+  if(t.includes('celebrat')||t.includes('great result')||t.includes('did well')||t.includes('proud')||t.includes('passed')||t.includes('won'))
+    return "🎉 Brilliant — celebrate it properly! Try:\n\n\"Look at that! That's your hard work paying off — not luck, YOU did that. I'm so proud of you. Let's do something to mark it.\"\n\nIdeas:\n• Name the effort, not just the result: \"all that revision worked.\"\n• Let them pick a small treat or a fun outing.\n• Put the win somewhere visible — a fridge note, a photo. Confidence builds on remembered wins.";
+  if(t.includes('motivat')||t.includes('lazy')||t.includes("won't study")||t.includes('can\'t be bothered')||t.includes('give up')||t.includes('lost interest'))
+    return "🔋 When motivation dips, structure beats willpower. Try saying:\n\n\"Let's not aim for perfect — let's just do 15 minutes together, then you're free. Small steps still get us there.\"\n\nWhat helps:\n• Shrink the task — one page, one topic, 15 minutes. Starting is the hard part.\n• Let them choose WHAT to study first; a little control brings buy-in.\n• Tie study to something they want (a goal, a reward, a dream job).\n• Use the tutor's read-aloud mode — it makes revision feel less like a chore.";
+  if(t.includes('compar')||t.includes('friends')||t.includes('everyone else')||t.includes('not good enough'))
+    return "🤝 This one's important. You could say:\n\n\"You're not behind — you're on your own path. Your only job is to be a bit better than you were last week, not to beat anyone else. I'd rather you were kind and trying hard than top of the class and miserable.\"\n\nGently:\n• Steer them off comparison and onto their own progress (show them how far they've come).\n• Celebrate personal bests, not rankings.\n• Remind them everyone's fighting battles they can't see.";
+  return "💛 I've got you. Here's an encouraging message you can read to your child:\n\n\"I want you to know I'm proud of you — not for your grades, but for how hard you try. Learning is tough sometimes, and you keep showing up. That matters more than any mark. I'm right here with you.\"\n\nTell me a bit more about what's going on — an exam, a low mood, losing motivation, a big win — and I'll tailor exactly what to say and do.";
+}
+
 /* ---------- Init ---------- */
 renderSubjects();
 addMsg('stChat','bot',"Hi! I'm your Maths Tutor. Ask me anything about numbers, algebra or problem solving, and I'll explain it clearly. What are you working on today?",false);
 addMsg('tuChat','bot',"Hi! I'm your Prep Assistant. Tell me the subject, topic and year group and I'll help you plan a lesson, build a worksheet or come up with activities. What are you teaching?",false);
 loadCards(null,'maths');document.querySelector('#ex-rev .subtab').classList.add('active');
 renderTips();
+loadChild(0);
+addMsg('coChat','bot',"Hi! I'm your Motivation Coach. 🌟 Tell me what's happening — nervous before a test, a low mark, a big win, or a motivation dip — and I'll give you the right words to say and a few practical things to try. Or tap one of the buttons above to start.",false);
 </script>
 </body>
 </html>
