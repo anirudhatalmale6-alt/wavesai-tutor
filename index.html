@@ -594,6 +594,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
               <option value="de">🇩🇪 German</option>
               <option value="it">🇮🇹 Italian</option>
               <option value="pt">🇵🇹 Portuguese</option>
+              <option value="ar">🇸🇦 Arabic</option>
             </select></div>
           <div style="flex:1;min-width:200px"><label>Level</label>
             <select class="f" id="trLevel" onchange="trSetup()">
@@ -1373,6 +1374,42 @@ var LANGS={
         {q:'“Queria apresentar uma reclamação” means…',opts:['I’d like to make a complaint','I’d like to order','I’d like to book','I’d like to pay'],a:0,fb:'“uma reclamação” = a complaint.'},
         {q:'Which phrase means “on the other hand”?',opts:['Por outro lado','Claro que sim','De nada','Se calhar'],a:0,fb:'“Por outro lado” = on the other hand.'},
         {q:'“Apesar da chuva” means…',opts:['Despite the rain','During the rain','Because of the rain','After the rain'],a:0,fb:'“Apesar de” = despite.'}
+      ]
+    }},
+  ar:{name:'Arabic',flag:'🇸🇦',code:'ar-SA',
+    phr:{
+      'hello':{t:'مرحبًا',p:'MAR-ha-ban'},'thank you':{t:'شكرًا',p:'SHOOK-ran'},'good morning':{t:'صباح الخير',p:'sa-BAAH al-KHAYR'},
+      'my name is':{t:'اسمي…',p:'IS-mee'},'how much is it':{t:'كم السعر؟',p:'kam as-SIʼR'},
+      'where is the toilet':{t:'أين الحمّام؟',p:'AY-na al-ham-MAAM'},
+      'i would like to book a table':{t:'أريد حجز طاولة',p:'u-REED HAJZ TAA-wi-la'},
+      'can you help me please':{t:'هل يمكنك مساعدتي من فضلك؟',p:'hal YUM-ki-nuka mu-SAA-a-da-tee min FAD-lik'},
+      'what time does it open':{t:'متى يفتح؟',p:'MA-taa YAF-tah'},
+      'i am lost':{t:'أنا تائه',p:'a-na TAA-ih'},'i dont understand':{t:'لا أفهم',p:'laa AF-ham'},
+      'the bill please':{t:'الحساب من فضلك',p:'al-hi-SAAB min FAD-lik'},
+      'could you recommend a local dish':{t:'هل توصي بطبق محلي؟',p:'hal TOO-see bi-TA-baq ma-HAL-lee'},
+      'i would like to make a complaint':{t:'أريد تقديم شكوى',p:'u-REED taq-DEEM SHAK-waa'},
+      'in my opinion':{t:'في رأيي',p:'fee RA-ʼyee'},'on the other hand':{t:'من ناحية أخرى',p:'min NAA-hi-ya UKH-raa'},
+      'i was wondering if you could help':{t:'كنت أتساءل إن كان بإمكانك المساعدة',p:'KUN-tu a-ta-SAA-al in KAA-na bi-im-KAA-nik al-mu-SAA-a-da'},
+      'despite the rain we enjoyed the trip':{t:'رغم المطر، استمتعنا بالرحلة',p:'RAGH-ma al-MA-tar, is-tam-TAʼ-naa bir-RIH-la'}
+    },
+    prac:{
+      beginner:[
+        {q:'How do you say “Thank you”?',opts:['شكرًا (Shukran)','مرحبًا (Marhaban)','مع السلامة (Maʻa as-salama)','من فضلك (Min fadlik)'],a:0,fb:'“شكرًا / Shukran” = thank you.'},
+        {q:'“صباح الخير (Sabah al-khayr)” means…',opts:['Good morning','Good night','Goodbye','Welcome'],a:0,fb:'“Sabah al-khayr” = good morning.'},
+        {q:'How do you ask “How much is it?”',opts:['كم السعر؟ (Kam as-siʼr?)','ما اسمك؟ (Ma ismuka?)','كيف حالك؟ (Kayfa haluk?)','أين أنت؟ (Ayna anta?)'],a:0,fb:'“Kam as-siʼr?” asks the price.'},
+        {q:'“اسمي أحمد (Ismi Ahmad)” means…',opts:['My name is Ahmad','I see Ahmad','I like Ahmad','I am with Ahmad'],a:0,fb:'“Ismi…” = my name is…'}
+      ],
+      intermediate:[
+        {q:'How do you say “I don’t understand”?',opts:['لا أفهم (La afham)','لا أعرف (La aʻrif)','لا أستطيع (La astatiʻ)','لا أريد (La urid)'],a:0,fb:'“La afham” = I don’t understand.'},
+        {q:'“الحساب من فضلك (Al-hisab min fadlik)” asks for…',opts:['The bill','The menu','The key','A taxi'],a:0,fb:'“Al-hisab” = the bill.'},
+        {q:'How do you say “I am lost”?',opts:['أنا تائه (Ana taʼih)','أنا متعب (Ana mutaʻab)','أنا جاهز (Ana jahiz)','أنا هنا (Ana huna)'],a:0,fb:'“Ana taʼih” = I am lost.'},
+        {q:'“متى يفتح؟ (Mata yaftah?)” means…',opts:['What time does it open?','Where is it?','How much is it?','Who is coming?'],a:0,fb:'“yaftah” = opens.'}
+      ],
+      proficient:[
+        {q:'How do you say “In my opinion”?',opts:['في رأيي (Fi raʼyi)','بالطبع (Bittabʻ)','عفوًا (ʻAfwan)','مع ذلك (Maʻa dhalik)'],a:0,fb:'“Fi raʼyi” = in my opinion.'},
+        {q:'“أريد تقديم شكوى (Urid taqdim shakwa)” means…',opts:['I’d like to make a complaint','I’d like to order','I’d like to book','I’d like to pay'],a:0,fb:'“shakwa” = a complaint.'},
+        {q:'Which phrase means “on the other hand”?',opts:['من ناحية أخرى (Min nahiya ukhra)','بكل سرور (Bikull surur)','لا شكر على واجب (La shukr ʻala wajib)','ربما (Rubbama)'],a:0,fb:'“Min nahiya ukhra” = on the other hand.'},
+        {q:'“رغم المطر (Raghma al-matar)” means…',opts:['Despite the rain','During the rain','Because of the rain','After the rain'],a:0,fb:'“Raghma” = despite.'}
       ]
     }}
 };
