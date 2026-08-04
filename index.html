@@ -796,26 +796,27 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
 <div id="coach" class="view">
   <section class="page-head">
     <div class="wrap">
-      <p class="eyebrow">Motivation coach</p>
-      <h1>Cheer your child on, the right way</h1>
-      <p>Not sure what to say? Tell the coach what's going on and it gives you an encouraging, age-appropriate message you can read to your child — plus practical ways to keep them motivated.</p>
+      <p class="eyebrow">Study coach</p>
+      <h1>Let's talk it through</h1>
+      <p>A judgement-free space to chat about what you're finding hard — a subject you're stuck on, exam nerves, losing focus or falling behind. Tell your coach what's going on and you'll get honest, practical steps to turn it around.</p>
     </div>
   </section>
   <section class="block" style="padding-top:22px">
     <div class="wrap">
       <div class="coach-quick">
-        <button class="coach-chip" onclick="coachPreset('My child has an exam tomorrow and feels nervous')">😰 Nervous before an exam</button>
-        <button class="coach-chip" onclick="coachPreset('My child had a tough day and got a low mark')">😔 A tough day</button>
-        <button class="coach-chip" onclick="coachPreset('My child just got a great result and I want to celebrate')">🎉 Celebrate a win</button>
-        <button class="coach-chip" onclick="coachPreset('My child has lost motivation to study')">🔋 Low on motivation</button>
-        <button class="coach-chip" onclick="coachPreset('My child is comparing themselves to friends')">🤝 Comparing to others</button>
+        <button class="coach-chip" onclick="coachPreset(&quot;I'm really struggling with a subject&quot;)">😟 I'm struggling with a subject</button>
+        <button class="coach-chip" onclick="coachPreset(&quot;I just don't understand the material&quot;)">😵‍💫 I don't get the material</button>
+        <button class="coach-chip" onclick="coachPreset(&quot;I keep procrastinating and can't focus&quot;)">⏰ I keep procrastinating</button>
+        <button class="coach-chip" onclick="coachPreset(&quot;I get really nervous in exams&quot;)">😰 Exam nerves</button>
+        <button class="coach-chip" onclick="coachPreset(&quot;I feel like I'm falling behind everyone&quot;)">📉 I'm falling behind</button>
+        <button class="coach-chip" onclick="coachPreset(&quot;I've lost all motivation to study&quot;)">🔋 I've lost motivation</button>
       </div>
 
       <div class="panel">
         <div class="panel-head">
           <div class="who">
-            <div class="av">🌟</div>
-            <div><b>Motivation Coach</b><span>Encouragement that actually lands</span></div>
+            <div class="av">🧭</div>
+            <div><b>Study Coach</b><span>Talk through what's hard — and how to beat it</span></div>
           </div>
           <div class="toggle" onclick="toggleRead('co')">
             <span>Read aloud</span>
@@ -825,11 +826,11 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
         <div class="chat" id="coChat"></div>
         <div class="composer">
           <button class="mic" id="coMic" onclick="startVoice('co')">🎙️</button>
-          <input id="coInput" placeholder="Tell me what's happening with your child…" onkeydown="if(event.key==='Enter')sendCo()">
+          <input id="coInput" placeholder="Tell me what you're finding hard…" onkeydown="if(event.key==='Enter')sendCo()">
           <button class="send" onclick="sendCo()">➤</button>
         </div>
       </div>
-      <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:16px">Tap 🔊 on any reply to hear it — or read it straight to your child.</p>
+      <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:16px">Whatever you're facing, we'll break it into small, doable steps. Tap 🔊 on any reply to hear it read aloud.</p>
     </div>
   </section>
 </div>
@@ -1454,20 +1455,27 @@ function sendCo(){
   addMsg('coChat','me',q);inp.value='';typing('coChat',true);
   setTimeout(function(){typing('coChat',false);addMsg('coChat','bot',coachReply(q),readOn.co);},700+Math.random()*500);
 }
-/* INTEGRATION POINT: replace coachReply() with a call to the WavesAI motivation-coach agent. */
+/* INTEGRATION POINT: replace coachReply() with a call to the WavesAI student study-coach agent
+   (student-facing — talks to the learner about their weaknesses, challenges and how to improve). */
 function coachReply(q){
   var t=q.toLowerCase();
-  if(t.includes('nervous')||t.includes('anxious')||t.includes('worried')||t.includes('scared')||(t.includes('exam')&&t.includes('tomorrow')))
-    return "💛 Try saying this to them:\n\n\"I know tomorrow feels big, and it's okay to feel nervous — it just means you care. You've put the work in, and I'm proud of you no matter what the paper says. Just do your best, one question at a time. That's all anyone can ask.\"\n\nPractical tips for tonight:\n• Keep it light — a short walk or a favourite dinner beats last-minute cramming.\n• Get them to bed on time; sleep matters more than one more revision hour.\n• In the morning, remind them: read each question twice, and start with the ones they find easy.";
-  if(t.includes('low mark')||t.includes('failed')||t.includes('bad grade')||t.includes('tough day')||t.includes('disappoint')||t.includes('upset'))
-    return "💛 Something you could say:\n\n\"One result doesn't decide how clever you are or how far you'll go. Everyone has off days — what matters is what we do next. Let's look at it together, find one thing to improve, and move on. I believe in you.\"\n\nRemember:\n• Comfort first, fix later — let them feel heard before talking solutions.\n• Focus on the effort and the next step, not the number.\n• A setback they bounce back from teaches more than an easy win.";
-  if(t.includes('celebrat')||t.includes('great result')||t.includes('did well')||t.includes('proud')||t.includes('passed')||t.includes('won'))
-    return "🎉 Brilliant — celebrate it properly! Try:\n\n\"Look at that! That's your hard work paying off — not luck, YOU did that. I'm so proud of you. Let's do something to mark it.\"\n\nIdeas:\n• Name the effort, not just the result: \"all that revision worked.\"\n• Let them pick a small treat or a fun outing.\n• Put the win somewhere visible — a fridge note, a photo. Confidence builds on remembered wins.";
-  if(t.includes('motivat')||t.includes('lazy')||t.includes("won't study")||t.includes('can\'t be bothered')||t.includes('give up')||t.includes('lost interest'))
-    return "🔋 When motivation dips, structure beats willpower. Try saying:\n\n\"Let's not aim for perfect — let's just do 15 minutes together, then you're free. Small steps still get us there.\"\n\nWhat helps:\n• Shrink the task — one page, one topic, 15 minutes. Starting is the hard part.\n• Let them choose WHAT to study first; a little control brings buy-in.\n• Tie study to something they want (a goal, a reward, a dream job).\n• Use the tutor's read-aloud mode — it makes revision feel less like a chore.";
-  if(t.includes('compar')||t.includes('friends')||t.includes('everyone else')||t.includes('not good enough'))
-    return "🤝 This one's important. You could say:\n\n\"You're not behind — you're on your own path. Your only job is to be a bit better than you were last week, not to beat anyone else. I'd rather you were kind and trying hard than top of the class and miserable.\"\n\nGently:\n• Steer them off comparison and onto their own progress (show them how far they've come).\n• Celebrate personal bests, not rankings.\n• Remind them everyone's fighting battles they can't see.";
-  return "💛 I've got you. Here's an encouraging message you can read to your child:\n\n\"I want you to know I'm proud of you — not for your grades, but for how hard you try. Learning is tough sometimes, and you keep showing up. That matters more than any mark. I'm right here with you.\"\n\nTell me a bit more about what's going on — an exam, a low mood, losing motivation, a big win — and I'll tailor exactly what to say and do.";
+  if(t.includes('struggl')||t.includes('bad at')||t.includes('weak')||t.includes('rubbish at')||t.includes('terrible at')||t.includes('find it hard')||t.includes('so hard')||t.includes('difficult'))
+    return "First — struggling with something doesn't mean you're not capable. It means you haven't cracked it YET. That's normal, and it's fixable. 💪\n\nLet's get specific so we can actually move it:\n• Which subject or topic is it, and what part loses you — the start, a certain type of question, or remembering it under pressure?\n• Once you tell me, I'll pin down the exact weak spot and set you 2-3 short practice questions to rebuild it from the ground up.\n\nA good rule: don't reread the same notes hoping it sticks. Test yourself, get it wrong, fix it — that's what actually makes it stick. What subject shall we start with?";
+  if(t.includes("don't understand")||t.includes('dont understand')||t.includes('confus')||t.includes("doesn't make sense")||t.includes('makes no sense')||t.includes('lost in')||t.includes('no idea'))
+    return "Totally okay — \"I don't get it\" is the honest starting point, and it's a good one. 👍\n\nHere's how we untangle it:\n1) Tell me the exact thing that stopped making sense — even a single line or step.\n2) I'll re-explain it in plain language, with an example, from one level simpler than where you got stuck.\n3) Then you explain it back to me in your own words — if you can teach it, you own it.\n\nOften confusion isn't the topic itself, it's a small gap a few steps earlier. Tell me what you're studying and where it went fuzzy, and we'll find that gap.";
+  if(t.includes('procrastinat')||t.includes('can\'t focus')||t.includes('cant focus')||t.includes('distract')||t.includes('put off')||t.includes('putting off')||t.includes('phone')||t.includes('lazy')||t.includes('keep delaying'))
+    return "Procrastination isn't laziness — it's usually the task feeling too big or too vague. Let's shrink it. ⏰\n\nTry this right now:\n• Pick ONE tiny first step — \"open the book to page 40\" or \"do question 1.\" That's it.\n• Set a timer for 15 minutes and just start. Starting is the hard part; momentum does the rest.\n• Phone in another room or on Do Not Disturb — out of sight really does beat willpower.\n• After each 15-min block, take a 3-min break. Repeat. It's called Pomodoro and it works.\n\nWhat's the one task you've been avoiding? Tell me and I'll break it into the first three tiny steps for you.";
+  if(t.includes('nervous')||t.includes('anxious')||t.includes('worried')||t.includes('scared')||t.includes('exam nerves')||t.includes('panic')||t.includes('stress'))
+    return "Feeling nervous means you care — that's not a bad thing, we just want to channel it. 😌\n\nBefore the exam:\n• Prepare by DOING past questions under a timer, not just reading. Confidence comes from having already done it.\n• The night before, stop revising early, and sleep — a rested brain beats a crammed one.\n\nIn the exam:\n• Read each question twice. Start with the ones you find easiest to build momentum.\n• If your mind blanks: slow breath in for 4, out for 6, and move to a question you can do. The blank clears.\n\nWant me to set you a short timed practice so exam conditions start to feel normal? Which subject?";
+  if(t.includes('falling behind')||t.includes('behind')||t.includes('overwhelm')||t.includes('too much')||t.includes('catch up')||t.includes('so much work')||t.includes('can\'t keep up'))
+    return "Falling behind feels heavy, but it's almost always more catch-up-able than it looks once we make a plan. 📋\n\nLet's take the weight off:\n1) Brain-dump everything you're behind on — every subject and topic. Getting it out of your head onto a list shrinks the panic.\n2) We rank it: what's most urgent (nearest deadline / biggest gap) goes first.\n3) You do ONE topic at a time, short focused sessions — not everything at once.\n\nYou don't have to catch up all in one go. Tell me the subjects you're behind on and we'll build a realistic week-by-week plan together, starting with the most important one.";
+  if(t.includes('motivat')||t.includes("can't be bothered")||t.includes('cant be bothered')||t.includes('give up')||t.includes('giving up')||t.includes('pointless')||t.includes('lost interest')||t.includes("what's the point"))
+    return "When motivation's gone, don't wait to \"feel like it\" — that feeling usually shows up AFTER you start, not before. 🔋\n\nSo we lower the bar:\n• Aim for just 15 minutes, one small topic. Permission to stop after. Nearly always you'll keep going.\n• Connect it to something you actually want — a grade, a course, a career, proving something to yourself. Why does doing well matter to you?\n• Track small wins. Ticking off \"did 20 minutes\" builds a streak, and streaks pull you forward.\n\nTell me what you're meant to be studying and what you're hoping it leads to — I'll help you find the point again and set a tiny first step.";
+  if(t.includes('compar')||t.includes('everyone else')||t.includes('not good enough')||t.includes('stupid')||t.includes('dumb')||t.includes('not smart')||t.includes('failure'))
+    return "Stop for a second — you are not stupid, and you're not behind everyone. You're comparing your inside to their outside. 🌱\n\nThe truth:\n• Everyone learns at a different pace, and the people who look effortless usually just struggled somewhere you didn't see.\n• Your only real competition is who you were last week. Beat that, and you're winning.\n• \"Smart\" isn't fixed — brains grow with practice, exactly like a muscle. Every question you get wrong and fix is you getting smarter.\n\nLet's prove it: pick a topic you think you're bad at, and we'll turn it into one you can do. Which one?";
+  if(t.includes('study better')||t.includes('how to study')||t.includes('revision tip')||t.includes('how do i revise')||t.includes('study tips')||t.includes('remember')||t.includes('memoris')||t.includes('memoriz'))
+    return "Great question — HOW you study matters more than how long. Here are the methods that actually work: 📚\n\n• Active recall: close the book and write/say what you remember. Testing yourself beats rereading every time.\n• Spaced repetition: revisit a topic after 1 day, 3 days, a week. Little and often beats one long cram.\n• Practice questions & past papers: do them under time — it's the closest thing to the real exam.\n• Teach it: explain a topic out loud as if to someone else. Gaps show up instantly.\n• Short focused blocks (25 min) with breaks beat marathon sessions.\n\nTell me your subject and I'll turn one of these into a concrete plan for you this week.";
+  return "I'm here for it — this is exactly what I'm for. 🧭\n\nTell me a bit more about what's going on and we'll make a plan together:\n• A subject or topic you're stuck on?\n• Trouble focusing or getting started?\n• Exam nerves, or feeling behind?\n• Motivation gone flat?\n\nJust say it in your own words — no judgement. Whatever it is, we'll break it into small steps you can actually do, and I'll set you practice to build the weak spots back up.";
 }
 
 /* ---------- Translator Coach (demo brain — wire to WavesAI translation agent here) ---------- */
@@ -1812,7 +1820,7 @@ addMsg('tuChat','bot',"Hi! I'm your Prep Assistant. Tell me the subject, topic a
 loadCards(null,'maths');document.querySelector('#ex-rev .subtab').classList.add('active');
 renderTips();
 loadChild(0);
-addMsg('coChat','bot',"Hi! I'm your Motivation Coach. 🌟 Tell me what's happening — nervous before a test, a low mark, a big win, or a motivation dip — and I'll give you the right words to say and a few practical things to try. Or tap one of the buttons above to start.",false);
+addMsg('coChat','bot',"Hey! I'm your Study Coach. 🧭 Think of me as someone you can talk to about the tough stuff — a subject you're stuck on, exam nerves, losing focus, falling behind, or just not feeling it. Tell me what's on your mind and we'll sort out a plan together. What's been hard lately? Or tap a button above to start.",false);
 trSetup();
 </script>
 </body>
