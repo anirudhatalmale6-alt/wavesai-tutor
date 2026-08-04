@@ -170,6 +170,30 @@ section.block{padding:64px 0}
 label{display:block;font-weight:600;font-size:13.5px;color:var(--navy);margin:14px 0 6px}
 input.f,select.f,textarea.f{width:100%;border:1.5px solid var(--line);border-radius:11px;padding:11px 13px;font-family:var(--sans);font-size:14.5px;outline:none;background:#fff;transition:.15s}
 input.f:focus,select.f:focus,textarea.f:focus{border-color:var(--gold)}
+
+/* Subject setup / learning profile */
+.setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 20px}
+.book-recs{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.book-recs button{background:var(--panel);border:1px dashed var(--gold);color:var(--navy);border-radius:10px;padding:8px 12px;font-size:13px;font-weight:500;transition:.15s;text-align:left;line-height:1.3}
+.book-recs button:hover{background:#fff;border-style:solid;transform:translateY(-1px)}
+.book-recs button::before{content:"＋ ";color:var(--gold);font-weight:700}
+.mybooks{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.mybooks .bk{display:inline-flex;align-items:center;gap:9px;background:var(--navy);color:#fff;border-radius:10px;padding:8px 12px;font-size:13px;line-height:1.3}
+.mybooks .bk button{background:none;border:none;color:rgba(255,255,255,.6);font-size:16px;cursor:pointer;line-height:1;padding:0}
+.mybooks .bk button:hover{color:#fff}
+.mybooks .none{color:var(--muted);font-size:13px}
+.book-add{display:flex;gap:8px;margin-top:11px}
+.book-add input{flex:1}
+.book-add button{flex-shrink:0}
+.prof-bar{background:linear-gradient(180deg,#fff,var(--gold-glow));border:1px solid var(--gold);border-radius:18px;padding:16px 22px;margin-top:26px;display:flex;flex-wrap:wrap;gap:14px 28px;align-items:center}
+.prof-bar .pi{display:flex;flex-direction:column;gap:2px}
+.prof-bar .pi span{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700}
+.prof-bar .pi b{font-size:14.5px;color:var(--navy);font-family:var(--serif);font-weight:700}
+.prof-bar .edit{margin-left:auto;border:1.5px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;padding:9px 20px;font-weight:600;font-size:13px;transition:.15s;white-space:nowrap}
+.prof-bar .edit:hover{background:var(--navy);color:#fff}
+.prof-books{width:100%;border-top:1px dashed var(--gold);padding-top:12px;margin-top:2px;font-size:13.5px;color:var(--ink);line-height:1.55}
+.prof-books b{color:var(--navy)}
+@media(max-width:640px){.setup-grid{grid-template-columns:1fr}.prof-bar .edit{margin-left:0;order:99}}
 .output{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px;min-height:340px}
 .output .empty{color:var(--muted);text-align:center;padding:60px 20px}
 .output .empty .e{font-size:46px;display:block;margin-bottom:12px;opacity:.5}
@@ -414,6 +438,56 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
     <div class="wrap">
       <div class="subject-grid" id="subjectGrid"></div>
 
+      <!-- Subject setup: curriculum / class / country / recommended books -->
+      <div class="form-card" id="stSetup" style="margin-top:26px">
+        <h3 id="stSetupTitle">Set up your Maths</h3>
+        <p class="hint">Every country and curriculum is different — so tell your tutor exactly what you're studying. It'll teach to your syllabus, your class and the books you actually use.</p>
+        <div class="setup-grid">
+          <div>
+            <label>Your country</label>
+            <select class="f" id="stCountry" onchange="onCountry()"></select>
+          </div>
+          <div>
+            <label>Curriculum / exam board</label>
+            <select class="f" id="stCurric" onchange="refreshBooks()"></select>
+          </div>
+          <div>
+            <label>Class / year / grade</label>
+            <input class="f" id="stClass" placeholder="e.g. Year 10, Grade 8, Class 9" oninput="refreshBooks()">
+          </div>
+          <div>
+            <label>Your level</label>
+            <select class="f" id="stLevel"><option>Beginner</option><option selected>Intermediate</option><option>Proficient</option></select>
+          </div>
+        </div>
+
+        <label style="margin-top:18px">Recommended study books <span style="font-weight:400;color:var(--muted)">— tap to add the ones you're using</span></label>
+        <div class="book-recs" id="stBookRecs"></div>
+
+        <label style="margin-top:16px">Your study books</label>
+        <div class="mybooks" id="stMyBooks"></div>
+        <div class="book-add">
+          <input class="f" id="stBookInput" placeholder="Add another book or resource…" onkeydown="if(event.key==='Enter'){addBook();event.preventDefault();}">
+          <button class="btn btn-navy btn-sm" onclick="addBook()">Add</button>
+        </div>
+
+        <div class="setup-grid" style="margin-top:6px">
+          <div>
+            <label>What do you want to focus on? <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
+            <textarea class="f" id="stGoal" rows="2" placeholder="e.g. Algebra and trigonometry, getting ready for mocks"></textarea>
+          </div>
+          <div>
+            <label>Next exam / assessment <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
+            <input class="f" id="stExamDate" type="date">
+          </div>
+        </div>
+
+        <button class="btn btn-navy" style="margin-top:20px" onclick="saveProfile()">Save &amp; start learning →</button>
+      </div>
+
+      <!-- Tutor (revealed once the subject is set up) -->
+      <div id="stTutorWrap" style="display:none">
+      <div class="prof-bar" id="stProfBar"></div>
       <div class="panel">
         <div class="panel-head">
           <div class="who">
@@ -432,7 +506,8 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
           <button class="send" onclick="sendSt()">➤</button>
         </div>
       </div>
-      <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:16px">Powered by WavesAI tutoring agents. Try: “Explain photosynthesis simply” or “How do I solve 2x + 3 = 11?”</p>
+      <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:16px">Powered by WavesAI tutoring agents — tuned to your curriculum, class and books. Try: “Explain photosynthesis simply” or “How do I solve 2x + 3 = 11?”</p>
+      </div>
     </div>
   </section>
 </div>
@@ -868,6 +943,10 @@ function typing(chatId,on){
 /* INTEGRATION POINT: replace tutorReply() with a fetch() to the agent endpoint Claude builds. */
 function tutorReply(subject,q){
   var s=subject.toLowerCase(), t=q.toLowerCase();
+  var p=activeProf();
+  if(p&&(t.includes('which book')||t.includes('what book')||t.includes('book should')||t.includes('my books')||t.includes('recommend')&&t.includes('book'))){
+    if(p.books&&p.books.length)return "From your setup, the books you're working from are:\n\n• "+p.books.join("\n• ")+"\n\nTell me which one — plus the chapter or page — and I'll explain it or set you questions straight from it.";
+  }
   var eq=q.match(/([-\d]+)\s*x\s*([+\-])\s*(\d+)\s*=\s*(-?\d+)/i);
   if(eq){
     var a=+eq[1],sign=eq[2]==='-'?-1:1,b=sign*+eq[3],c=+eq[4];
@@ -912,15 +991,219 @@ function renderSubjects(){
     d.onclick=function(){
       document.querySelectorAll('#subjectGrid .subj').forEach(x=>x.classList.remove('sel'));
       d.classList.add('sel');
-      stSubject=s;
-      document.getElementById('stAv').textContent=s.emoji;
-      document.getElementById('stName').textContent=s.name;
-      document.getElementById('stDesc').textContent=s.desc;
-      document.getElementById('stChat').innerHTML='';
-      addMsg('stChat','bot',"Hi! I'm your "+s.name+". Ask me anything about "+s.desc.toLowerCase()+", and I'll explain it clearly. What are you working on today?",false);
+      selectSubject(s);
     };
     g.appendChild(d);
   });
+}
+
+/* ---------- Subject setup: country / curriculum / class / recommended books ----------
+   INTEGRATION POINT: the country → curriculum list and the recommended-book lists below
+   are a starter set. Once the WavesAI agents are live, swap recommendBooks() / COUNTRIES
+   for a call to the agent so it returns the exact syllabus + set texts for that student. */
+var COUNTRIES={
+ 'United Kingdom':['National Curriculum (KS1–KS3)','GCSE','A-Level','Scottish (Nat 5 / Higher)'],
+ 'United States':['Common Core','AP (Advanced Placement)','State Standards','SAT / ACT Prep'],
+ 'India':['CBSE','ICSE','State Board','IB'],
+ 'United Arab Emirates':['MoE (Ministry of Education)','British (GCSE / A-Level)','American (Common Core)','IB'],
+ 'Saudi Arabia':['MoE (National Curriculum)','British (IGCSE)','American','IB'],
+ 'Canada':['Provincial Curriculum','AP','IB'],
+ 'Australia':['Australian Curriculum (ACARA)','Senior / ATAR','IB'],
+ 'South Africa':['CAPS','IEB','Cambridge (IGCSE)'],
+ 'Nigeria':['WAEC / NECO','British (IGCSE)','American'],
+ 'Kenya':['CBC (Competency-Based)','KCSE','British (IGCSE)'],
+ 'Pakistan':['Federal / Matric (Board)','O-Level / A-Level (Cambridge)','IB'],
+ 'Singapore':['MOE (PSLE / O / A Level)','IB','Cambridge (IGCSE)'],
+ 'International / Other':['Cambridge (IGCSE / A-Level)','IB (International Baccalaureate)','Edexcel International','My curriculum isn\'t listed']
+};
+function fam(c){
+  c=(c||'').toLowerCase();
+  if(c.indexOf('igcse')>-1||c.indexOf('cambridge')>-1||c.indexOf('edexcel international')>-1)return 'Cambridge';
+  if(c.indexOf('a-level')>-1||c.indexOf('a level')>-1)return 'A-Level';
+  if(c.indexOf('gcse')>-1||c.indexOf('o-level')>-1||c.indexOf('o level')>-1)return 'GCSE';
+  if(c.indexOf('common core')>-1||c.indexOf('state standard')>-1)return 'Common Core';
+  if(c.indexOf('ap')>-1||c.indexOf('sat')>-1||c.indexOf('act')>-1)return 'AP';
+  if(c.indexOf('cbse')>-1)return 'CBSE';
+  if(c.indexOf('icse')>-1)return 'ICSE';
+  if(c.indexOf('ib')>-1)return 'IB';
+  if(c.indexOf('caps')>-1||c.indexOf('ieb')>-1)return 'CAPS';
+  if(c.indexOf('national curriculum')>-1||c.indexOf('ks')>-1)return 'GCSE';
+  return 'default';
+}
+var BOOKS={
+ maths:{
+  'GCSE':['CGP GCSE Maths: Complete Revision & Practice','Edexcel GCSE (9-1) Mathematics Higher','Collins GCSE Maths 4th Edition'],
+  'A-Level':['Edexcel AS & A Level Mathematics: Pure Mathematics','CGP A-Level Maths Complete Revision & Practice'],
+  'Common Core':['Big Ideas Math: Modeling Real Life','Glencoe Math Course','Go Math! Student Edition'],
+  'AP':["Barron's AP Calculus","The Princeton Review: AP Calculus AB & BC"],
+  'CBSE':['NCERT Mathematics Textbook','R.D. Sharma Mathematics','R.S. Aggarwal Mathematics'],
+  'ICSE':['Selina Concise Mathematics','M.L. Aggarwal Understanding ICSE Mathematics'],
+  'Cambridge':['Cambridge IGCSE Mathematics Core and Extended','Complete Mathematics for Cambridge IGCSE'],
+  'IB':['Mathematics for the IB Diploma (Cambridge)','Haese Mathematics: Analysis & Approaches'],
+  'CAPS':['Platinum Mathematics','Mind Action Series: Mathematics'],
+  'default':['Your class core Maths textbook','A revision & practice workbook','A past-paper question bank']
+ },
+ english:{
+  'GCSE':['CGP GCSE English Language & Literature','AQA GCSE English Language Student Book','Your set texts (e.g. Macbeth, A Christmas Carol)'],
+  'A-Level':['CGP A-Level English Literature','Cambridge A Level English Literature'],
+  'Common Core':['Collections (HMH) Student Edition','myPerspectives English Language Arts','Prentice Hall Literature'],
+  'AP':["Barron's AP English Language","The Language of Composition"],
+  'CBSE':['NCERT Honeydew / Beehive','NCERT First Flight','Wren & Martin English Grammar'],
+  'ICSE':['Treasure Trove: Poems & Short Stories','Total English (Morning Star)'],
+  'Cambridge':['Cambridge IGCSE English as a First Language','Cambridge IGCSE English Coursebook'],
+  'IB':['English A: Literature (IB Course Book)','English B for the IB Diploma'],
+  'CAPS':['English Handbook and Study Guide','Platinum English Home Language'],
+  'default':['Your class English textbook / reader','Your set novels, plays or poems','A grammar & writing workbook']
+ },
+ science:{
+  'GCSE':['CGP GCSE Combined Science','AQA GCSE Biology / Chemistry / Physics'],
+  'A-Level':['CGP A-Level Biology / Chemistry / Physics','Cambridge International A Level Sciences'],
+  'Common Core':['HMH Science Dimensions','Glencoe Science','Pearson Interactive Science'],
+  'AP':["Barron's AP Biology / Chemistry / Physics","Princeton Review AP Sciences"],
+  'CBSE':['NCERT Science Textbook','Lakhmir Singh Science','S. Chand Science'],
+  'ICSE':['Selina Concise Physics / Chemistry / Biology','Together with Science'],
+  'Cambridge':['Cambridge IGCSE Combined Science','Complete Physics / Chemistry / Biology for IGCSE'],
+  'IB':['Biology / Chemistry / Physics for the IB Diploma','Pearson Baccalaureate Sciences'],
+  'CAPS':['Platinum Natural Sciences','Study & Master Physical Sciences'],
+  'default':['Your class Science textbook','A lab / practical workbook','A revision guide with past questions']
+ },
+ history:{
+  'GCSE':['CGP GCSE History','Oxford AQA GCSE History Student Books'],
+  'A-Level':['Access to History series','Cambridge A Level History'],
+  'Common Core':['The American Pageant','Prentice Hall United States History'],
+  'AP':['AMSCO AP World / US History',"The Princeton Review AP History"],
+  'CBSE':['NCERT Our Pasts / Themes in World History','NCERT India and the Contemporary World'],
+  'Cambridge':['Cambridge IGCSE and O Level History','Complete History for Cambridge IGCSE'],
+  'IB':['History for the IB Diploma (Cambridge)','Pearson Baccalaureate History'],
+  'default':['Your class History textbook','A source & skills workbook','A timeline / revision guide']
+ },
+ geo:{
+  'GCSE':['CGP GCSE Geography','AQA GCSE Geography Student Book'],
+  'A-Level':['CGP A-Level Geography','Cambridge A Level Geography'],
+  'Common Core':['National Geographic World Cultures & Geography','Glencoe World Geography'],
+  'CBSE':['NCERT Geography (Our Environment / Contemporary India)','Oxford School Atlas'],
+  'Cambridge':['Cambridge IGCSE and O Level Geography','Complete Geography for Cambridge IGCSE'],
+  'IB':['Geography for the IB Diploma (Cambridge)','Pearson Baccalaureate Geography'],
+  'default':['Your class Geography textbook','A world atlas','A case-study & skills workbook']
+ },
+ lang:{
+  'GCSE':['CGP GCSE French / Spanish / German','AQA GCSE Vocabulary & Grammar workbook'],
+  'A-Level':['AS / A-Level French / Spanish / German (Hodder)','A vocabulary & grammar reference'],
+  'Common Core':['¡Avancemos! / Bien dit! Student Edition','501 Verbs series'],
+  'CBSE':['Your class language textbook','A grammar & vocabulary workbook'],
+  'Cambridge':['Cambridge IGCSE French / Spanish / German','Complete Modern Languages for Cambridge IGCSE'],
+  'IB':['Language B Course Books (Oxford / Cambridge)','A verb & grammar reference'],
+  'default':['Your class language coursebook','A grammar & verb reference','A vocabulary builder']
+ }
+};
+function recommendBooks(key,curric){var m=BOOKS[key]||BOOKS.maths;return m[fam(curric)]||m['default'];}
+
+var stProfiles={};      // {subjKey:{country,curric,cls,level,books:[],goal,examDate}}
+var stMyBooks=[];       // working list while the form is open
+var stCurrentRecs=[];
+function loadProfiles(){try{stProfiles=JSON.parse(localStorage.getItem('wavesaiTutorProfiles')||'{}');}catch(e){stProfiles={};}}
+function persistProfiles(){try{localStorage.setItem('wavesaiTutorProfiles',JSON.stringify(stProfiles));}catch(e){}}
+function activeProf(){return stProfiles[stSubject.key];}
+
+function initCountries(){
+  var sel=document.getElementById('stCountry');
+  sel.innerHTML=Object.keys(COUNTRIES).map(function(c){return '<option>'+c+'</option>';}).join('');
+  onCountry();
+}
+function onCountry(){
+  var c=document.getElementById('stCountry').value;
+  document.getElementById('stCurric').innerHTML=(COUNTRIES[c]||[]).map(function(x){return '<option>'+x+'</option>';}).join('');
+  refreshBooks();
+}
+function refreshBooks(){
+  var curric=document.getElementById('stCurric').value;
+  stCurrentRecs=recommendBooks(stSubject.key,curric);
+  document.getElementById('stBookRecs').innerHTML=stCurrentRecs.map(function(b,i){
+    return '<button type="button" onclick="addBook(stCurrentRecs['+i+'])">'+esc(b)+'</button>';
+  }).join('');
+}
+function addBook(txt){
+  if(txt===undefined){var inp=document.getElementById('stBookInput');txt=inp.value;inp.value='';}
+  txt=(txt||'').trim();if(!txt)return;
+  if(stMyBooks.indexOf(txt)>-1)return;
+  stMyBooks.push(txt);renderMyBooks();
+}
+function removeBook(i){stMyBooks.splice(i,1);renderMyBooks();}
+function renderMyBooks(){
+  var w=document.getElementById('stMyBooks');
+  if(!stMyBooks.length){w.innerHTML='<span class="none">No books yet — tap a recommendation above or type your own.</span>';return;}
+  w.innerHTML=stMyBooks.map(function(b,i){return '<span class="bk">'+esc(b)+'<button type="button" onclick="removeBook('+i+')" title="Remove">×</button></span>';}).join('');
+}
+function resetForm(){
+  document.getElementById('stCountry').selectedIndex=0;
+  onCountry();
+  document.getElementById('stClass').value='';
+  document.getElementById('stLevel').value='Intermediate';
+  document.getElementById('stGoal').value='';
+  document.getElementById('stExamDate').value='';
+  stMyBooks=stCurrentRecs.slice(0,3);   // pre-fill with the recommendations; student can edit
+  renderMyBooks();
+}
+function fillFormFromProfile(p){
+  var cs=document.getElementById('stCountry');
+  if(COUNTRIES[p.country])cs.value=p.country; else cs.selectedIndex=0;
+  onCountry();
+  if(p.curric)document.getElementById('stCurric').value=p.curric;
+  refreshBooks();
+  document.getElementById('stClass').value=p.cls||'';
+  document.getElementById('stLevel').value=p.level||'Intermediate';
+  document.getElementById('stGoal').value=p.goal||'';
+  document.getElementById('stExamDate').value=p.examDate||'';
+  stMyBooks=(p.books||[]).slice();renderMyBooks();
+}
+function selectSubject(s){
+  stSubject=s;
+  document.getElementById('stSetupTitle').textContent='Set up your '+s.name.replace(' Tutor','');
+  var p=stProfiles[s.key];
+  if(p){fillFormFromProfile(p);showTutor(p);}
+  else{resetForm();showSetup();}
+}
+function showSetup(){document.getElementById('stSetup').style.display='';document.getElementById('stTutorWrap').style.display='none';}
+function editSetup(){showSetup();window.scrollTo({top:document.getElementById('stSetup').offsetTop-80,behavior:'smooth'});}
+function fmtDate(d){try{var x=new Date(d+'T00:00:00');return x.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'});}catch(e){return d;}}
+function saveProfile(){
+  var cls=document.getElementById('stClass').value.trim();
+  if(!cls){alert("Please tell your tutor which class, year or grade you're in.");document.getElementById('stClass').focus();return;}
+  var p={
+    country:document.getElementById('stCountry').value,
+    curric:document.getElementById('stCurric').value,
+    cls:cls,
+    level:document.getElementById('stLevel').value,
+    books:stMyBooks.slice(),
+    goal:document.getElementById('stGoal').value.trim(),
+    examDate:document.getElementById('stExamDate').value
+  };
+  stProfiles[stSubject.key]=p;persistProfiles();
+  showTutor(p);
+  window.scrollTo({top:document.getElementById('stTutorWrap').offsetTop-90,behavior:'smooth'});
+}
+function renderProfBar(p){
+  function pi(l,v){return '<div class="pi"><span>'+l+'</span><b>'+esc(v)+'</b></div>';}
+  var html=pi('Subject',stSubject.name.replace(' Tutor',''))+pi('Country',p.country)+pi('Curriculum',p.curric)+pi('Class',p.cls)+pi('Level',p.level);
+  html+='<button class="edit" onclick="editSetup()">Edit setup</button>';
+  if(p.books&&p.books.length)html+='<div class="prof-books">📚 <b>Your books:</b> '+p.books.map(esc).join('  ·  ')+'</div>';
+  document.getElementById('stProfBar').innerHTML=html;
+}
+function showTutor(p){
+  document.getElementById('stSetup').style.display='none';
+  document.getElementById('stTutorWrap').style.display='';
+  renderProfBar(p);
+  document.getElementById('stAv').textContent=stSubject.emoji;
+  document.getElementById('stName').textContent=stSubject.name;
+  document.getElementById('stDesc').textContent=stSubject.desc;
+  document.getElementById('stChat').innerHTML='';
+  var subjShort=stSubject.name.replace(' Tutor','');
+  var g="Hi! I'm your "+stSubject.name+". 👋\n\nGot your setup: "+p.curric+" "+subjShort+", "+p.cls+" ("+p.level.toLowerCase()+" level) in "+p.country+".";
+  if(p.books&&p.books.length)g+="\n\nI'll teach from your books — "+p.books.slice(0,3).join(', ')+(p.books.length>3?', and more':'')+".";
+  if(p.goal)g+="\n\nWe'll focus on: "+p.goal+".";
+  if(p.examDate)g+="\n\nAnd I'll keep your "+fmtDate(p.examDate)+" exam in mind when we plan revision.";
+  g+="\n\nWhat would you like to start with today?";
+  addMsg('stChat','bot',g,false);
 }
 
 /* ---------- Tutor tabs ---------- */
@@ -1521,8 +1804,10 @@ function markPrac(){
 function retryPrac(){document.getElementById('pracSetup').style.display='';document.getElementById('pracArea').innerHTML='';window.scrollTo({top:document.getElementById('tr-prac').offsetTop-90,behavior:'smooth'});}
 
 /* ---------- Init ---------- */
+loadProfiles();
+initCountries();
 renderSubjects();
-addMsg('stChat','bot',"Hi! I'm your Maths Tutor. Ask me anything about numbers, algebra or problem solving, and I'll explain it clearly. What are you working on today?",false);
+selectSubject(SUBJECTS[0]);
 addMsg('tuChat','bot',"Hi! I'm your Prep Assistant. Tell me the subject, topic and year group and I'll help you plan a lesson, build a worksheet or come up with activities. What are you teaching?",false);
 loadCards(null,'maths');document.querySelector('#ex-rev .subtab').classList.add('active');
 renderTips();
