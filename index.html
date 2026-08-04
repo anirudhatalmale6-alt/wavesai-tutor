@@ -37,6 +37,14 @@ button{font-family:var(--sans);cursor:pointer}
 .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
 .btn-sm{padding:9px 16px;font-size:13.5px}
 
+/* Translator suggestion chips */
+.tr-chips{display:flex;flex-wrap:wrap;gap:8px;padding:15px 16px 3px}
+.tr-chips button{background:var(--panel);border:1px solid var(--line);color:var(--navy);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:500;transition:.15s}
+.tr-chips button:hover{border-color:var(--gold);color:var(--gold);background:#fff}
+.tr-chips .lbl{font-size:12px;color:var(--muted);align-self:center;margin-right:2px;font-weight:600;letter-spacing:.03em;text-transform:uppercase}
+.tr-trans{font-family:var(--serif);font-weight:700;color:var(--navy);font-size:19px}
+.tr-pron{color:var(--gold);font-style:italic;font-size:14px}
+
 /* Header */
 header{position:sticky;top:0;z-index:100;background:rgba(253,251,247,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .nav{display:flex;align-items:center;justify-content:space-between;height:70px}
@@ -301,6 +309,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
       <a data-nav="students" onclick="go('students')">Students</a>
       <a data-nav="tutors" onclick="go('tutors')">Tutors</a>
       <a data-nav="exams" onclick="go('exams')">Exams &amp; Revision</a>
+      <a data-nav="translator" onclick="go('translator')">Translator</a>
       <a data-nav="parents" onclick="go('parents')">Parents</a>
       <a data-nav="coach" onclick="go('coach')">Coach</a>
     </nav>
@@ -314,6 +323,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
     <a data-nav="students" onclick="go('students')">Students</a>
     <a data-nav="tutors" onclick="go('tutors')">Tutors</a>
     <a data-nav="exams" onclick="go('exams')">Exams &amp; Revision</a>
+    <a data-nav="translator" onclick="go('translator')">Translator</a>
     <a data-nav="parents" onclick="go('parents')">Parents</a>
     <a data-nav="coach" onclick="go('coach')">Coach</a>
     <button class="btn btn-navy" style="margin-top:8px" onclick="go('students')">Get Started</button>
@@ -564,6 +574,78 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
   </section>
 </div>
 
+<!-- ============ TRANSLATOR ============ -->
+<div id="translator" class="view">
+  <section class="page-head">
+    <div class="wrap">
+      <p class="eyebrow">For students · Languages</p>
+      <h1>Learn any language with your Translator Coach</h1>
+      <p>Pick a language and your level — beginner, intermediate or proficient. Translate anything, hear it spoken aloud in a native voice, then test yourself with a practice session, just like every other subject.</p>
+    </div>
+  </section>
+  <section class="block" style="padding-top:26px">
+    <div class="wrap">
+      <div class="form-card" style="max-width:760px;margin:0 auto">
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px"><label>Language</label>
+            <select class="f" id="trLang" onchange="trSetup()">
+              <option value="fr">🇫🇷 French</option>
+              <option value="es">🇪🇸 Spanish</option>
+              <option value="de">🇩🇪 German</option>
+              <option value="it">🇮🇹 Italian</option>
+              <option value="pt">🇵🇹 Portuguese</option>
+            </select></div>
+          <div style="flex:1;min-width:200px"><label>Level</label>
+            <select class="f" id="trLevel" onchange="trSetup()">
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="proficient">Proficient</option>
+            </select></div>
+        </div>
+      </div>
+
+      <div class="subtabs" style="margin-top:24px">
+        <button class="subtab active" onclick="trTab(this,'tr-coach')">🗣️ Translator Coach</button>
+        <button class="subtab" onclick="trTab(this,'tr-prac')">📝 Practice Session</button>
+      </div>
+
+      <!-- coach -->
+      <div id="tr-coach" class="subview active">
+        <div class="panel">
+          <div class="panel-head">
+            <div class="who">
+              <div class="av" id="trAv">🇫🇷</div>
+              <div><b id="trName">French Coach</b><span id="trSub">Beginner · translate &amp; pronounce</span></div>
+            </div>
+            <div class="toggle" onclick="toggleRead('tr')">
+              <span>Read answers aloud</span>
+              <div class="switch on" id="trSwitch"></div>
+            </div>
+          </div>
+          <div class="tr-chips" id="trChips"></div>
+          <div class="chat" id="trChat"></div>
+          <div class="composer">
+            <button class="mic" id="trMic" onclick="startVoice('tr')" title="Speak in English">🎙️</button>
+            <input id="trInput" placeholder="Type an English word or phrase to translate…" onkeydown="if(event.key==='Enter')sendTr()">
+            <button class="send" onclick="sendTr()">➤</button>
+          </div>
+        </div>
+        <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:16px">Tap a suggestion above, or type your own. Every translation can be read aloud in a native voice.</p>
+      </div>
+
+      <!-- practice -->
+      <div id="tr-prac" class="subview">
+        <div class="form-card" style="max-width:620px;margin:26px auto 0" id="pracSetup">
+          <h3>Practice session</h3>
+          <p class="hint">A short translation quiz for <b id="pracLangName">French</b> at <b id="pracLevelName">Beginner</b> level — marked instantly with feedback, exactly like the practice exams.</p>
+          <button class="btn btn-navy" style="width:100%;margin-top:8px;justify-content:center" onclick="startPrac()">Start Practice ➜</button>
+        </div>
+        <div id="pracArea" style="margin-top:26px"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
 <!-- ============ PARENTS ============ -->
 <div id="parents" class="view">
   <section class="page-head">
@@ -716,7 +798,7 @@ function go(id){
 function toggleMenu(){var m=document.getElementById('mm');m.style.display=m.style.display==='flex'?'none':'flex';}
 
 /* ---------- Audio (text to speech) ---------- */
-var readOn={st:true,tu:true,pa:true,co:true};
+var readOn={st:true,tu:true,pa:true,co:true,tr:true};
 function toggleRead(k){readOn[k]=!readOn[k];document.getElementById(k+'Switch').classList.toggle('on',readOn[k]);if(!readOn[k])stopSpeak();}
 function pickVoice(){
   var vs=speechSynthesis.getVoices();
@@ -732,6 +814,19 @@ function speak(t){
   speechSynthesis.speak(u);
 }
 function stopSpeak(){if('speechSynthesis'in window)speechSynthesis.cancel();}
+/* Speak in a specific language (used by the Translator Coach) */
+function speakLang(t,code){
+  if(!('speechSynthesis'in window))return;
+  stopSpeak();
+  var u=new SpeechSynthesisUtterance(String(t));
+  u.lang=code;
+  var vs=speechSynthesis.getVoices();
+  var v=vs.find(function(x){return x.lang===code;})
+      || vs.find(function(x){return x.lang&&x.lang.slice(0,2)===code.slice(0,2);});
+  if(v)u.voice=v;
+  u.rate=.9;u.pitch=1;
+  speechSynthesis.speak(u);
+}
 if('speechSynthesis'in window){speechSynthesis.onvoiceschanged=function(){};}
 
 /* ---------- Voice input ---------- */
@@ -1091,6 +1186,303 @@ function coachReply(q){
   return "💛 I've got you. Here's an encouraging message you can read to your child:\n\n\"I want you to know I'm proud of you — not for your grades, but for how hard you try. Learning is tough sometimes, and you keep showing up. That matters more than any mark. I'm right here with you.\"\n\nTell me a bit more about what's going on — an exam, a low mood, losing motivation, a big win — and I'll tailor exactly what to say and do.";
 }
 
+/* ---------- Translator Coach (demo brain — wire to WavesAI translation agent here) ---------- */
+/* INTEGRATION POINT: replace the LANGS phrasebook with a fetch() to the WavesAI translation agent
+   so any phrase can be translated + spoken. Levels and practice sessions stay the same. */
+var TR_CHIPS={
+  beginner:["Hello","Thank you","Good morning","My name is","How much is it","Where is the toilet"],
+  intermediate:["I would like to book a table","Can you help me please","What time does it open","I am lost","I don't understand","The bill please"],
+  proficient:["Could you recommend a local dish","I would like to make a complaint","In my opinion","On the other hand","I was wondering if you could help","Despite the rain we enjoyed the trip"]
+};
+var LANGS={
+  fr:{name:'French',flag:'🇫🇷',code:'fr-FR',
+    phr:{
+      'hello':{t:'Bonjour',p:'bon-ZHOOR'},'thank you':{t:'Merci',p:'mair-SEE'},'good morning':{t:'Bonjour',p:'bon-ZHOOR'},
+      'my name is':{t:"Je m'appelle…",p:'zhuh ma-PELL'},'how much is it':{t:'Combien ça coûte ?',p:'kom-bee-AN sa KOOT'},
+      'where is the toilet':{t:'Où sont les toilettes ?',p:'oo son lay twa-LET'},
+      'i would like to book a table':{t:'Je voudrais réserver une table',p:'zhuh voo-DRAY ray-zair-VAY oon TAH-bluh'},
+      'can you help me please':{t:'Pouvez-vous m’aider s’il vous plaît ?',p:'poo-vay VOO may-DAY seel voo PLEH'},
+      'what time does it open':{t:'À quelle heure ça ouvre ?',p:'ah kel UHR sa OOV-ruh'},
+      'i am lost':{t:'Je suis perdu',p:'zhuh swee pair-DUU'},'i dont understand':{t:'Je ne comprends pas',p:'zhuh nuh kom-PRON pah'},
+      'the bill please':{t:'L’addition, s’il vous plaît',p:'la-dee-see-ON seel voo PLEH'},
+      'could you recommend a local dish':{t:'Pourriez-vous recommander un plat local ?',p:'poor-ee-AY voo ruh-koh-mon-DAY an plah loh-KAL'},
+      'i would like to make a complaint':{t:'Je voudrais faire une réclamation',p:'zhuh voo-DRAY fair oon ray-kla-ma-see-ON'},
+      'in my opinion':{t:'À mon avis',p:'ah mon na-VEE'},'on the other hand':{t:'D’un autre côté',p:'dan OH-truh koh-TAY'},
+      'i was wondering if you could help':{t:'Je me demandais si vous pourriez m’aider',p:'zhuh muh duh-mon-DAY see voo poor-ee-AY may-DAY'},
+      'despite the rain we enjoyed the trip':{t:'Malgré la pluie, nous avons apprécié le voyage',p:'mal-GRAY la PLWEE, noo za-von za-pray-see-AY luh vwa-YAZH'}
+    },
+    prac:{
+      beginner:[
+        {q:'How do you say “Thank you”?',opts:['Merci','Bonjour','Pardon','Au revoir'],a:0,fb:'“Merci” means thank you. “Bonjour” is hello.'},
+        {q:'What does “Bonjour” mean?',opts:['Hello / good morning','Goodbye','Please','Sorry'],a:0,fb:'“Bonjour” works for both hello and good morning.'},
+        {q:'How do you ask “How much is it?”',opts:['Combien ça coûte ?','Quelle heure est-il ?','Comment ça va ?','Où êtes-vous ?'],a:0,fb:'“Combien ça coûte ?” asks the price.'},
+        {q:'“Je m’appelle Marie” means…',opts:['My name is Marie','I like Marie','I see Marie','I am from Marie'],a:0,fb:'“Je m’appelle…” = my name is…'}
+      ],
+      intermediate:[
+        {q:'How do you say “I don’t understand”?',opts:['Je ne comprends pas','Je ne sais pas','Je ne veux pas','Je ne peux pas'],a:0,fb:'“Je ne comprends pas” = I don’t understand.'},
+        {q:'“L’addition, s’il vous plaît” asks for…',opts:['The bill','The menu','The toilet','A table'],a:0,fb:'“L’addition” is the bill/cheque.'},
+        {q:'How do you say “I am lost”?',opts:['Je suis perdu','Je suis fatigué','Je suis prêt','Je suis ici'],a:0,fb:'“Je suis perdu” = I am lost.'},
+        {q:'“À quelle heure ça ouvre ?” means…',opts:['What time does it open?','Where is the exit?','How far is it?','When does it close?'],a:0,fb:'“ouvre” = opens, so it asks the opening time.'}
+      ],
+      proficient:[
+        {q:'How do you say “In my opinion”?',opts:['À mon avis','Par exemple','En effet','Tout à fait'],a:0,fb:'“À mon avis” = in my opinion.'},
+        {q:'“Je voudrais faire une réclamation” means…',opts:['I’d like to make a complaint','I’d like to book a room','I’d like to pay now','I’d like a receipt'],a:0,fb:'“faire une réclamation” = to make a complaint.'},
+        {q:'Which phrase means “on the other hand”?',opts:['D’un autre côté','Bien sûr','De rien','Peu importe'],a:0,fb:'“D’un autre côté” = on the other hand.'},
+        {q:'“Malgré la pluie” means…',opts:['Despite the rain','Because of the rain','During the rain','After the rain'],a:0,fb:'“Malgré” = despite / in spite of.'}
+      ]
+    }},
+  es:{name:'Spanish',flag:'🇪🇸',code:'es-ES',
+    phr:{
+      'hello':{t:'Hola',p:'OH-la'},'thank you':{t:'Gracias',p:'GRAH-see-as'},'good morning':{t:'Buenos días',p:'BWAY-nos DEE-as'},
+      'my name is':{t:'Me llamo…',p:'may YAH-mo'},'how much is it':{t:'¿Cuánto cuesta?',p:'KWAN-to KWES-ta'},
+      'where is the toilet':{t:'¿Dónde está el baño?',p:'DON-day es-TA el BAH-nyo'},
+      'i would like to book a table':{t:'Quisiera reservar una mesa',p:'kee-see-AIR-a reh-sair-VAR oo-na MAY-sa'},
+      'can you help me please':{t:'¿Puede ayudarme, por favor?',p:'PWAY-day a-yoo-DAR-may por fa-VOR'},
+      'what time does it open':{t:'¿A qué hora abre?',p:'a kay OR-a AH-bray'},
+      'i am lost':{t:'Estoy perdido',p:'es-TOY pair-DEE-do'},'i dont understand':{t:'No entiendo',p:'no en-tee-EN-do'},
+      'the bill please':{t:'La cuenta, por favor',p:'la KWEN-ta por fa-VOR'},
+      'could you recommend a local dish':{t:'¿Podría recomendar un plato típico?',p:'po-DREE-a reh-ko-men-DAR oon PLA-to TEE-pee-ko'},
+      'i would like to make a complaint':{t:'Quisiera presentar una queja',p:'kee-see-AIR-a preh-sen-TAR oo-na KAY-ha'},
+      'in my opinion':{t:'En mi opinión',p:'en mee o-pee-nee-ON'},'on the other hand':{t:'Por otro lado',p:'por O-tro LA-do'},
+      'i was wondering if you could help':{t:'Me preguntaba si podría ayudarme',p:'may preh-goon-TA-ba see po-DREE-a a-yoo-DAR-may'},
+      'despite the rain we enjoyed the trip':{t:'A pesar de la lluvia, disfrutamos el viaje',p:'a peh-SAR day la YOO-vee-a, dees-froo-TA-mos el vee-AH-hay'}
+    },
+    prac:{
+      beginner:[
+        {q:'How do you say “Hello”?',opts:['Hola','Gracias','Adiós','Perdón'],a:0,fb:'“Hola” = hello.'},
+        {q:'“Gracias” means…',opts:['Thank you','Please','Sorry','Goodbye'],a:0,fb:'“Gracias” = thank you.'},
+        {q:'How do you ask “How much is it?”',opts:['¿Cuánto cuesta?','¿Cómo estás?','¿Qué hora es?','¿Dónde vas?'],a:0,fb:'“¿Cuánto cuesta?” asks the price.'},
+        {q:'“Buenos días” means…',opts:['Good morning','Good night','See you soon','Nice to meet you'],a:0,fb:'“Buenos días” = good morning.'}
+      ],
+      intermediate:[
+        {q:'How do you say “I don’t understand”?',opts:['No entiendo','No quiero','No puedo','No tengo'],a:0,fb:'“No entiendo” = I don’t understand.'},
+        {q:'“La cuenta, por favor” asks for…',opts:['The bill','The key','The menu','A taxi'],a:0,fb:'“La cuenta” = the bill.'},
+        {q:'How do you say “I am lost”?',opts:['Estoy perdido','Estoy cansado','Estoy listo','Estoy aquí'],a:0,fb:'“Estoy perdido” = I am lost.'},
+        {q:'“¿A qué hora abre?” means…',opts:['What time does it open?','Where is it?','How much is it?','Who is coming?'],a:0,fb:'“abre” = opens, so it asks the opening time.'}
+      ],
+      proficient:[
+        {q:'How do you say “In my opinion”?',opts:['En mi opinión','Por supuesto','De nada','Sin embargo'],a:0,fb:'“En mi opinión” = in my opinion.'},
+        {q:'“Quisiera presentar una queja” means…',opts:['I’d like to make a complaint','I’d like to order food','I’d like to check in','I’d like a discount'],a:0,fb:'“una queja” = a complaint.'},
+        {q:'Which phrase means “on the other hand”?',opts:['Por otro lado','Claro que sí','Más o menos','De acuerdo'],a:0,fb:'“Por otro lado” = on the other hand.'},
+        {q:'“A pesar de la lluvia” means…',opts:['Despite the rain','Under the rain','Before the rain','Because of the rain'],a:0,fb:'“A pesar de” = despite.'}
+      ]
+    }},
+  de:{name:'German',flag:'🇩🇪',code:'de-DE',
+    phr:{
+      'hello':{t:'Hallo',p:'HAH-lo'},'thank you':{t:'Danke',p:'DAHN-kuh'},'good morning':{t:'Guten Morgen',p:'GOO-ten MOR-gen'},
+      'my name is':{t:'Ich heiße…',p:'ikh HY-suh'},'how much is it':{t:'Wie viel kostet das?',p:'vee feel KOS-tet das'},
+      'where is the toilet':{t:'Wo ist die Toilette?',p:'vo ist dee twa-LET-uh'},
+      'i would like to book a table':{t:'Ich möchte einen Tisch reservieren',p:'ikh MERKH-tuh eye-nen TISH reh-zer-VEE-ren'},
+      'can you help me please':{t:'Können Sie mir bitte helfen?',p:'KUR-nen zee meer BIT-uh HEL-fen'},
+      'what time does it open':{t:'Um wie viel Uhr öffnet es?',p:'oom vee feel OOR URF-net es'},
+      'i am lost':{t:'Ich habe mich verlaufen',p:'ikh HAH-buh mikh fer-LOW-fen'},'i dont understand':{t:'Ich verstehe nicht',p:'ikh fer-SHTAY-uh nikht'},
+      'the bill please':{t:'Die Rechnung, bitte',p:'dee REKH-noong BIT-uh'},
+      'could you recommend a local dish':{t:'Können Sie ein regionales Gericht empfehlen?',p:'KUR-nen zee ine reh-gee-o-NAH-les guh-RIKHT emp-FAY-len'},
+      'i would like to make a complaint':{t:'Ich möchte mich beschweren',p:'ikh MERKH-tuh mikh buh-SHVAIR-en'},
+      'in my opinion':{t:'Meiner Meinung nach',p:'MY-ner MY-noong nakh'},'on the other hand':{t:'Andererseits',p:'AN-der-er-zyts'},
+      'i was wondering if you could help':{t:'Ich wollte fragen, ob Sie mir helfen könnten',p:'ikh VOL-tuh FRAH-gen, op zee meer HEL-fen KUR-nten'},
+      'despite the rain we enjoyed the trip':{t:'Trotz des Regens hat uns die Reise gefallen',p:'trots des RAY-gens hat oons dee RY-zuh guh-FAL-en'}
+    },
+    prac:{
+      beginner:[
+        {q:'How do you say “Thank you”?',opts:['Danke','Hallo','Bitte','Tschüss'],a:0,fb:'“Danke” = thank you. “Bitte” = please / you’re welcome.'},
+        {q:'“Guten Morgen” means…',opts:['Good morning','Good night','Goodbye','Welcome'],a:0,fb:'“Guten Morgen” = good morning.'},
+        {q:'How do you ask “How much is it?”',opts:['Wie viel kostet das?','Wie geht es dir?','Wie spät ist es?','Wo bist du?'],a:0,fb:'“Wie viel kostet das?” asks the price.'},
+        {q:'“Ich heiße Anna” means…',opts:['My name is Anna','I see Anna','I like Anna','I am with Anna'],a:0,fb:'“Ich heiße…” = my name is…'}
+      ],
+      intermediate:[
+        {q:'How do you say “I don’t understand”?',opts:['Ich verstehe nicht','Ich weiß nicht','Ich kann nicht','Ich will nicht'],a:0,fb:'“Ich verstehe nicht” = I don’t understand.'},
+        {q:'“Die Rechnung, bitte” asks for…',opts:['The bill','The menu','The bathroom','The map'],a:0,fb:'“Die Rechnung” = the bill.'},
+        {q:'How do you say “I am lost”?',opts:['Ich habe mich verlaufen','Ich bin müde','Ich bin fertig','Ich bin hier'],a:0,fb:'“Ich habe mich verlaufen” = I’ve got lost.'},
+        {q:'“Um wie viel Uhr öffnet es?” means…',opts:['What time does it open?','Where is the door?','How old is it?','When does it close?'],a:0,fb:'“öffnet” = opens.'}
+      ],
+      proficient:[
+        {q:'How do you say “In my opinion”?',opts:['Meiner Meinung nach','Auf Wiedersehen','Kein Problem','Zum Wohl'],a:0,fb:'“Meiner Meinung nach” = in my opinion.'},
+        {q:'“Ich möchte mich beschweren” means…',opts:['I’d like to make a complaint','I’d like to pay','I’d like to leave','I’d like to rest'],a:0,fb:'“sich beschweren” = to complain.'},
+        {q:'Which word means “on the other hand”?',opts:['Andererseits','Natürlich','Vielleicht','Genau'],a:0,fb:'“Andererseits” = on the other hand.'},
+        {q:'“Trotz des Regens” means…',opts:['Despite the rain','During the rain','Because of the rain','After the rain'],a:0,fb:'“Trotz” = despite.'}
+      ]
+    }},
+  it:{name:'Italian',flag:'🇮🇹',code:'it-IT',
+    phr:{
+      'hello':{t:'Ciao',p:'chow'},'thank you':{t:'Grazie',p:'GRAH-tsee-eh'},'good morning':{t:'Buongiorno',p:'bwon-JOR-no'},
+      'my name is':{t:'Mi chiamo…',p:'mee kee-AH-mo'},'how much is it':{t:'Quanto costa?',p:'KWAN-to KOS-ta'},
+      'where is the toilet':{t:'Dov’è il bagno?',p:'do-VEH eel BAH-nyo'},
+      'i would like to book a table':{t:'Vorrei prenotare un tavolo',p:'vor-RAY preh-no-TA-reh oon TA-vo-lo'},
+      'can you help me please':{t:'Può aiutarmi, per favore?',p:'pwoh a-yoo-TAR-mee pair fa-VO-reh'},
+      'what time does it open':{t:'A che ora apre?',p:'a keh O-ra AH-preh'},
+      'i am lost':{t:'Mi sono perso',p:'mee SO-no PAIR-so'},'i dont understand':{t:'Non capisco',p:'non ka-PEES-ko'},
+      'the bill please':{t:'Il conto, per favore',p:'eel KON-to pair fa-VO-reh'},
+      'could you recommend a local dish':{t:'Potrebbe consigliare un piatto tipico?',p:'po-TREB-beh kon-see-LYA-reh oon pee-AT-to TEE-pee-ko'},
+      'i would like to make a complaint':{t:'Vorrei fare un reclamo',p:'vor-RAY FA-reh oon reh-KLA-mo'},
+      'in my opinion':{t:'Secondo me',p:'seh-KON-do meh'},'on the other hand':{t:'D’altra parte',p:'DAL-tra PAR-teh'},
+      'i was wondering if you could help':{t:'Volevo chiederle se potrebbe aiutarmi',p:'vo-LAY-vo kee-AY-dair-leh seh po-TREB-beh a-yoo-TAR-mee'},
+      'despite the rain we enjoyed the trip':{t:'Nonostante la pioggia, ci siamo goduti il viaggio',p:'no-nos-TAN-teh la pee-OJ-ja, chee see-AH-mo go-DOO-tee eel vee-AJ-jo'}
+    },
+    prac:{
+      beginner:[
+        {q:'How do you say “Hi / Hello”?',opts:['Ciao','Grazie','Scusa','Prego'],a:0,fb:'“Ciao” = hi/hello (informal).'},
+        {q:'“Grazie” means…',opts:['Thank you','Please','Sorry','Goodbye'],a:0,fb:'“Grazie” = thank you.'},
+        {q:'How do you ask “How much is it?”',opts:['Quanto costa?','Come stai?','Che ore sono?','Dove sei?'],a:0,fb:'“Quanto costa?” asks the price.'},
+        {q:'“Buongiorno” means…',opts:['Good morning','Good night','See you','Cheers'],a:0,fb:'“Buongiorno” = good morning.'}
+      ],
+      intermediate:[
+        {q:'How do you say “I don’t understand”?',opts:['Non capisco','Non lo so','Non posso','Non voglio'],a:0,fb:'“Non capisco” = I don’t understand.'},
+        {q:'“Il conto, per favore” asks for…',opts:['The bill','The key','The menu','A taxi'],a:0,fb:'“Il conto” = the bill.'},
+        {q:'How do you say “I am lost”?',opts:['Mi sono perso','Sono stanco','Sono pronto','Sono qui'],a:0,fb:'“Mi sono perso” = I’m lost.'},
+        {q:'“A che ora apre?” means…',opts:['What time does it open?','Where is it?','How far is it?','When does it close?'],a:0,fb:'“apre” = opens.'}
+      ],
+      proficient:[
+        {q:'How do you say “In my opinion”?',opts:['Secondo me','Certo','Prego','Tuttavia'],a:0,fb:'“Secondo me” = in my opinion.'},
+        {q:'“Vorrei fare un reclamo” means…',opts:['I’d like to make a complaint','I’d like to order','I’d like to book','I’d like to pay'],a:0,fb:'“un reclamo” = a complaint.'},
+        {q:'Which phrase means “on the other hand”?',opts:['D’altra parte','Di niente','Va bene','Magari'],a:0,fb:'“D’altra parte” = on the other hand.'},
+        {q:'“Nonostante la pioggia” means…',opts:['Despite the rain','During the rain','Because of the rain','Before the rain'],a:0,fb:'“Nonostante” = despite.'}
+      ]
+    }},
+  pt:{name:'Portuguese',flag:'🇵🇹',code:'pt-PT',
+    phr:{
+      'hello':{t:'Olá',p:'oh-LAH'},'thank you':{t:'Obrigado',p:'o-bree-GAH-do'},'good morning':{t:'Bom dia',p:'bong DEE-a'},
+      'my name is':{t:'Chamo-me…',p:'SHAH-moo-muh'},'how much is it':{t:'Quanto custa?',p:'KWAN-too KOOSH-ta'},
+      'where is the toilet':{t:'Onde é a casa de banho?',p:'ON-duh eh a KAH-za duh BAH-nyoo'},
+      'i would like to book a table':{t:'Queria reservar uma mesa',p:'kuh-REE-a reh-zer-VAR oo-ma MEH-za'},
+      'can you help me please':{t:'Pode ajudar-me, por favor?',p:'POH-duh a-zhoo-DAR-muh poor fa-VOR'},
+      'what time does it open':{t:'A que horas abre?',p:'a kuh O-rash AH-bruh'},
+      'i am lost':{t:'Estou perdido',p:'esh-TOH per-DEE-doo'},'i dont understand':{t:'Não percebo',p:'nowng per-SEH-boo'},
+      'the bill please':{t:'A conta, por favor',p:'a KON-ta poor fa-VOR'},
+      'could you recommend a local dish':{t:'Podia recomendar um prato típico?',p:'poo-DEE-a reh-koo-men-DAR oong PRA-too TEE-pee-koo'},
+      'i would like to make a complaint':{t:'Queria apresentar uma reclamação',p:'kuh-REE-a a-pruh-zen-TAR oo-ma reh-kla-ma-SOWNG'},
+      'in my opinion':{t:'Na minha opinião',p:'na MEE-nya o-pee-nee-OWNG'},'on the other hand':{t:'Por outro lado',p:'poor OH-troo LA-doo'},
+      'i was wondering if you could help':{t:'Queria saber se me podia ajudar',p:'kuh-REE-a sa-BER suh muh poo-DEE-a a-zhoo-DAR'},
+      'despite the rain we enjoyed the trip':{t:'Apesar da chuva, gostámos da viagem',p:'a-puh-ZAR da SHOO-va, goosh-TA-moosh da vee-AH-zheng'}
+    },
+    prac:{
+      beginner:[
+        {q:'How do you say “Hello”?',opts:['Olá','Obrigado','Adeus','Desculpe'],a:0,fb:'“Olá” = hello.'},
+        {q:'“Obrigado” means…',opts:['Thank you','Please','Sorry','Goodbye'],a:0,fb:'“Obrigado” = thank you (a woman says “obrigada”).'},
+        {q:'How do you ask “How much is it?”',opts:['Quanto custa?','Como está?','Que horas são?','Onde fica?'],a:0,fb:'“Quanto custa?” asks the price.'},
+        {q:'“Bom dia” means…',opts:['Good morning','Good night','Goodbye','Welcome'],a:0,fb:'“Bom dia” = good morning.'}
+      ],
+      intermediate:[
+        {q:'How do you say “I don’t understand”?',opts:['Não percebo','Não sei','Não posso','Não quero'],a:0,fb:'“Não percebo” = I don’t understand (European Portuguese).'},
+        {q:'“A conta, por favor” asks for…',opts:['The bill','The key','The menu','A taxi'],a:0,fb:'“A conta” = the bill.'},
+        {q:'How do you say “I am lost”?',opts:['Estou perdido','Estou cansado','Estou pronto','Estou aqui'],a:0,fb:'“Estou perdido” = I am lost.'},
+        {q:'“A que horas abre?” means…',opts:['What time does it open?','Where is it?','How much is it?','Who is it?'],a:0,fb:'“abre” = opens.'}
+      ],
+      proficient:[
+        {q:'How do you say “In my opinion”?',opts:['Na minha opinião','Com certeza','De nada','No entanto'],a:0,fb:'“Na minha opinião” = in my opinion.'},
+        {q:'“Queria apresentar uma reclamação” means…',opts:['I’d like to make a complaint','I’d like to order','I’d like to book','I’d like to pay'],a:0,fb:'“uma reclamação” = a complaint.'},
+        {q:'Which phrase means “on the other hand”?',opts:['Por outro lado','Claro que sim','De nada','Se calhar'],a:0,fb:'“Por outro lado” = on the other hand.'},
+        {q:'“Apesar da chuva” means…',opts:['Despite the rain','During the rain','Because of the rain','After the rain'],a:0,fb:'“Apesar de” = despite.'}
+      ]
+    }}
+};
+function currentLang(){return LANGS[document.getElementById('trLang').value];}
+function trNorm(s){return s.toLowerCase().replace(/[’']/g,'').replace(/[?.!,…]/g,'').replace(/\s+/g,' ').trim();}
+function addTrMsg(who,html,say,code){
+  var c=document.getElementById('trChat');
+  var d=document.createElement('div');d.className='msg '+who;
+  d.innerHTML=html;
+  if(who==='bot'&&say){
+    var b=document.createElement('button');b.className='read';b.innerHTML='🔊 Hear it';
+    b.onclick=function(){speakLang(say,code);};
+    d.appendChild(document.createElement('br'));d.appendChild(b);
+  }
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
+  if(who==='bot'&&say&&readOn.tr)speakLang(say,code);
+}
+function renderTrChips(){
+  var lvl=document.getElementById('trLevel').value;
+  var arr=TR_CHIPS[lvl]||[];
+  var h='<span class="lbl">Try:</span>';
+  arr.forEach(function(p){h+='<button onclick="trChip(\''+p.replace(/'/g,"\\'")+'\')">'+p+'</button>';});
+  document.getElementById('trChips').innerHTML=h;
+}
+function trChip(txt){document.getElementById('trInput').value=txt;sendTr();}
+function trTab(btn,id){
+  document.querySelectorAll('#translator .subtab').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');
+  document.querySelectorAll('#translator .subview').forEach(function(v){v.classList.remove('active');});
+  document.getElementById(id).classList.add('active');
+}
+function sendTr(){
+  var inp=document.getElementById('trInput');var q=inp.value.trim();if(!q)return;
+  addTrMsg('me',esc(q));inp.value='';typing('trChat',true);
+  setTimeout(function(){typing('trChat',false);trReply(q);},650+Math.random()*450);
+}
+function trReply(q){
+  var L=currentLang();var hit=L.phr[trNorm(q)];
+  if(hit){
+    var html='<b>“'+esc(q)+'”</b> in '+L.name+':<br><br><span class="tr-trans">'+esc(hit.t)+'</span><br><span class="tr-pron">🗣 '+esc(hit.p)+'</span>';
+    addTrMsg('bot',html,hit.t,L.code);
+  }else{
+    addTrMsg('bot','I don’t have “'+esc(q)+'” in the demo phrasebook yet. In the live version this connects straight to the WavesAI translation agent, which translates any phrase and reads it aloud. For now, tap one of the suggestions above to see it in action.','',L.code);
+  }
+}
+function trSetup(){
+  var L=currentLang();
+  var lvlVal=document.getElementById('trLevel').value;
+  var lvlName=lvlVal.charAt(0).toUpperCase()+lvlVal.slice(1);
+  document.getElementById('trAv').textContent=L.flag;
+  document.getElementById('trName').textContent=L.name+' Coach';
+  document.getElementById('trSub').textContent=lvlName+' · translate & pronounce';
+  document.getElementById('pracLangName').textContent=L.name;
+  document.getElementById('pracLevelName').textContent=lvlName;
+  renderTrChips();
+  document.getElementById('trChat').innerHTML='';
+  addTrMsg('bot','Hi! I’m your '+L.name+' Coach. Type any English word or phrase and I’ll translate it, show you how to say it, and read it aloud in '+L.name+'. Tap a suggestion above to start.','',L.code);
+  var ps=document.getElementById('pracSetup');if(ps)ps.style.display='';
+  var pa=document.getElementById('pracArea');if(pa)pa.innerHTML='';
+}
+/* ---------- Translator practice sessions ---------- */
+var curPrac=[],ppicks=[];
+function startPrac(){
+  var L=currentLang();var lvl=document.getElementById('trLevel').value;
+  curPrac=(L.prac&&L.prac[lvl])||[];ppicks=new Array(curPrac.length).fill(null);
+  document.getElementById('pracSetup').style.display='none';
+  var h='';
+  curPrac.forEach(function(item,qi){
+    var qsay=item.q.replace(/[‘’“”]/g,'').replace(/'/g,"\\'");
+    h+='<div class="exam-q" id="pq'+qi+'"><div class="qtop"><span class="qn">QUESTION '+(qi+1)+' OF '+curPrac.length+'</span>'
+      +'<button class="readbtn" onclick="speak(\''+qsay+'\')">🔊 Read</button></div>'
+      +'<div class="qtext">'+item.q+'</div><div class="opts">';
+    item.opts.forEach(function(o,oi){
+      h+='<div class="opt" id="pq'+qi+'o'+oi+'" onclick="pickP('+qi+','+oi+')"><span class="dot"></span><span>'+o+'</span></div>';
+    });
+    h+='</div></div>';
+  });
+  h+='<button class="btn btn-navy" style="width:100%;justify-content:center;margin-top:6px" onclick="markPrac()">✅ Submit for Marking</button>';
+  document.getElementById('pracArea').innerHTML=h;
+  window.scrollTo({top:document.getElementById('pracArea').offsetTop-90,behavior:'smooth'});
+}
+function pickP(qi,oi){
+  ppicks[qi]=oi;
+  for(var i=0;i<curPrac[qi].opts.length;i++)document.getElementById('pq'+qi+'o'+i).classList.remove('pick');
+  document.getElementById('pq'+qi+'o'+oi).classList.add('pick');
+}
+function markPrac(){
+  var score=0;
+  curPrac.forEach(function(item,qi){
+    var chosen=ppicks[qi];
+    for(var i=0;i<item.opts.length;i++){
+      var el=document.getElementById('pq'+qi+'o'+i);el.style.pointerEvents='none';
+      if(i===item.a)el.classList.add('correct');
+      if(chosen===i&&chosen!==item.a)el.classList.add('wrong');
+    }
+    if(chosen===item.a)score++;
+    var q=document.getElementById('pq'+qi);
+    var fb=document.createElement('div');fb.className='fb';
+    fb.innerHTML=(chosen===item.a?'✅ Correct. ':'❌ Not quite. ')+item.fb;
+    q.appendChild(fb);
+  });
+  var pct=curPrac.length?Math.round(score/curPrac.length*100):0;
+  var grade=pct>=80?'Excellent — you’re getting fluent! 🌟':pct>=60?'Good work — keep practising and it’ll stick.':pct>=40?'Getting there — review the feedback and try again.':'Keep going — read the feedback and have another go.';
+  var ms='<div class="marksheet"><div class="score">'+score+'/'+curPrac.length+'</div><div class="grade">'+pct+'% · '+grade+'</div>'
+   +'<button class="btn btn-gold btn-sm" style="margin-top:14px" onclick="speak(\'You scored '+score+' out of '+curPrac.length+'. '+grade.replace(/[‘’]/g,'').replace(/'/g,'')+'\')">🔊 Hear my result</button> '
+   +'<button class="btn btn-ghost btn-sm" style="margin-top:14px;background:#fff" onclick="retryPrac()">↻ Try again</button></div>';
+  document.getElementById('pracArea').insertAdjacentHTML('afterbegin',ms);
+  window.scrollTo({top:document.getElementById('pracArea').offsetTop-90,behavior:'smooth'});
+}
+function retryPrac(){document.getElementById('pracSetup').style.display='';document.getElementById('pracArea').innerHTML='';window.scrollTo({top:document.getElementById('tr-prac').offsetTop-90,behavior:'smooth'});}
+
 /* ---------- Init ---------- */
 renderSubjects();
 addMsg('stChat','bot',"Hi! I'm your Maths Tutor. Ask me anything about numbers, algebra or problem solving, and I'll explain it clearly. What are you working on today?",false);
@@ -1099,6 +1491,7 @@ loadCards(null,'maths');document.querySelector('#ex-rev .subtab').classList.add(
 renderTips();
 loadChild(0);
 addMsg('coChat','bot',"Hi! I'm your Motivation Coach. 🌟 Tell me what's happening — nervous before a test, a low mark, a big win, or a motivation dip — and I'll give you the right words to say and a few practical things to try. Or tap one of the buttons above to start.",false);
+trSetup();
 </script>
 </body>
 </html>
