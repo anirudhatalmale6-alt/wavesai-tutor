@@ -123,6 +123,23 @@ section.block{padding:64px 0}
 .cta-band h2{color:#fff;font-size:clamp(26px,4vw,38px)}
 .cta-band p{color:rgba(255,255,255,.82);max-width:58ch;margin:14px auto 0;font-size:16.5px}
 .cta-band .hero-cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:28px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px}
+.step{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:28px;position:relative}
+.step .num{width:46px;height:46px;border-radius:50%;background:var(--navy);color:#fff;font-family:var(--serif);font-weight:700;font-size:21px;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.step h3{font-size:20px;margin-bottom:8px}
+.step p{color:var(--muted);font-size:15px}
+.pricing{max-width:520px;margin:44px auto 0}
+.price-card{background:linear-gradient(180deg,#fff,var(--panel));border:2px solid var(--gold);border-radius:24px;padding:38px 34px;text-align:center;box-shadow:var(--shadow)}
+.price-card .trial{display:inline-block;background:var(--gold-glow);color:var(--gold);font-weight:700;font-size:13px;padding:6px 16px;border-radius:999px;letter-spacing:.03em}
+.price-card .amt{font-family:var(--serif);font-size:52px;color:var(--navy);font-weight:800;margin:16px 0 2px;line-height:1}
+.price-card .amt span{font-size:18px;color:var(--muted);font-weight:400}
+.price-card .per-sub{color:var(--ink);font-size:15.5px;margin-top:8px}
+.price-card .per-sub b{color:var(--navy)}
+.price-card ul{list-style:none;margin:24px 0 0;padding:0;text-align:left;display:inline-block}
+.price-card li{padding:7px 0 7px 28px;position:relative;color:var(--ink);font-size:15px}
+.price-card li::before{content:"✓";position:absolute;left:0;color:var(--gold);font-weight:800}
+.price-card .btn{margin-top:26px}
+@media(max-width:760px){.steps{grid-template-columns:1fr}}
 
 /* Sub-hero for inner views */
 .page-head{padding:56px 0 8px;text-align:center;position:relative}
@@ -419,7 +436,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
         <div class="card role-card" onclick="go('students')">
           <div class="ic">🎓</div>
           <h3>Subject Tutors</h3>
-          <p>An AI tutor for Maths, English, Science, History, Geography and Languages — set to your country, curriculum, class and books. It explains step by step and answers anything.</p>
+          <p>An AI tutor for Maths, English, Science, History, Geography and Languages — from primary and secondary right up to university. Set to your country, curriculum, class and books, it explains step by step and answers anything.</p>
           <span class="go">Start learning →</span>
         </div>
         <div class="card role-card" onclick="go('tutors')">
@@ -485,6 +502,31 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
 
   <section class="block" style="padding-top:0">
     <div class="wrap">
+      <p class="eyebrow">Simple to start</p>
+      <h2>How it works</h2>
+      <p style="text-align:center;color:var(--muted);max-width:56ch;margin:14px auto 0;font-size:17px">Up and learning in under a minute — no downloads, no setup headaches.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <h3>Pick your subject &amp; set it up</h3>
+          <p>Choose a subject, then tell your tutor your country, curriculum, class and the books you use — so it teaches to exactly what you're studying.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h3>Learn, practise &amp; get marked</h3>
+          <p>Ask your tutor anything and get it explained step by step, sit practice exams marked instantly, or learn a language — with everything read aloud.</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h3>Track progress &amp; get support</h3>
+          <p>Parents follow progress across every subject, and the Study Coach keeps students motivated and on track when things get tough.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0">
+    <div class="wrap">
       <div class="features">
         <p class="eyebrow" style="color:var(--gold-lite)">Why learners stay</p>
         <h2>Learning that keeps up with you</h2>
@@ -492,7 +534,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
           <div class="feat"><div class="n">24/7</div><div class="l">Tutors that never clock off</div></div>
           <div class="feat"><div class="n">🔊</div><div class="l">Read-aloud on every answer</div></div>
           <div class="feat"><div class="n">Instant</div><div class="l">Exam marking &amp; feedback</div></div>
-          <div class="feat"><div class="n">All ages</div><div class="l">Primary to A-Level &amp; beyond</div></div>
+          <div class="feat"><div class="n">All ages</div><div class="l">Primary, secondary &amp; university</div></div>
         </div>
       </div>
 
@@ -518,6 +560,28 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
         <div class="s"><span class="ck">✓</span><span>Available 24/7, on phone or laptop, with no downloads.</span></div>
         <div class="s"><span class="ck">✓</span><span>Supports the student emotionally, not just academically, with a personal study coach.</span></div>
         <div class="s"><span class="ck">✓</span><span>Works for students, parents and teachers — the whole learning journey.</span></div>
+      </div>
+
+      <div style="margin-top:56px">
+        <p class="eyebrow">Simple pricing</p>
+        <h2>One plan. Every tool. Add subjects as you go.</h2>
+        <div class="pricing">
+          <div class="price-card">
+            <span class="trial">✦ 7-day free trial</span>
+            <div class="amt">£20<span> / month</span></div>
+            <div class="per-sub">Full access to <b>one subject</b> — then just <b>£5/month</b> per extra subject you add.</div>
+            <ul>
+              <li>Your AI subject tutor, tuned to your curriculum &amp; books</li>
+              <li>Practice exams marked instantly + revision tools</li>
+              <li>The Translator for language learning</li>
+              <li>Parent progress dashboard</li>
+              <li>Personal Study Coach</li>
+              <li>Read-aloud on everything · cancel anytime</li>
+            </ul>
+            <div><button class="btn btn-navy" onclick="go('students')">Start your free trial</button></div>
+            <p style="color:var(--muted);font-size:13px;margin-top:14px">7 days free — no charge today. Cancel before it ends and you won't be billed.</p>
+          </div>
+        </div>
       </div>
 
       <div class="cta-band">
@@ -560,7 +624,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
           </div>
           <div>
             <label>Class / year / grade</label>
-            <input class="f" id="stClass" placeholder="e.g. Year 10, Grade 8, Class 9" oninput="refreshBooks()">
+            <input class="f" id="stClass" placeholder="e.g. Year 10, Grade 8, 1st-year undergrad" oninput="refreshBooks()">
           </div>
           <div>
             <label>Your level</label>
@@ -1126,6 +1190,7 @@ var COUNTRIES={
 };
 function fam(c){
   c=(c||'').toLowerCase();
+  if(c.indexOf('university')>-1||c.indexOf('undergrad')>-1||c.indexOf('degree')>-1||c.indexOf('higher education')>-1)return 'University';
   if(c.indexOf('igcse')>-1||c.indexOf('cambridge')>-1||c.indexOf('edexcel international')>-1)return 'Cambridge';
   if(c.indexOf('a-level')>-1||c.indexOf('a level')>-1)return 'A-Level';
   if(c.indexOf('gcse')>-1||c.indexOf('o-level')>-1||c.indexOf('o level')>-1)return 'GCSE';
@@ -1204,7 +1269,11 @@ var BOOKS={
   'default':['Your class language coursebook','A grammar & verb reference','A vocabulary builder']
  }
 };
-function recommendBooks(key,curric){var m=BOOKS[key]||BOOKS.maths;return m[fam(curric)]||m['default'];}
+function recommendBooks(key,curric){
+  var m=BOOKS[key]||BOOKS.maths; var f=fam(curric);
+  if(f==='University') return ['Your module / course core textbook','Your lecturer\'s recommended reading list','Key journal articles and research papers','Lecture notes + past exam papers'];
+  return m[f]||m['default'];
+}
 
 var stProfiles={};      // {subjKey:{country,curric,cls,level,books:[],goal,examDate}}
 var stMyBooks=[];       // working list while the form is open
@@ -1220,7 +1289,9 @@ function initCountries(){
 }
 function onCountry(){
   var c=document.getElementById('stCountry').value;
-  document.getElementById('stCurric').innerHTML=(COUNTRIES[c]||[]).map(function(x){return '<option>'+x+'</option>';}).join('');
+  var list=(COUNTRIES[c]||[]).slice();
+  list.push('University / Undergraduate');   // higher-ed available for every country
+  document.getElementById('stCurric').innerHTML=list.map(function(x){return '<option>'+x+'</option>';}).join('');
   refreshBooks();
 }
 function refreshBooks(){
