@@ -113,6 +113,16 @@ section.block{padding:64px 0}
 .audio-callout .big{width:76px;height:76px;border-radius:20px;background:linear-gradient(140deg,var(--gold-lite),var(--gold));display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;box-shadow:0 14px 30px -14px rgba(184,146,46,.7)}
 .audio-callout h3{font-size:26px}
 .audio-callout p{color:var(--muted);margin-top:6px;max-width:60ch}
+.who-card{text-align:left}
+.who-card .ic{background:var(--gold-glow)}
+.who-card .quote{margin-top:14px;font-family:var(--serif);font-style:italic;color:var(--navy);font-size:16px;border-left:3px solid var(--gold);padding-left:14px}
+.sell-list{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 34px;margin-top:36px;max-width:860px;margin-left:auto;margin-right:auto}
+.sell-list .s{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;color:var(--ink);line-height:1.5}
+.sell-list .s .ck{color:var(--gold);font-weight:800;flex-shrink:0;font-size:17px}
+.cta-band{background:linear-gradient(135deg,var(--navy),var(--navy-soft));color:#fff;border-radius:28px;padding:54px 40px;text-align:center;margin-top:56px}
+.cta-band h2{color:#fff;font-size:clamp(26px,4vw,38px)}
+.cta-band p{color:rgba(255,255,255,.82);max-width:58ch;margin:14px auto 0;font-size:16.5px}
+.cta-band .hero-cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:28px}
 
 /* Sub-hero for inner views */
 .page-head{padding:56px 0 8px;text-align:center;position:relative}
@@ -402,6 +412,79 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
 
   <section class="block" style="padding-top:0">
     <div class="wrap">
+      <p class="eyebrow">Everything in one place</p>
+      <h2>A whole learning team, inside one website</h2>
+      <p style="text-align:center;color:var(--muted);max-width:60ch;margin:14px auto 0;font-size:17px">Six AI-powered tools working together — to teach, test, translate and support every learner. All voice-enabled, all tuned to your country and curriculum.</p>
+      <div class="grid g3">
+        <div class="card role-card" onclick="go('students')">
+          <div class="ic">🎓</div>
+          <h3>Subject Tutors</h3>
+          <p>An AI tutor for Maths, English, Science, History, Geography and Languages — set to your country, curriculum, class and books. It explains step by step and answers anything.</p>
+          <span class="go">Start learning →</span>
+        </div>
+        <div class="card role-card" onclick="go('tutors')">
+          <div class="ic">📚</div>
+          <h3>Lesson Prep for Tutors</h3>
+          <p>Build full lesson plans, worksheets and activities in minutes. Tell it the topic and level and it drafts the rest — hours of planning, done for you.</p>
+          <span class="go">Open prep desk →</span>
+        </div>
+        <div class="card role-card" onclick="go('exams')">
+          <div class="ic">📝</div>
+          <h3>Exams &amp; Revision</h3>
+          <p>Practice exam papers marked instantly with feedback, plus flashcards and exam-technique tips that actually help you score higher.</p>
+          <span class="go">Practise now →</span>
+        </div>
+        <div class="card role-card" onclick="go('translator')">
+          <div class="ic">🗣️</div>
+          <h3>Translator</h3>
+          <p>Learn a language in six tongues — French, Spanish, German, Italian, Portuguese and Arabic — at beginner to proficient level. Hear every phrase in a native voice, then test yourself.</p>
+          <span class="go">Try the translator →</span>
+        </div>
+        <div class="card role-card" onclick="go('parents')">
+          <div class="ic">📊</div>
+          <h3>Parent Dashboard</h3>
+          <p>See exactly how your child is doing across every subject — strengths, weak spots and progress — and ask an assistant how to help at home.</p>
+          <span class="go">View for parents →</span>
+        </div>
+        <div class="card role-card" onclick="go('coach')">
+          <div class="ic">🧭</div>
+          <h3>Study Coach</h3>
+          <p>A supportive mentor students can talk to about the hard stuff — procrastination, exam nerves, falling behind, lost motivation — with real steps to improve.</p>
+          <span class="go">Meet the coach →</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0">
+    <div class="wrap">
+      <p class="eyebrow" style="color:var(--gold-lite)">Made for everyone in learning</p>
+      <h2>Whoever you are, there's a place for you</h2>
+      <div class="grid g3">
+        <div class="card who-card">
+          <div class="ic">🧑‍🎓</div>
+          <h3>Students</h3>
+          <p>Your own tutor for every subject — explained your way, in your language, out loud, any hour of the day. Plus a coach for when it gets tough.</p>
+          <p class="quote">“Explains it my way, in my language, whenever I need it.”</p>
+        </div>
+        <div class="card who-card">
+          <div class="ic">👨‍👩‍👧</div>
+          <h3>Parents</h3>
+          <p>See how your child is really doing, spot where they're stuck, and get an AI tutor plus study coach that genuinely helps them improve.</p>
+          <p class="quote">“I can finally see where she needs help — and actually help.”</p>
+        </div>
+        <div class="card who-card">
+          <div class="ic">👩‍🏫</div>
+          <h3>Teachers &amp; Tutors</h3>
+          <p>Plan lessons, worksheets and exams in minutes instead of hours — so you spend your time teaching, not preparing.</p>
+          <p class="quote">“A full lesson, worksheet and quiz — ready in minutes.”</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0">
+    <div class="wrap">
       <div class="features">
         <p class="eyebrow" style="color:var(--gold-lite)">Why learners stay</p>
         <h2>Learning that keeps up with you</h2>
@@ -420,6 +503,30 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
           <p>Tap the speaker on any answer, question or lesson and it's read aloud in a natural voice — perfect for revision on the go, younger learners, and anyone who takes things in better by ear.</p>
         </div>
         <button class="btn btn-gold" onclick="speak('Hi! I\\'m your WavesAI tutor. Tap any speaker icon and I\\'ll read things aloud for you, just like this.')">▶ Hear a sample</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0">
+    <div class="wrap">
+      <p class="eyebrow">What makes it different</p>
+      <h2>Not just another chatbot</h2>
+      <div class="sell-list">
+        <div class="s"><span class="ck">✓</span><span>Teaches to your own country's curriculum, exam board and study books — not generic answers.</span></div>
+        <div class="s"><span class="ck">✓</span><span>Every question, answer and lesson can be read aloud in a natural voice.</span></div>
+        <div class="s"><span class="ck">✓</span><span>Covers every subject, plus languages, exams and revision — all in one place.</span></div>
+        <div class="s"><span class="ck">✓</span><span>Available 24/7, on phone or laptop, with no downloads.</span></div>
+        <div class="s"><span class="ck">✓</span><span>Supports the student emotionally, not just academically, with a personal study coach.</span></div>
+        <div class="s"><span class="ck">✓</span><span>Works for students, parents and teachers — the whole learning journey.</span></div>
+      </div>
+
+      <div class="cta-band">
+        <h2>Ready to learn the smarter way?</h2>
+        <p>Pick a subject, set it to your curriculum, and start learning in seconds — with a tutor, exam practice, translator and study coach all built in.</p>
+        <div class="hero-cta">
+          <button class="btn btn-gold" onclick="go('students')">Start learning free</button>
+          <button class="btn btn-ghost" style="background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.35)" onclick="go('exams')">Take a practice exam</button>
+        </div>
       </div>
     </div>
   </section>
