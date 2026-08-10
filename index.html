@@ -74,8 +74,10 @@ header{position:sticky;top:0;z-index:100;background:rgba(253,251,247,.85);backdr
   radial-gradient(500px 300px at 90% 20%,rgba(27,45,79,.05),transparent 70%);z-index:0}
 .hero .wrap{position:relative;z-index:1}
 .pill{display:inline-flex;align-items:center;gap:8px;background:var(--cream);border:1px solid var(--line);color:var(--gold);font-weight:600;font-size:13.5px;padding:8px 18px;border-radius:999px;box-shadow:var(--shadow-sm)}
-.hero h1{font-size:clamp(38px,6vw,68px);margin:26px auto 0;max-width:14ch}
-.hero h1 em{font-style:italic;color:var(--gold)}
+.hero h1{font-size:clamp(38px,6vw,68px);margin:26px auto 0;max-width:15ch}
+.hero h1 em{font-style:italic;color:var(--gold);white-space:nowrap}
+.hero h1 .nb{white-space:nowrap}
+.hero-kicker{font-family:var(--serif);font-style:italic;font-size:clamp(19px,2.6vw,27px);color:var(--gold);margin:16px auto 0;font-weight:600}
 .hero p.sub{max-width:60ch;margin:22px auto 0;color:var(--muted);font-size:clamp(16px,2vw,19px)}
 .hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px}
 .hero-note{margin-top:16px;font-size:13.5px;color:var(--muted)}
@@ -221,6 +223,41 @@ input.f:focus,select.f:focus,textarea.f:focus{border-color:var(--gold)}
 .prof-books{width:100%;border-top:1px dashed var(--gold);padding-top:12px;margin-top:2px;font-size:13.5px;color:var(--ink);line-height:1.55}
 .prof-books b{color:var(--navy)}
 @media(max-width:640px){.setup-grid{grid-template-columns:1fr}.prof-bar .edit{margin-left:0;order:99}}
+
+/* --- subject dropdown + syllabus/chapters + agent training --- */
+.f-big{font-size:17px;padding:15px 16px;font-family:var(--serif);font-weight:600;color:var(--navy)}
+.pop-label{margin-top:22px;font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
+#stPick .subject-grid{margin-top:12px}
+.syll-box{margin-top:22px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+.syll-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.chap-preview{margin-top:16px}
+.chap-preview .ch-head{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:10px}
+.chap-list{display:flex;flex-direction:column;gap:7px}
+.chap{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 14px}
+.chap .n{flex:none;width:26px;height:26px;border-radius:8px;background:var(--gold-glow);color:var(--gold);font-size:12px;font-weight:700;display:grid;place-items:center}
+.chap .t{font-size:14px;color:var(--ink);line-height:1.4}
+.chap .go{margin-left:auto;flex:none;border:1.5px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;padding:6px 14px;font-size:12px;font-weight:600;white-space:nowrap;transition:.15s}
+.chap .go:hover{background:var(--navy);color:#fff}
+.train-card{background:#fff;border:1px solid var(--gold);border-radius:18px;padding:28px 30px;margin-top:26px;box-shadow:var(--shadow-sm)}
+.train-head{display:flex;gap:16px;align-items:center}
+.train-spin{font-size:34px;animation:tspin 2.4s ease-in-out infinite}
+@keyframes tspin{0%,100%{transform:rotate(-8deg) scale(1)}50%{transform:rotate(8deg) scale(1.12)}}
+.train-head h3{font-size:21px;margin-bottom:3px}
+.train-head p{font-size:14px;color:var(--muted)}
+.train-steps{list-style:none;margin:20px 0 0;display:flex;flex-direction:column;gap:11px}
+.train-steps li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px;color:var(--muted);opacity:.45;transition:.35s}
+.train-steps li .tick{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:11px;color:#fff;transition:.3s}
+.train-steps li.doing{opacity:1;color:var(--ink)}
+.train-steps li.doing .tick{border-color:var(--gold);border-right-color:transparent;animation:tsp .8s linear infinite}
+@keyframes tsp{to{transform:rotate(360deg)}}
+.train-steps li.done{opacity:1;color:var(--ink)}
+.train-steps li.done .tick{background:var(--gold);border-color:var(--gold)}
+.train-steps li.done .tick::after{content:"✓"}
+.train-bar{height:6px;background:var(--panel-2);border-radius:999px;margin-top:22px;overflow:hidden}
+.train-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-lite));border-radius:999px;transition:width .5s ease}
+.plan-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 24px;margin-top:18px}
+.plan-card h4{font-size:18px;margin-bottom:4px}
+.plan-card .ph{font-size:13.5px;color:var(--muted);margin-bottom:14px}
 .output{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px;min-height:340px}
 .output .empty{color:var(--muted);text-align:center;padding:60px 20px}
 .output .empty .e{font-size:46px;display:block;margin-bottom:12px;opacity:.5}
@@ -386,8 +423,9 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
   <section class="hero">
     <div class="wrap">
       <span class="pill">★ AI Tutoring · Learn · Teach · Examine</span>
-      <h1>Your personal <em>AI tutor</em>, available every hour of the day.</h1>
-      <p class="sub">Students learn at their own pace with subject tutors that talk back. Tutors build a full lesson in minutes. Practice exams are marked instantly with feedback — and every word can be read aloud.</p>
+      <h1>Your personal <em>AI&nbsp;tutor</em>, available <span class="nb">24 hours a day.</span></h1>
+      <p class="hero-kicker">One monthly fee. Stop paying by the hour.</p>
+      <p class="sub">Every subject, every night, as many questions as you like — for less than the price of a single hour with a private tutor. Your tutor knows your exam board, your class and the books you actually use, and it never watches the clock.</p>
       <div class="hero-cta">
         <button class="btn btn-navy" onclick="go('students')">I'm a Student</button>
         <button class="btn btn-gold" onclick="go('tutors')">I'm a Tutor</button>
@@ -436,7 +474,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
         <div class="card role-card" onclick="go('students')">
           <div class="ic">🎓</div>
           <h3>Subject Tutors</h3>
-          <p>An AI tutor for Maths, English, Science, History, Geography and Languages — from primary and secondary right up to university. Set to your country, curriculum, class and books, it explains step by step and answers anything.</p>
+          <p>An AI tutor for over 60 subjects — every main GCSE and A-Level subject, from Maths and the sciences to languages, business, computing and the arts, right up to university modules. Set to your country, exam board, class and books, it explains step by step and answers anything.</p>
           <span class="go">Start learning →</span>
         </div>
         <div class="card role-card" onclick="go('tutors')">
@@ -509,7 +547,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
         <div class="step">
           <div class="num">1</div>
           <h3>Pick your subject &amp; set it up</h3>
-          <p>Choose a subject, then tell your tutor your country, curriculum, class and the books you use — so it teaches to exactly what you're studying.</p>
+          <p>Choose a subject, then tell your tutor your country, exam board, level and the books you use — then it trains itself on your specification before your first question.</p>
         </div>
         <div class="step">
           <div class="num">2</div>
@@ -554,7 +592,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
       <p class="eyebrow">What makes it different</p>
       <h2>Not just another chatbot</h2>
       <div class="sell-list">
-        <div class="s"><span class="ck">✓</span><span>Teaches to your own country's curriculum, exam board and study books — not generic answers.</span></div>
+        <div class="s"><span class="ck">✓</span><span>Teaches to your own exam board's specification and your own study books — not generic answers.</span></div>
         <div class="s"><span class="ck">✓</span><span>Every question, answer and lesson can be read aloud in a natural voice.</span></div>
         <div class="s"><span class="ck">✓</span><span>Covers every subject, plus languages, exams and revision — all in one place.</span></div>
         <div class="s"><span class="ck">✓</span><span>Available 24/7, on phone or laptop, with no downloads.</span></div>
@@ -571,7 +609,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
             <div class="amt">£20<span> / month</span></div>
             <div class="per-sub">Full access to <b>one subject</b> — then just <b>£5/month</b> per extra subject you add.</div>
             <ul>
-              <li>Your AI subject tutor, tuned to your curriculum &amp; books</li>
+              <li>Your AI subject tutor, tuned to your exam board &amp; books</li>
               <li>Practice exams marked instantly + revision tools</li>
               <li>The Translator for language learning</li>
               <li>Parent progress dashboard</li>
@@ -586,7 +624,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
 
       <div class="cta-band">
         <h2>Ready to learn the smarter way?</h2>
-        <p>Pick a subject, set it to your curriculum, and start learning in seconds — with a tutor, exam practice, translator and study coach all built in.</p>
+        <p>Pick a subject, set your exam board, and start learning in seconds — with a tutor, exam practice, translator and study coach all built in.</p>
         <div class="hero-cta">
           <button class="btn btn-gold" onclick="go('students')">Start learning free</button>
           <button class="btn btn-ghost" style="background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.35)" onclick="go('exams')">Take a practice exam</button>
@@ -607,39 +645,59 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
   </section>
   <section class="block" style="padding-top:26px">
     <div class="wrap">
-      <div class="subject-grid" id="subjectGrid"></div>
+      <!-- Subject picker: full A-Level / GCSE subject list in a dropdown -->
+      <div class="form-card" id="stPick">
+        <label>Choose your subject</label>
+        <select class="f f-big" id="stSubjectSel" onchange="onSubjectSel()"></select>
+        <p class="hint" style="margin-top:10px">Over 60 subjects covered — every main GCSE and A-Level subject, plus university modules.</p>
+        <div class="pop-label">Popular right now</div>
+        <div class="subject-grid" id="subjectGrid"></div>
+      </div>
 
-      <!-- Subject setup: curriculum / class / country / recommended books -->
-      <div class="form-card" id="stSetup" style="margin-top:26px">
+      <!-- Subject setup: exam board / level / class / books / syllabus -->
+      <div class="form-card" id="stSetup" style="margin-top:22px">
         <h3 id="stSetupTitle">Set up your Maths</h3>
-        <p class="hint">Every country and curriculum is different — so tell your tutor exactly what you're studying. It'll teach to your syllabus, your class and the books you actually use.</p>
+        <p class="hint">Every country and exam board is different — so tell your tutor exactly what you're sitting. It'll teach to your specification, your class and the books you actually use.</p>
         <div class="setup-grid">
           <div>
             <label>Your country</label>
             <select class="f" id="stCountry" onchange="onCountry()"></select>
           </div>
           <div>
-            <label>Curriculum / exam board</label>
-            <select class="f" id="stCurric" onchange="refreshBooks()"></select>
+            <label>Your level</label>
+            <select class="f" id="stLevel" onchange="onLevel()"></select>
+          </div>
+          <div>
+            <label>Exam board</label>
+            <select class="f" id="stBoard" onchange="refreshBooks()"></select>
           </div>
           <div>
             <label>Class / year / grade</label>
             <input class="f" id="stClass" placeholder="e.g. Year 10, Grade 8, 1st-year undergrad" oninput="refreshBooks()">
-          </div>
-          <div>
-            <label>Your level</label>
-            <select class="f" id="stLevel"><option>Beginner</option><option selected>Intermediate</option><option>Proficient</option></select>
           </div>
         </div>
 
         <label style="margin-top:18px">Recommended study books <span style="font-weight:400;color:var(--muted)">— tap to add the ones you're using</span></label>
         <div class="book-recs" id="stBookRecs"></div>
 
-        <label style="margin-top:16px">Your study books</label>
+        <label style="margin-top:16px">Your textbooks</label>
         <div class="mybooks" id="stMyBooks"></div>
         <div class="book-add">
           <input class="f" id="stBookInput" placeholder="Add another book or resource…" onkeydown="if(event.key==='Enter'){addBook();event.preventDefault();}">
           <button class="btn btn-navy btn-sm" onclick="addBook()">Add</button>
+        </div>
+
+        <!-- Syllabus / textbook contents → chapters -->
+        <div class="syll-box">
+          <label>📚 Your textbook contents or course syllabus <span style="font-weight:400;color:var(--muted)">— paste it in and your tutor will teach chapter by chapter</span></label>
+          <p class="hint" style="margin:2px 0 10px">Copy the contents page out of your textbook, or paste the topic list from your exam board's specification. Your tutor breaks it into chapters and builds a lesson for each one.</p>
+          <textarea class="f" id="stSyllabus" rows="5" oninput="onSyllabusInput()" placeholder="Paste here, one topic or chapter per line. For example:&#10;1. Number&#10;2. Algebra&#10;3. Ratio, proportion and rates of change&#10;4. Geometry and measures&#10;5. Probability&#10;6. Statistics"></textarea>
+          <div class="syll-actions">
+            <button class="btn btn-ghost btn-sm" type="button" onclick="useStandardSyllabus()">Use the standard topic list for my exam board</button>
+            <button class="btn btn-ghost btn-sm" type="button" onclick="document.getElementById('stSyllFile').click()">📎 Upload your syllabus or contents page</button>
+            <input type="file" id="stSyllFile" accept=".txt,.csv,.md,.rtf" style="display:none" onchange="readSyllabusFile(this)">
+          </div>
+          <div class="chap-preview" id="stChapPreview"></div>
         </div>
 
         <div class="setup-grid" style="margin-top:6px">
@@ -653,13 +711,27 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
           </div>
         </div>
 
-        <button class="btn btn-navy" style="margin-top:20px" onclick="saveProfile()">Save &amp; start learning →</button>
+        <button class="btn btn-navy" style="margin-top:20px" onclick="saveProfile()">Save &amp; train my tutor →</button>
+      </div>
+
+      <!-- Agent training: the tutor becomes an expert in this exact course -->
+      <div class="train-card" id="stTrain" style="display:none">
+        <div class="train-head">
+          <div class="train-spin" id="stTrainSpin">🎓</div>
+          <div>
+            <h3 id="stTrainTitle">Training your tutor…</h3>
+            <p id="stTrainSub">Give it a moment — it's becoming an expert in exactly what you're studying.</p>
+          </div>
+        </div>
+        <ul class="train-steps" id="stTrainSteps"></ul>
+        <div class="train-bar"><i id="stTrainBar"></i></div>
       </div>
 
       <!-- Tutor (revealed once the subject is set up) -->
       <div id="stTutorWrap" style="display:none">
       <div class="prof-bar" id="stProfBar"></div>
-      <div class="panel">
+      <div id="stPlan"></div>
+      <div class="panel" style="margin-top:18px">
         <div class="panel-head">
           <div class="who">
             <div class="av" id="stAv">🧮</div>
@@ -677,7 +749,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
           <button class="send" onclick="sendSt()">➤</button>
         </div>
       </div>
-      <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:16px">Powered by WavesAI tutoring agents — tuned to your curriculum, class and books. Try: “Explain photosynthesis simply” or “How do I solve 2x + 3 = 11?”</p>
+      <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:16px">Powered by WavesAI tutoring agents — trained on your exam board's specification, your class and your books. Try: “Explain photosynthesis simply” or “How do I solve 2x + 3 = 11?”</p>
       </div>
     </div>
   </section>
@@ -1119,6 +1191,30 @@ function tutorReply(subject,q){
   if(p&&(t.includes('which book')||t.includes('what book')||t.includes('book should')||t.includes('my books')||t.includes('recommend')&&t.includes('book'))){
     if(p.books&&p.books.length)return "From your setup, the books you're working from are:\n\n• "+p.books.join("\n• ")+"\n\nTell me which one — plus the chapter or page — and I'll explain it or set you questions straight from it.";
   }
+  /* --- chapter-aware: the tutor teaches from the student's own syllabus --- */
+  if(p&&p.chapters&&p.chapters.length){
+    if(t.includes('study plan')||t.includes('what chapters')||t.includes('syllabus')||t.includes('curriculum')||t.includes('what are we covering')){
+      return "Here's your course as I've mapped it from your textbook and syllabus — "+p.chapters.length+" chapters:\n\n"
+        +p.chapters.map(function(c,i){return (i+1)+". "+c;}).join("\n")
+        +"\n\nSay \"teach me chapter 3\" (or tap any chapter in your study plan above) and I'll take you through it properly.";
+    }
+    var m=t.match(/chapter\s*(\d+)|topic\s*(\d+)|number\s*(\d+)/);
+    if(m){
+      var n=parseInt(m[1]||m[2]||m[3],10)-1;
+      if(n>=0&&n<p.chapters.length)return chapterLesson(p,n);
+      return "You've got "+p.chapters.length+" chapters on your plan, so chapter "+(n+1)+" isn't one of them yet. Add more of your contents page in Edit setup and I'll pick it up.";
+    }
+    if(t.includes('next chapter')||t.includes('what next')||t.includes('carry on')||t.includes('move on')){
+      return chapterLesson(p,0);
+    }
+    /* match by chapter title */
+    for(var ci=0;ci<p.chapters.length;ci++){
+      var title=p.chapters[ci].toLowerCase().replace(/[^a-z0-9 ]/g,'');
+      var words=title.split(' ').filter(function(w){return w.length>4;});
+      if(title.length>4&&t.indexOf(title)>-1)return chapterLesson(p,ci);
+      if(words.length&&words.every(function(w){return t.indexOf(w)>-1;}))return chapterLesson(p,ci);
+    }
+  }
   var eq=q.match(/([-\d]+)\s*x\s*([+\-])\s*(\d+)\s*=\s*(-?\d+)/i);
   if(eq){
     var a=+eq[1],sign=eq[2]==='-'?-1:1,b=sign*+eq[3],c=+eq[4];
@@ -1146,61 +1242,226 @@ function prepReply(q){
   return "Here's something you can use straight away:\n\n• Starter (5 min): a quick question on the board to recall last lesson.\n• Main (20 min): teach the new idea with one worked example, then let students try one in pairs.\n• Practice (12 min): 3 questions rising in difficulty.\n• Plenary (5 min): one exit question to check understanding.\n\nTell me the exact topic and year group and I'll fill this in with real content and questions you can hand out.";
 }
 
-/* ---------- Subjects ---------- */
+/* ---------- Subjects ----------
+   Full GCSE / A-Level subject list, grouped, shown in a dropdown.
+   `bk` maps the subject onto a recommended-books family so we don't need a
+   separate book list for all 60+ subjects.
+   INTEGRATION POINT: once the WavesAI agents are live, the agent itself can
+   return the subject list for a given exam board + level. */
 var SUBJECTS=[
-  {name:'Maths Tutor',emoji:'🧮',key:'maths',desc:'Numbers, algebra & problem solving'},
-  {name:'English Tutor',emoji:'📖',key:'english',desc:'Reading, writing & grammar'},
-  {name:'Science Tutor',emoji:'🔬',key:'science',desc:'Biology, chemistry & physics'},
-  {name:'History Tutor',emoji:'📜',key:'history',desc:'People, events & causes'},
-  {name:'Geography Tutor',emoji:'🌍',key:'geo',desc:'Maps, climate & the world'},
-  {name:'Languages Tutor',emoji:'🗣️',key:'lang',desc:'French, Spanish & more'}
+  /* Maths */
+  {name:'Maths Tutor',emoji:'🧮',key:'maths',bk:'maths',cat:'Maths',desc:'Numbers, algebra & problem solving',pop:1},
+  {name:'Further Maths Tutor',emoji:'➗',key:'fmaths',bk:'maths',cat:'Maths',desc:'Matrices, complex numbers & proof'},
+  {name:'Statistics Tutor',emoji:'📊',key:'stats',bk:'maths',cat:'Maths',desc:'Data, probability & distributions'},
+  {name:'Core Maths Tutor',emoji:'🔢',key:'cmaths',bk:'maths',cat:'Maths',desc:'Everyday maths, finance & modelling'},
+  /* Sciences */
+  {name:'Biology Tutor',emoji:'🧬',key:'bio',bk:'science',cat:'Sciences',desc:'Cells, systems, genetics & ecology',pop:1},
+  {name:'Chemistry Tutor',emoji:'⚗️',key:'chem',bk:'science',cat:'Sciences',desc:'Atoms, reactions & organic chemistry',pop:1},
+  {name:'Physics Tutor',emoji:'🔭',key:'phys',bk:'science',cat:'Sciences',desc:'Forces, energy, waves & electricity',pop:1},
+  {name:'Combined Science Tutor',emoji:'🔬',key:'science',bk:'science',cat:'Sciences',desc:'Biology, chemistry & physics together',pop:1},
+  {name:'Environmental Science Tutor',emoji:'🌱',key:'envsci',bk:'science',cat:'Sciences',desc:'Ecosystems, climate & sustainability'},
+  {name:'Geology Tutor',emoji:'🪨',key:'geol',bk:'science',cat:'Sciences',desc:'Rocks, plate tectonics & Earth history'},
+  {name:'Psychology Tutor',emoji:'🧠',key:'psych',bk:'science',cat:'Sciences',desc:'Behaviour, memory & research methods'},
+  {name:'Sociology Tutor',emoji:'👥',key:'socio',bk:'history',cat:'Sciences',desc:'Society, family, education & crime'},
+  /* English */
+  {name:'English Language Tutor',emoji:'✍️',key:'englang',bk:'english',cat:'English',desc:'Writing, analysis & spoken language',pop:1},
+  {name:'English Literature Tutor',emoji:'📖',key:'english',bk:'english',cat:'English',desc:'Poetry, prose, drama & set texts',pop:1},
+  {name:'English Lang & Lit Tutor',emoji:'📚',key:'englitlang',bk:'english',cat:'English',desc:'Combined language and literature'},
+  {name:'Creative Writing Tutor',emoji:'🖋️',key:'cwrite',bk:'english',cat:'English',desc:'Story craft, voice & description'},
+  /* Humanities & social sciences */
+  {name:'History Tutor',emoji:'📜',key:'history',bk:'history',cat:'Humanities & Social Sciences',desc:'People, events & causes',pop:1},
+  {name:'Ancient History Tutor',emoji:'🏺',key:'anchist',bk:'history',cat:'Humanities & Social Sciences',desc:'Greece, Rome & the ancient world'},
+  {name:'Geography Tutor',emoji:'🌍',key:'geo',bk:'geo',cat:'Humanities & Social Sciences',desc:'Maps, climate & the world',pop:1},
+  {name:'Religious Studies Tutor',emoji:'🕊️',key:'re',bk:'history',cat:'Humanities & Social Sciences',desc:'Beliefs, ethics & philosophy of religion'},
+  {name:'Philosophy Tutor',emoji:'🤔',key:'philo',bk:'history',cat:'Humanities & Social Sciences',desc:'Arguments, ethics & epistemology'},
+  {name:'Politics Tutor',emoji:'🏛️',key:'politics',bk:'history',cat:'Humanities & Social Sciences',desc:'Government, ideologies & elections'},
+  {name:'Law Tutor',emoji:'⚖️',key:'law',bk:'history',cat:'Humanities & Social Sciences',desc:'Legal system, contract & criminal law'},
+  {name:'Classical Civilisation Tutor',emoji:'🏛',key:'classciv',bk:'history',cat:'Humanities & Social Sciences',desc:'Myth, literature & ancient society'},
+  {name:'Citizenship Tutor',emoji:'🗳️',key:'citizen',bk:'history',cat:'Humanities & Social Sciences',desc:'Rights, democracy & the law'},
+  /* Business */
+  {name:'Business Studies Tutor',emoji:'💼',key:'business',bk:'business',cat:'Business & Economics',desc:'Marketing, finance & operations',pop:1},
+  {name:'Economics Tutor',emoji:'📈',key:'econ',bk:'business',cat:'Business & Economics',desc:'Markets, macro & micro economics'},
+  {name:'Accounting Tutor',emoji:'🧾',key:'acc',bk:'business',cat:'Business & Economics',desc:'Ledgers, statements & ratios'},
+  {name:'Enterprise Tutor',emoji:'🚀',key:'enterprise',bk:'business',cat:'Business & Economics',desc:'Starting and running a business'},
+  /* Computing & technical */
+  {name:'Computer Science Tutor',emoji:'💻',key:'compsci',bk:'compsci',cat:'Computing & Technical',desc:'Algorithms, code & computer systems',pop:1},
+  {name:'ICT Tutor',emoji:'🖥️',key:'ict',bk:'compsci',cat:'Computing & Technical',desc:'Software, data & digital skills'},
+  {name:'Design & Technology Tutor',emoji:'🛠️',key:'dt',bk:'compsci',cat:'Computing & Technical',desc:'Design process, materials & making'},
+  {name:'Engineering Tutor',emoji:'⚙️',key:'eng',bk:'compsci',cat:'Computing & Technical',desc:'Mechanics, materials & systems'},
+  {name:'Electronics Tutor',emoji:'🔌',key:'electronics',bk:'compsci',cat:'Computing & Technical',desc:'Circuits, logic & components'},
+  {name:'Food Preparation & Nutrition Tutor',emoji:'🍳',key:'food',bk:'science',cat:'Computing & Technical',desc:'Nutrition, food science & practical skills'},
+  /* Languages */
+  {name:'French Tutor',emoji:'🇫🇷',key:'french',bk:'lang',cat:'Languages',desc:'Speaking, writing & grammar',pop:1},
+  {name:'Spanish Tutor',emoji:'🇪🇸',key:'spanish',bk:'lang',cat:'Languages',desc:'Speaking, writing & grammar'},
+  {name:'German Tutor',emoji:'🇩🇪',key:'german',bk:'lang',cat:'Languages',desc:'Speaking, writing & grammar'},
+  {name:'Italian Tutor',emoji:'🇮🇹',key:'italian',bk:'lang',cat:'Languages',desc:'Speaking, writing & grammar'},
+  {name:'Portuguese Tutor',emoji:'🇵🇹',key:'port',bk:'lang',cat:'Languages',desc:'Speaking, writing & grammar'},
+  {name:'Mandarin Chinese Tutor',emoji:'🇨🇳',key:'mandarin',bk:'lang',cat:'Languages',desc:'Characters, tones & conversation'},
+  {name:'Arabic Tutor',emoji:'🇸🇦',key:'arabic',bk:'lang',cat:'Languages',desc:'Script, grammar & conversation'},
+  {name:'Urdu Tutor',emoji:'🇵🇰',key:'urdu',bk:'lang',cat:'Languages',desc:'Script, grammar & conversation'},
+  {name:'Japanese Tutor',emoji:'🇯🇵',key:'japanese',bk:'lang',cat:'Languages',desc:'Kana, kanji & conversation'},
+  {name:'Russian Tutor',emoji:'🇷🇺',key:'russian',bk:'lang',cat:'Languages',desc:'Cyrillic, cases & conversation'},
+  {name:'Latin Tutor',emoji:'📯',key:'latin',bk:'lang',cat:'Languages',desc:'Translation, grammar & set texts'},
+  {name:'Ancient Greek Tutor',emoji:'🏺',key:'greek',bk:'lang',cat:'Languages',desc:'Translation, grammar & set texts'},
+  {name:'Welsh Tutor',emoji:'🏴',key:'welsh',bk:'lang',cat:'Languages',desc:'Speaking, writing & grammar'},
+  /* Creative & performing arts */
+  {name:'Art & Design Tutor',emoji:'🎨',key:'art',bk:'art',cat:'Creative & Performing Arts',desc:'Drawing, painting & sketchbooks'},
+  {name:'Photography Tutor',emoji:'📷',key:'photo',bk:'art',cat:'Creative & Performing Arts',desc:'Composition, light & editing'},
+  {name:'Graphic Design Tutor',emoji:'🖌️',key:'graphics',bk:'art',cat:'Creative & Performing Arts',desc:'Type, layout & branding'},
+  {name:'Textiles Tutor',emoji:'🧵',key:'textiles',bk:'art',cat:'Creative & Performing Arts',desc:'Fabrics, techniques & design'},
+  {name:'Drama & Theatre Tutor',emoji:'🎭',key:'drama',bk:'art',cat:'Creative & Performing Arts',desc:'Performance, set texts & practitioners'},
+  {name:'Music Tutor',emoji:'🎼',key:'music',bk:'art',cat:'Creative & Performing Arts',desc:'Theory, listening & composition'},
+  {name:'Music Technology Tutor',emoji:'🎚️',key:'musictech',bk:'art',cat:'Creative & Performing Arts',desc:'Recording, sequencing & mixing'},
+  {name:'Dance Tutor',emoji:'💃',key:'dance',bk:'art',cat:'Creative & Performing Arts',desc:'Technique, choreography & analysis'},
+  {name:'Media Studies Tutor',emoji:'📺',key:'media',bk:'art',cat:'Creative & Performing Arts',desc:'Representation, audiences & industries'},
+  {name:'Film Studies Tutor',emoji:'🎬',key:'film',bk:'art',cat:'Creative & Performing Arts',desc:'Film language, genre & context'},
+  /* Health, PE & vocational */
+  {name:'PE / Sport Science Tutor',emoji:'⚽',key:'pe',bk:'science',cat:'Health, PE & Vocational',desc:'Anatomy, training & sport psychology'},
+  {name:'Health & Social Care Tutor',emoji:'🏥',key:'hsc',bk:'science',cat:'Health, PE & Vocational',desc:'Care values, life stages & services'},
+  {name:'Travel & Tourism Tutor',emoji:'✈️',key:'travel',bk:'business',cat:'Health, PE & Vocational',desc:'Destinations, customers & the industry'},
+  {name:'Child Development Tutor',emoji:'🧸',key:'child',bk:'science',cat:'Health, PE & Vocational',desc:'Stages of development & play'},
+  /* University */
+  {name:'University Module Tutor',emoji:'🎓',key:'uni',bk:'uni',cat:'University',desc:'Any degree module — bring your reading list'},
+  {name:'Dissertation & Research Tutor',emoji:'📄',key:'diss',bk:'uni',cat:'University',desc:'Research design, methods & writing up'}
 ];
+function subjByKey(k){for(var i=0;i<SUBJECTS.length;i++){if(SUBJECTS[i].key===k)return SUBJECTS[i];}return SUBJECTS[0];}
+function initSubjectSelect(){
+  var sel=document.getElementById('stSubjectSel');
+  var cats=[],byCat={};
+  SUBJECTS.forEach(function(s){if(!byCat[s.cat]){byCat[s.cat]=[];cats.push(s.cat);}byCat[s.cat].push(s);});
+  sel.innerHTML=cats.map(function(c){
+    return '<optgroup label="'+c+'">'+byCat[c].map(function(s){
+      return '<option value="'+s.key+'">'+s.emoji+'  '+s.name.replace(' Tutor','')+'</option>';
+    }).join('')+'</optgroup>';
+  }).join('');
+}
+function onSubjectSel(){
+  var k=document.getElementById('stSubjectSel').value;
+  var s=subjByKey(k);
+  document.querySelectorAll('#subjectGrid .subj').forEach(function(x){x.classList.toggle('sel',x.getAttribute('data-k')===k);});
+  selectSubject(s);
+}
 function renderSubjects(){
   var g=document.getElementById('subjectGrid');g.innerHTML='';
-  SUBJECTS.forEach(function(s,i){
+  SUBJECTS.filter(function(s){return s.pop;}).forEach(function(s,i){
     var d=document.createElement('div');d.className='subj'+(i===0?' sel':'');
-    d.innerHTML='<div class="e">'+s.emoji+'</div><div><h4>'+s.name+'</h4><p>'+s.desc+'</p></div>';
+    d.setAttribute('data-k',s.key);
+    d.innerHTML='<div class="e">'+s.emoji+'</div><div><h4>'+s.name.replace(' Tutor','')+'</h4><p>'+s.desc+'</p></div>';
     d.onclick=function(){
       document.querySelectorAll('#subjectGrid .subj').forEach(x=>x.classList.remove('sel'));
       d.classList.add('sel');
+      document.getElementById('stSubjectSel').value=s.key;
       selectSubject(s);
     };
     g.appendChild(d);
   });
 }
 
-/* ---------- Subject setup: country / curriculum / class / recommended books ----------
-   INTEGRATION POINT: the country → curriculum list and the recommended-book lists below
-   are a starter set. Once the WavesAI agents are live, swap recommendBooks() / COUNTRIES
-   for a call to the agent so it returns the exact syllabus + set texts for that student. */
+/* ---------- Subject setup: country / level / exam board / class / books ----------
+   INTEGRATION POINT: the country → level → exam board lists and the recommended-book
+   lists below are a starter set. Once the WavesAI agents are live, swap
+   recommendBooks() / COUNTRIES for a call to the agent so it returns the exact
+   specification, topic list and set texts for that student's board. */
+/* Each country has its own LEVELS (what stage the student is at) and its own real
+   EXAM BOARDS (the organisation that writes the spec and marks the paper).
+   Boards are listed per level, because e.g. SQA only awards Nat 5 / Higher and
+   CCEA doesn't run A-Levels in England. '*' = boards offered at every level. */
 var COUNTRIES={
- 'United Kingdom':['National Curriculum (KS1–KS3)','GCSE','A-Level','Scottish (Nat 5 / Higher)'],
- 'United States':['Common Core','AP (Advanced Placement)','State Standards','SAT / ACT Prep'],
- 'India':['CBSE','ICSE','State Board','IB'],
- 'United Arab Emirates':['MoE (Ministry of Education)','British (GCSE / A-Level)','American (Common Core)','IB'],
- 'Saudi Arabia':['MoE (National Curriculum)','British (IGCSE)','American','IB'],
- 'Canada':['Provincial Curriculum','AP','IB'],
- 'Australia':['Australian Curriculum (ACARA)','Senior / ATAR','IB'],
- 'South Africa':['CAPS','IEB','Cambridge (IGCSE)'],
- 'Nigeria':['WAEC / NECO','British (IGCSE)','American'],
- 'Kenya':['CBC (Competency-Based)','KCSE','British (IGCSE)'],
- 'Pakistan':['Federal / Matric (Board)','O-Level / A-Level (Cambridge)','IB'],
- 'Singapore':['MOE (PSLE / O / A Level)','IB','Cambridge (IGCSE)'],
- 'International / Other':['Cambridge (IGCSE / A-Level)','IB (International Baccalaureate)','Edexcel International','My curriculum isn\'t listed']
+ 'United Kingdom (England)':{
+   levels:['KS1–KS3 (Primary & Lower Secondary)','GCSE','A-Level','University'],
+   boards:{
+     'KS1–KS3 (Primary & Lower Secondary)':['National Curriculum (no exam board yet)','AQA','Pearson Edexcel','OCR'],
+     'GCSE':['AQA','Pearson Edexcel','OCR','WJEC Eduqas','Cambridge International (IGCSE)','Oxford AQA International'],
+     'A-Level':['AQA','Pearson Edexcel','OCR','WJEC Eduqas','Cambridge International (CAIE)'],
+     'University':['My university / awarding body']
+   }},
+ 'United Kingdom (Wales)':{
+   levels:['KS1–KS3 (Primary & Lower Secondary)','GCSE','A-Level','University'],
+   boards:{
+     'KS1–KS3 (Primary & Lower Secondary)':['Curriculum for Wales','WJEC'],
+     'GCSE':['WJEC','WJEC Eduqas','AQA','Pearson Edexcel'],
+     'A-Level':['WJEC','WJEC Eduqas','AQA','Pearson Edexcel'],
+     'University':['My university / awarding body']
+   }},
+ 'United Kingdom (Scotland)':{
+   levels:['Broad General Education (P1–S3)','National 4 / National 5','Higher / Advanced Higher','University'],
+   boards:{'*':['SQA (Scottish Qualifications Authority)','Cambridge International (CAIE)','My university / awarding body']}},
+ 'United Kingdom (Northern Ireland)':{
+   levels:['KS1–KS3 (Primary & Lower Secondary)','GCSE','A-Level','University'],
+   boards:{'*':['CCEA','AQA','Pearson Edexcel','OCR','WJEC Eduqas','My university / awarding body']}},
+ 'Ireland':{
+   levels:['Primary','Junior Cycle','Leaving Certificate','University'],
+   boards:{'*':['State Examinations Commission (SEC)','NCCA curriculum','My university / awarding body']}},
+ 'United States':{
+   levels:['Elementary / Middle School','High School','AP / Honors','University'],
+   boards:{'*':['College Board (AP / SAT)','ACT Inc.','State Department of Education','International Baccalaureate (IB)','My university / awarding body']}},
+ 'Canada':{
+   levels:['Elementary','Secondary','AP / IB','University'],
+   boards:{'*':['Provincial Ministry of Education (e.g. Ontario OSSD)','College Board (AP)','International Baccalaureate (IB)','My university / awarding body']}},
+ 'India':{
+   levels:['Primary (I–V)','Middle (VI–VIII)','Secondary / Class 10','Senior Secondary / Class 12','University'],
+   boards:{'*':['CBSE (Central Board of Secondary Education)','CISCE (ICSE / ISC)','NIOS','Maharashtra State Board','Tamil Nadu State Board','Karnataka State Board (KSEEB)','Uttar Pradesh Board','West Bengal Board (WBBSE / WBCHSE)','Cambridge International (CAIE)','International Baccalaureate (IB)','My university / awarding body']}},
+ 'Pakistan':{
+   levels:['Primary','Middle','Matric (Class 9–10)','Intermediate (Class 11–12)','O-Level','A-Level','University'],
+   boards:{'*':['Federal Board (FBISE)','BISE Lahore','BISE Karachi','Aga Khan Board (AKU-EB)','Cambridge International (CAIE) — O / A Level','My university / awarding body']}},
+ 'United Arab Emirates':{
+   levels:['Primary','KS3 / Middle','GCSE / IGCSE','A-Level','University'],
+   boards:{'*':['UAE Ministry of Education','Cambridge International (CAIE)','Pearson Edexcel International','Oxford AQA International','International Baccalaureate (IB)','College Board (AP)','My university / awarding body']}},
+ 'Saudi Arabia':{
+   levels:['Primary','Intermediate','Secondary','IGCSE / A-Level','University'],
+   boards:{'*':['Saudi Ministry of Education','Cambridge International (CAIE)','Pearson Edexcel International','International Baccalaureate (IB)','My university / awarding body']}},
+ 'Qatar':{
+   levels:['Primary','Preparatory','Secondary','IGCSE / A-Level','University'],
+   boards:{'*':['Qatar Ministry of Education','Cambridge International (CAIE)','Pearson Edexcel International','International Baccalaureate (IB)','My university / awarding body']}},
+ 'Australia':{
+   levels:['Primary','Junior Secondary (Yr 7–10)','Senior Secondary (Yr 11–12)','University'],
+   boards:{'*':['NESA — NSW (HSC)','VCAA — Victoria (VCE)','QCAA — Queensland (QCE)','SACE Board — South Australia','SCSA — Western Australia','ACARA (Australian Curriculum)','International Baccalaureate (IB)','My university / awarding body']}},
+ 'New Zealand':{
+   levels:['Primary','Junior Secondary','NCEA Level 1–3','University'],
+   boards:{'*':['NZQA (NCEA)','Cambridge International (CAIE)','International Baccalaureate (IB)','My university / awarding body']}},
+ 'South Africa':{
+   levels:['Foundation / Intermediate Phase','Senior Phase (Gr 7–9)','FET / Matric (Gr 10–12)','University'],
+   boards:{'*':['DBE — National Senior Certificate (CAPS)','IEB (Independent Examinations Board)','SACAI','Cambridge International (CAIE)','My university / awarding body']}},
+ 'Nigeria':{
+   levels:['Primary','Junior Secondary (JSS)','Senior Secondary (SSS)','University'],
+   boards:{'*':['WAEC (West African Examinations Council)','NECO','NABTEB','JAMB (UTME)','Cambridge International (CAIE)','My university / awarding body']}},
+ 'Ghana':{
+   levels:['Primary','Junior High (JHS)','Senior High (SHS)','University'],
+   boards:{'*':['WAEC Ghana (BECE / WASSCE)','Cambridge International (CAIE)','My university / awarding body']}},
+ 'Kenya':{
+   levels:['Primary / CBC','Junior Secondary','Senior Secondary (KCSE)','University'],
+   boards:{'*':['KNEC (Kenya National Examinations Council)','Cambridge International (CAIE)','International Baccalaureate (IB)','My university / awarding body']}},
+ 'Malaysia':{
+   levels:['Primary (UPSR)','Lower Secondary (PT3)','SPM','STPM / Pre-U','University'],
+   boards:{'*':['Lembaga Peperiksaan (Malaysian Examinations Syndicate)','Majlis Peperiksaan Malaysia (STPM)','Cambridge International (CAIE)','International Baccalaureate (IB)','My university / awarding body']}},
+ 'Singapore':{
+   levels:['Primary (PSLE)','Secondary (O-Level / N-Level)','JC (A-Level)','University'],
+   boards:{'*':['SEAB (Singapore Examinations & Assessment Board)','Cambridge International (CAIE)','International Baccalaureate (IB)','My university / awarding body']}},
+ 'International / Other':{
+   levels:['Primary','Lower Secondary','IGCSE / O-Level','A-Level / IB Diploma','University'],
+   boards:{'*':['Cambridge International (CAIE)','Pearson Edexcel International','Oxford AQA International','International Baccalaureate (IB)','College Board (AP)','My board isn\'t listed']}}
 };
-function fam(c){
-  c=(c||'').toLowerCase();
-  if(c.indexOf('university')>-1||c.indexOf('undergrad')>-1||c.indexOf('degree')>-1||c.indexOf('higher education')>-1)return 'University';
-  if(c.indexOf('igcse')>-1||c.indexOf('cambridge')>-1||c.indexOf('edexcel international')>-1)return 'Cambridge';
-  if(c.indexOf('a-level')>-1||c.indexOf('a level')>-1)return 'A-Level';
-  if(c.indexOf('gcse')>-1||c.indexOf('o-level')>-1||c.indexOf('o level')>-1)return 'GCSE';
-  if(c.indexOf('common core')>-1||c.indexOf('state standard')>-1)return 'Common Core';
-  if(c.indexOf('ap')>-1||c.indexOf('sat')>-1||c.indexOf('act')>-1)return 'AP';
-  if(c.indexOf('cbse')>-1)return 'CBSE';
-  if(c.indexOf('icse')>-1)return 'ICSE';
-  if(c.indexOf('ib')>-1)return 'IB';
-  if(c.indexOf('caps')>-1||c.indexOf('ieb')>-1)return 'CAPS';
-  if(c.indexOf('national curriculum')>-1||c.indexOf('ks')>-1)return 'GCSE';
+function levelsFor(country){var c=COUNTRIES[country];return c?c.levels.slice():['GCSE','A-Level','University'];}
+function boardsFor(country,level){
+  var c=COUNTRIES[country];if(!c)return ['My board isn\'t listed'];
+  var b=c.boards[level]||c.boards['*']||[];
+  b=b.slice();
+  if(b.indexOf('My board isn\'t listed')<0)b.push('My board isn\'t listed');
+  return b;
+}
+/* Map level + board onto a recommended-books family */
+function fam(level,board){
+  var l=(level||'').toLowerCase(), b=(board||'').toLowerCase();
+  if(l.indexOf('university')>-1||l.indexOf('undergrad')>-1||l.indexOf('degree')>-1)return 'University';
+  if(b.indexOf('cambridge')>-1||b.indexOf('igcse')>-1||b.indexOf('edexcel international')>-1||b.indexOf('oxford aqa international')>-1)return 'Cambridge';
+  if(b.indexOf('baccalaureate')>-1||b==='ib')return 'IB';
+  if(b.indexOf('college board')>-1||b.indexOf('act inc')>-1)return 'AP';
+  if(b.indexOf('cbse')>-1)return 'CBSE';
+  if(b.indexOf('cisce')>-1||b.indexOf('icse')>-1)return 'ICSE';
+  if(b.indexOf('caps')>-1||b.indexOf('ieb')>-1||b.indexOf('dbe')>-1)return 'CAPS';
+  if(b.indexOf('state department')>-1)return 'Common Core';
+  if(l.indexOf('a-level')>-1||l.indexOf('a level')>-1||l.indexOf('advanced higher')>-1||l.indexOf('higher')>-1||l.indexOf('senior secondary')>-1||l.indexOf('class 12')>-1||l.indexOf('stpm')>-1||l.indexOf('leaving cert')>-1||l.indexOf('ncea')>-1||l.indexOf('ap /')>-1)return 'A-Level';
+  if(l.indexOf('gcse')>-1||l.indexOf('o-level')>-1||l.indexOf('matric')>-1||l.indexOf('national 5')>-1||l.indexOf('class 10')>-1||l.indexOf('spm')>-1||l.indexOf('junior cycle')>-1||l.indexOf('secondary')>-1||l.indexOf('high school')>-1||l.indexOf('sss')>-1||l.indexOf('kcse')>-1)return 'GCSE';
   return 'default';
 }
 var BOOKS={
@@ -1267,36 +1528,87 @@ var BOOKS={
   'Cambridge':['Cambridge IGCSE French / Spanish / German','Complete Modern Languages for Cambridge IGCSE'],
   'IB':['Language B Course Books (Oxford / Cambridge)','A verb & grammar reference'],
   'default':['Your class language coursebook','A grammar & verb reference','A vocabulary builder']
+ },
+ bio:{
+  'GCSE':['CGP GCSE AQA Biology Complete Revision & Practice','AQA GCSE (9-1) Biology Student Book (Oxford)','Edexcel GCSE (9-1) Biology Student Book'],
+  'A-Level':['CGP A-Level Biology Complete Revision & Practice','AQA A Level Biology Student Book (Oxford)','Campbell Biology (for stretch)'],
+  'Cambridge':['Cambridge IGCSE Biology Coursebook','Cambridge International AS & A Level Biology'],
+  'IB':['Biology for the IB Diploma (Cambridge)','Pearson Baccalaureate Biology'],
+  'CBSE':['NCERT Biology Textbook','Trueman\'s Elementary Biology'],
+  'default':['Your class Biology textbook','A revision guide with past questions','A required-practicals workbook']
+ },
+ chem:{
+  'GCSE':['CGP GCSE AQA Chemistry Complete Revision & Practice','AQA GCSE (9-1) Chemistry Student Book (Oxford)','Edexcel GCSE (9-1) Chemistry Student Book'],
+  'A-Level':['CGP A-Level Chemistry Complete Revision & Practice','AQA A Level Chemistry Student Book (Oxford)','Chemistry3 (Burrows) for stretch'],
+  'Cambridge':['Cambridge IGCSE Chemistry Coursebook','Cambridge International AS & A Level Chemistry'],
+  'IB':['Chemistry for the IB Diploma (Cambridge)','Pearson Baccalaureate Chemistry'],
+  'CBSE':['NCERT Chemistry Textbook','P. Bahadur Numerical Chemistry'],
+  'default':['Your class Chemistry textbook','A revision guide with past questions','A practical / data booklet']
+ },
+ phys:{
+  'GCSE':['CGP GCSE AQA Physics Complete Revision & Practice','AQA GCSE (9-1) Physics Student Book (Oxford)','Edexcel GCSE (9-1) Physics Student Book'],
+  'A-Level':['CGP A-Level Physics Complete Revision & Practice','AQA A Level Physics Student Book (Oxford)','Physics for Scientists and Engineers (for stretch)'],
+  'Cambridge':['Cambridge IGCSE Physics Coursebook','Cambridge International AS & A Level Physics'],
+  'IB':['Physics for the IB Diploma (Cambridge)','Pearson Baccalaureate Physics'],
+  'CBSE':['NCERT Physics Textbook','H.C. Verma Concepts of Physics'],
+  'default':['Your class Physics textbook','A revision guide with past questions','A formula and data sheet']
+ },
+ business:{
+  'GCSE':['CGP GCSE Business','AQA GCSE Business (Hodder)','Edexcel GCSE (9-1) Business Student Book'],
+  'A-Level':['Edexcel A Level Business (Pearson)','AQA A Level Business (Hodder)','The Economist / FT for real examples'],
+  'Cambridge':['Cambridge IGCSE and O Level Business Studies','Complete Business Studies for Cambridge IGCSE'],
+  'IB':['Business Management for the IB Diploma','Economics for the IB Diploma'],
+  'AP':["Barron's AP Microeconomics/Macroeconomics",'Krugman\'s Economics for AP'],
+  'default':['Your class Business/Economics textbook','A case-study workbook','A past-paper question bank']
+ },
+ compsci:{
+  'GCSE':['CGP GCSE Computer Science','AQA GCSE Computer Science (Hodder)','Craig\'n\'Dave GCSE revision guide'],
+  'A-Level':['AQA A Level Computer Science (Hodder)','OCR A Level Computer Science (PG Online)','Head First Python / Java for practice'],
+  'Cambridge':['Cambridge IGCSE Computer Science Coursebook','Cambridge International AS & A Level Computer Science'],
+  'IB':['Computer Science for the IB Diploma'],
+  'default':['Your class Computing textbook','A programming practice workbook','Past papers with mark schemes']
+ },
+ art:{
+  'GCSE':['Your sketchbook (the main assessed piece)','GCSE Art & Design study guide','An artist-research folder'],
+  'A-Level':['Your personal investigation sketchbook','A Level Art & Design study guide','Gallery / exhibition notes'],
+  'default':['Your sketchbook or portfolio','A technique reference book','Artist and practitioner research notes']
+ },
+ uni:{
+  'default':['Your module core textbook','Your lecturer\'s recommended reading list','Key journal articles and research papers','Lecture notes + past exam papers']
  }
 };
-function recommendBooks(key,curric){
-  var m=BOOKS[key]||BOOKS.maths; var f=fam(curric);
-  if(f==='University') return ['Your module / course core textbook','Your lecturer\'s recommended reading list','Key journal articles and research papers','Lecture notes + past exam papers'];
+function recommendBooks(key,level,board){
+  var s=subjByKey(key), m=BOOKS[s.key]||BOOKS[s.bk]||BOOKS.maths, f=fam(level,board);
+  if(f==='University'||s.bk==='uni') return BOOKS.uni['default'];
   return m[f]||m['default'];
 }
 
-var stProfiles={};      // {subjKey:{country,curric,cls,level,books:[],goal,examDate}}
+var stProfiles={};      // {subjKey:{country,level,board,cls,books:[],syllabus,chapters:[],goal,examDate}}
 var stMyBooks=[];       // working list while the form is open
 var stCurrentRecs=[];
-function loadProfiles(){try{stProfiles=JSON.parse(localStorage.getItem('wavesaiTutorProfiles')||'{}');}catch(e){stProfiles={};}}
-function persistProfiles(){try{localStorage.setItem('wavesaiTutorProfiles',JSON.stringify(stProfiles));}catch(e){}}
+function loadProfiles(){try{stProfiles=JSON.parse(localStorage.getItem('wavesaiTutorProfiles2')||'{}');}catch(e){stProfiles={};}}
+function persistProfiles(){try{localStorage.setItem('wavesaiTutorProfiles2',JSON.stringify(stProfiles));}catch(e){}}
 function activeProf(){return stProfiles[stSubject.key];}
 
 function initCountries(){
   var sel=document.getElementById('stCountry');
-  sel.innerHTML=Object.keys(COUNTRIES).map(function(c){return '<option>'+c+'</option>';}).join('');
+  sel.innerHTML=Object.keys(COUNTRIES).map(function(c){return '<option>'+esc(c)+'</option>';}).join('');
   onCountry();
 }
 function onCountry(){
   var c=document.getElementById('stCountry').value;
-  var list=(COUNTRIES[c]||[]).slice();
-  list.push('University / Undergraduate');   // higher-ed available for every country
-  document.getElementById('stCurric').innerHTML=list.map(function(x){return '<option>'+x+'</option>';}).join('');
+  var lv=document.getElementById('stLevel');
+  lv.innerHTML=levelsFor(c).map(function(x){return '<option>'+esc(x)+'</option>';}).join('');
+  onLevel();
+}
+function onLevel(){
+  var c=document.getElementById('stCountry').value, l=document.getElementById('stLevel').value;
+  document.getElementById('stBoard').innerHTML=boardsFor(c,l).map(function(x){return '<option>'+esc(x)+'</option>';}).join('');
   refreshBooks();
 }
 function refreshBooks(){
-  var curric=document.getElementById('stCurric').value;
-  stCurrentRecs=recommendBooks(stSubject.key,curric);
+  var level=document.getElementById('stLevel').value, board=document.getElementById('stBoard').value;
+  stCurrentRecs=recommendBooks(stSubject.key,level,board);
   document.getElementById('stBookRecs').innerHTML=stCurrentRecs.map(function(b,i){
     return '<button type="button" onclick="addBook(stCurrentRecs['+i+'])">'+esc(b)+'</button>';
   }).join('');
@@ -1317,9 +1629,10 @@ function resetForm(){
   document.getElementById('stCountry').selectedIndex=0;
   onCountry();
   document.getElementById('stClass').value='';
-  document.getElementById('stLevel').value='Intermediate';
   document.getElementById('stGoal').value='';
   document.getElementById('stExamDate').value='';
+  document.getElementById('stSyllabus').value='';
+  stChapters=[];renderChapPreview();
   stMyBooks=stCurrentRecs.slice(0,3);   // pre-fill with the recommendations; student can edit
   renderMyBooks();
 }
@@ -1327,43 +1640,204 @@ function fillFormFromProfile(p){
   var cs=document.getElementById('stCountry');
   if(COUNTRIES[p.country])cs.value=p.country; else cs.selectedIndex=0;
   onCountry();
-  if(p.curric)document.getElementById('stCurric').value=p.curric;
+  if(p.level)document.getElementById('stLevel').value=p.level;
+  onLevel();
+  if(p.board)document.getElementById('stBoard').value=p.board;
   refreshBooks();
   document.getElementById('stClass').value=p.cls||'';
-  document.getElementById('stLevel').value=p.level||'Intermediate';
   document.getElementById('stGoal').value=p.goal||'';
   document.getElementById('stExamDate').value=p.examDate||'';
+  document.getElementById('stSyllabus').value=p.syllabus||'';
+  stChapters=(p.chapters||[]).slice();renderChapPreview();
   stMyBooks=(p.books||[]).slice();renderMyBooks();
 }
 function selectSubject(s){
   stSubject=s;
   document.getElementById('stSetupTitle').textContent='Set up your '+s.name.replace(' Tutor','');
+  document.getElementById('stSubjectSel').value=s.key;
   var p=stProfiles[s.key];
   if(p){fillFormFromProfile(p);showTutor(p);}
   else{resetForm();showSetup();}
 }
-function showSetup(){document.getElementById('stSetup').style.display='';document.getElementById('stTutorWrap').style.display='none';}
+function showSetup(){
+  document.getElementById('stSetup').style.display='';
+  document.getElementById('stTrain').style.display='none';
+  document.getElementById('stTutorWrap').style.display='none';
+}
+
+/* ---------- Syllabus / textbook contents → chapters ----------
+   The student pastes their textbook contents page or their exam board's topic
+   list; we turn it into a numbered chapter plan the tutor teaches through.
+   INTEGRATION POINT: swap parseSyllabus() for the WavesAI agent so it can also
+   read a PDF specification and split it into chapters + sub-topics itself. */
+var stChapters=[];
+function parseSyllabus(txt){
+  if(!txt)return [];
+  var raw=txt.replace(/\r/g,'\n').split(/\n|;|·|•/);
+  var out=[],seen={};
+  raw.forEach(function(line){
+    var t=line.replace(/\s+/g,' ').trim();
+    if(!t)return;
+    t=t.replace(/^\(?\d+([.)]\d+)*[.):\-\s]+/,'');                          // "1." "2.3)" "4 - "
+    t=t.replace(/^(chapter|unit|module|topic|section|paper|theme|part)\b\s*\d*\s*[:.\-–]?\s*/i,''); // "Chapter 3 –"
+    t=t.replace(/^[-–—*•\s]+/,'').replace(/[.\s]+$/,'').trim();
+    t=t.replace(/\s*\.{2,}\s*\d+$/,'').trim();                              // contents-page dot leaders + page no
+    t=t.replace(/\s+\d{1,3}$/,'').trim();                                   // trailing page number
+    if(t.length<3||t.length>110)return;
+    if(/^(contents|table of contents|index|introduction|acknowledg|glossary|answers|appendix)/i.test(t))return;
+    var k=t.toLowerCase();
+    if(seen[k])return;seen[k]=1;
+    out.push(t.charAt(0).toUpperCase()+t.slice(1));
+  });
+  return out.slice(0,40);
+}
+function onSyllabusInput(){stChapters=parseSyllabus(document.getElementById('stSyllabus').value);renderChapPreview();}
+function readSyllabusFile(inp){
+  var f=inp.files&&inp.files[0];if(!f)return;
+  var r=new FileReader();
+  r.onload=function(){
+    var ta=document.getElementById('stSyllabus');
+    ta.value=(ta.value?ta.value+'\n':'')+String(r.result||'');
+    onSyllabusInput();
+  };
+  r.readAsText(f);
+  inp.value='';
+}
+/* Standard topic skeletons, used when a student hasn't got their contents page
+   to hand. Keyed by book-family so every subject gets something sensible. */
+var STD_TOPICS={
+ maths:{'GCSE':['Number','Algebra','Ratio, proportion and rates of change','Geometry and measures','Probability','Statistics'],
+        'A-Level':['Proof','Algebra and functions','Coordinate geometry','Sequences and series','Trigonometry','Differentiation','Integration','Vectors','Statistical sampling and distributions','Kinematics and forces'],
+        'default':['Number and place value','Fractions, decimals and percentages','Algebra basics','Shape, space and measures','Handling data']},
+ science:{'GCSE':['Cell biology','Organisation and the digestive system','Infection and response','Bioenergetics','Homeostasis and response','Inheritance, variation and evolution','Ecology','Atomic structure and the periodic table','Bonding, structure and properties','Quantitative chemistry','Chemical changes','Energy changes','Rate and extent of chemical change','Energy','Electricity','Particle model of matter','Atomic structure and radiation','Forces','Waves','Magnetism and electromagnetism'],
+          'A-Level':['Biological molecules','Cells','Exchange with the environment','Genetic information and variation','Energy transfers','Physical chemistry','Inorganic chemistry','Organic chemistry','Measurements and errors','Particles and radiation','Waves and optics','Mechanics and materials','Electricity','Further mechanics and thermal physics','Fields','Nuclear physics'],
+          'default':['Living things and their habitats','Materials and their properties','Forces and motion','Energy and electricity','Earth and space']},
+ english:{'GCSE':['Reading fiction: language and structure','Writing creatively','Reading non-fiction: viewpoints and perspectives','Writing to present a viewpoint','Shakespeare set text','The 19th-century novel','Modern texts and drama','Poetry anthology','Unseen poetry','Spoken language'],
+          'A-Level':['Language levels and analytical methods','Language diversity and change','Children\'s language development','Language investigation and original writing','Love through the ages','Texts in shared contexts','Independent critical study','Non-exam assessment: comparative essay'],
+          'default':['Reading comprehension','Spelling, punctuation and grammar','Narrative writing','Non-fiction writing','Poetry','Speaking and listening']},
+ history:{'GCSE':['Understanding the modern world: period study','Wider world depth study','Thematic study','British depth study and the historic environment','Source skills and interpretations'],
+          'A-Level':['Breadth study: change over time','Depth study','Historical interpretations','Personal study / coursework','Source evaluation skills'],
+          'default':['Chronology and timelines','Key people and events','Causes and consequences','Using historical sources','Writing a historical account']},
+ geo:{'GCSE':['The challenge of natural hazards','The living world','Physical landscapes in the UK','Urban issues and challenges','The changing economic world','The challenge of resource management','Geographical skills','Fieldwork'],
+      'A-Level':['Water and carbon cycles','Coastal systems and landscapes','Hazards','Global systems and global governance','Changing places','Contemporary urban environments','Independent investigation'],
+      'default':['Maps and atlas skills','Weather and climate','Rivers and coasts','Settlements and population','Our environment']},
+ business:{'GCSE':['Business in the real world','Influences on business','Business operations','Human resources','Marketing','Finance'],
+           'A-Level':['What is business?','Managers, leadership and decision making','Decision making to improve marketing performance','Operational performance','Human resource performance','Financial performance','Analysing the strategic position','Strategic direction and methods','Managing strategic change'],
+           'default':['What a business is','Customers and marketing','Money in and money out','People at work','Starting a business']},
+ compsci:{'GCSE':['Systems architecture','Memory and storage','Computer networks and protocols','Network security','Systems software','Ethical, legal and environmental impacts','Algorithms','Programming fundamentals','Producing robust programs','Boolean logic','Programming languages and IDEs'],
+          'A-Level':['Programming techniques','Data structures','Algorithms and complexity','Object-oriented programming','Computer architecture','Networks and web technologies','Databases and SQL','Big data and functional programming','Systems development life cycle','Non-exam assessment project'],
+          'default':['Using a computer safely','Algorithms and sequencing','Writing simple programs','Data and information','The internet']},
+ lang:{'GCSE':['Identity and culture: me, my family and friends','Technology in everyday life','Free time activities','Customs and festivals','Home, town and region','Social issues','Global issues','Travel and tourism','My studies and life at school','Education post-16 and jobs','Grammar and tenses','Translation and writing skills'],
+       'A-Level':['Aspects of society: current trends','Artistic culture','Multiculturalism','Aspects of political life','Set literary text','Set film','Individual research project','Advanced grammar and translation'],
+       'default':['Greetings and introductions','Family and friends','Food and drink','School and daily routine','Hobbies and free time','Core grammar and verbs']},
+ bio:{'GCSE':['Cell biology','Organisation and the digestive system','Infection and response','Bioenergetics','Homeostasis and response','Inheritance, variation and evolution','Ecology','Required practicals'],
+      'A-Level':['Biological molecules','Cells','Organisms exchange substances with their environment','Genetic information, variation and relationships','Energy transfers in and between organisms','Organisms respond to changes','Genetics, populations, evolution and ecosystems','The control of gene expression'],
+      'default':['Living things and their habitats','The human body','Plants','Animals and food chains','Healthy living']},
+ chem:{'GCSE':['Atomic structure and the periodic table','Bonding, structure and the properties of matter','Quantitative chemistry','Chemical changes','Energy changes','The rate and extent of chemical change','Organic chemistry','Chemical analysis','Chemistry of the atmosphere','Using resources'],
+       'A-Level':['Atomic structure','Amount of substance','Bonding','Energetics','Kinetics','Chemical equilibria and Le Chatelier','Oxidation, reduction and redox','Periodicity','Alkanes, alkenes and alcohols','Organic analysis','Thermodynamics','Rate equations','Transition metals','Aromatic chemistry','Polymers and amino acids','NMR spectroscopy'],
+       'default':['Materials and their properties','Solids, liquids and gases','Mixtures and separating','Chemical reactions','Acids and alkalis']},
+ phys:{'GCSE':['Energy','Electricity','Particle model of matter','Atomic structure and radioactivity','Forces','Waves','Magnetism and electromagnetism','Space physics'],
+       'A-Level':['Measurements and their errors','Particles and radiation','Waves','Mechanics and materials','Electricity','Further mechanics and thermal physics','Fields and their consequences','Nuclear physics','Astrophysics / Turning points option'],
+       'default':['Forces and motion','Light and sound','Electricity and circuits','Energy','Earth and space']},
+ psych:{'GCSE':['Memory','Perception','Development','Research methods','Social influence','Language, thought and communication','Brain and neuropsychology','Psychological problems'],
+        'A-Level':['Social influence','Memory','Attachment','Psychopathology','Approaches in psychology','Biopsychology','Research methods','Issues and debates','Relationships / Schizophrenia / Forensic options'],
+        'default':['What psychology is','How we remember','How we learn','Studying people fairly']},
+ econ:{'GCSE':['Basic economic problem','Resource allocation and markets','Production and productivity','The role of markets and money','Economic objectives and government policy','International trade and the global economy'],
+       'A-Level':['Economic methodology and the economic problem','Price determination in a competitive market','Production, costs and revenue','Market structures','The labour market','Market failure and government intervention','Measurement of macroeconomic performance','Aggregate demand and supply','Fiscal and monetary policy','The international economy'],
+       'default':['What economics is','Wants and needs','Money and prices','Buying and selling']},
+ art:{'default':['Recording ideas from observation','Artist and practitioner research','Experimenting with materials and techniques','Developing ideas through the sketchbook','Refining a personal outcome','Evaluating and annotating your work']},
+ uni:{'default':['Module aims and learning outcomes','Core reading: week-by-week','Key theories and frameworks','Research methods for this module','Assessment 1: essay / report brief','Assessment 2: exam or project','Referencing and academic writing']}
+};
+function useStandardSyllabus(){
+  var level=document.getElementById('stLevel').value, board=document.getElementById('stBoard').value;
+  var s=subjByKey(stSubject.key), f=fam(level,board);
+  var m=STD_TOPICS[s.key]||STD_TOPICS[s.bk]||STD_TOPICS.maths;
+  var list=(f==='University'||s.bk==='uni')?STD_TOPICS.uni['default']:(m[f]||m['GCSE']||m['default']);
+  var ta=document.getElementById('stSyllabus');
+  ta.value=list.map(function(t,i){return (i+1)+'. '+t;}).join('\n');
+  onSyllabusInput();
+}
+function renderChapPreview(){
+  var w=document.getElementById('stChapPreview');
+  if(!w)return;
+  if(!stChapters.length){w.innerHTML='';return;}
+  w.innerHTML='<div class="ch-head">✅ Found '+stChapters.length+' chapter'+(stChapters.length===1?'':'s')+' — your tutor will teach through these in order</div><div class="chap-list">'
+    +stChapters.map(function(c,i){return '<div class="chap"><span class="n">'+(i+1)+'</span><span class="t">'+esc(c)+'</span></div>';}).join('')+'</div>';
+}
 function editSetup(){showSetup();window.scrollTo({top:document.getElementById('stSetup').offsetTop-80,behavior:'smooth'});}
 function fmtDate(d){try{var x=new Date(d+'T00:00:00');return x.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'});}catch(e){return d;}}
 function saveProfile(){
   var cls=document.getElementById('stClass').value.trim();
   if(!cls){alert("Please tell your tutor which class, year or grade you're in.");document.getElementById('stClass').focus();return;}
+  onSyllabusInput();
   var p={
     country:document.getElementById('stCountry').value,
-    curric:document.getElementById('stCurric').value,
-    cls:cls,
     level:document.getElementById('stLevel').value,
+    board:document.getElementById('stBoard').value,
+    cls:cls,
     books:stMyBooks.slice(),
+    syllabus:document.getElementById('stSyllabus').value,
+    chapters:stChapters.slice(),
     goal:document.getElementById('stGoal').value.trim(),
     examDate:document.getElementById('stExamDate').value
   };
   stProfiles[stSubject.key]=p;persistProfiles();
-  showTutor(p);
-  window.scrollTo({top:document.getElementById('stTutorWrap').offsetTop-90,behavior:'smooth'});
+  trainTutor(p);
 }
+
+/* ---------- Train the tutor ----------
+   Client's brief: "train the agent to take a few minutes once students have
+   enrolled and picked up their subjects to become an expert tutor".
+   This is the visible training pass — it reads the spec, maps the textbook into
+   chapters and builds the study plan before the student can ask anything.
+   INTEGRATION POINT: each step below is where the real WavesAI agent call goes
+   (fetch the board's specification, ingest the textbook, generate the plan).
+   Timings are per-step so a real API call can simply replace the timeout. */
+function trainTutor(p){
+  var subjShort=stSubject.name.replace(' Tutor','');
+  var nCh=(p.chapters||[]).length;
+  var steps=[
+    'Reading the '+p.board.replace(/ \(.*\)/,'')+' '+p.level.replace(/ \(.*\)/,'')+' '+subjShort+' specification',
+    nCh?('Mapping your textbook into '+nCh+' chapters'):'Building a chapter plan for your course',
+    'Learning the '+subjShort+' topics inside out, to '+(fam(p.level,p.board)==='University'?'degree':p.level.replace(/ \(.*\)/,''))+' standard',
+    'Loading past papers, mark schemes and examiner reports',
+    'Matching explanations to '+p.cls+' and the books you listed',
+    'Writing your personal study plan'
+  ];
+  document.getElementById('stSetup').style.display='none';
+  document.getElementById('stTutorWrap').style.display='none';
+  var card=document.getElementById('stTrain');card.style.display='';
+  document.getElementById('stTrainTitle').textContent='Training your '+subjShort+' tutor…';
+  document.getElementById('stTrainSub').textContent='Give it a moment — it\'s becoming an expert in exactly what you\'re studying.';
+  var ul=document.getElementById('stTrainSteps');
+  ul.innerHTML=steps.map(function(s){return '<li><span class="tick"></span><span>'+esc(s)+'</span></li>';}).join('');
+  var bar=document.getElementById('stTrainBar');bar.style.width='0';
+  window.scrollTo({top:card.offsetTop-90,behavior:'smooth'});
+  var items=ul.querySelectorAll('li'), i=0;
+  (function next(){
+    if(i>0)items[i-1].className='done';
+    if(i>=items.length){
+      bar.style.width='100%';
+      document.getElementById('stTrainSpin').textContent='🎓';
+      document.getElementById('stTrainTitle').textContent='Your '+subjShort+' tutor is ready';
+      document.getElementById('stTrainSub').textContent='It knows your specification, your chapters and your books.';
+      setTimeout(function(){
+        card.style.display='none';
+        showTutor(p);
+        window.scrollTo({top:document.getElementById('stTutorWrap').offsetTop-90,behavior:'smooth'});
+      },900);
+      return;
+    }
+    items[i].className='doing';
+    bar.style.width=Math.round((i+1)/items.length*100)+'%';
+    i++;
+    setTimeout(next,1100+Math.random()*500);
+  })();
+}
+
 function renderProfBar(p){
   function pi(l,v){return '<div class="pi"><span>'+l+'</span><b>'+esc(v)+'</b></div>';}
-  var html=pi('Subject',stSubject.name.replace(' Tutor',''))+pi('Country',p.country)+pi('Curriculum',p.curric)+pi('Class',p.cls)+pi('Level',p.level);
+  var html=pi('Subject',stSubject.name.replace(' Tutor',''))+pi('Country',p.country)+pi('Level',p.level)+pi('Exam board',p.board||'—')+pi('Class',p.cls);
   html+='<button class="edit" onclick="editSetup()">Edit setup</button>';
   if(p.books&&p.books.length)html+='<div class="prof-books">📚 <b>Your books:</b> '+p.books.map(esc).join('  ·  ')+'</div>';
   document.getElementById('stProfBar').innerHTML=html;
@@ -1376,13 +1850,54 @@ function showTutor(p){
   document.getElementById('stName').textContent=stSubject.name;
   document.getElementById('stDesc').textContent=stSubject.desc;
   document.getElementById('stChat').innerHTML='';
+  renderStudyPlan(p);
   var subjShort=stSubject.name.replace(' Tutor','');
-  var g="Hi! I'm your "+stSubject.name+". 👋\n\nGot your setup: "+p.curric+" "+subjShort+", "+p.cls+" ("+p.level.toLowerCase()+" level) in "+p.country+".";
+  var board=(p.board&&p.board.indexOf('isn\'t listed')<0&&p.board.indexOf('no exam board')<0)?p.board:'';
+  var g="Hi! I'm your "+stSubject.name+". 👋\n\nI've trained on your exact course: "+(board?board+" ":"")+p.level.replace(/ \(.*\)/,'')+" "+subjShort+", "+p.cls+" in "+p.country+".";
+  if(p.chapters&&p.chapters.length)g+="\n\nI've mapped your course into "+p.chapters.length+" chapters — we can work through them in order, or jump to whichever one you need. First up: "+p.chapters[0]+".";
   if(p.books&&p.books.length)g+="\n\nI'll teach from your books — "+p.books.slice(0,3).join(', ')+(p.books.length>3?', and more':'')+".";
   if(p.goal)g+="\n\nWe'll focus on: "+p.goal+".";
   if(p.examDate)g+="\n\nAnd I'll keep your "+fmtDate(p.examDate)+" exam in mind when we plan revision.";
   g+="\n\nWhat would you like to start with today?";
   addMsg('stChat','bot',g,false);
+}
+/* The chapter plan built from the student's own textbook / syllabus */
+function renderStudyPlan(p){
+  var w=document.getElementById('stPlan');if(!w)return;
+  if(!p.chapters||!p.chapters.length){
+    w.innerHTML='<div class="plan-card"><h4>📚 Your study plan</h4><p class="ph">You haven\'t added your textbook contents or syllabus yet. Add it in <a href="#" onclick="editSetup();return false;" style="color:var(--gold);font-weight:600">Edit setup</a> and your tutor will teach chapter by chapter.</p></div>';
+    return;
+  }
+  w.innerHTML='<div class="plan-card"><h4>📚 Your study plan</h4><p class="ph">Built from your own textbook and syllabus — '+p.chapters.length+' chapters. Tap any chapter and your tutor will teach it.</p><div class="chap-list">'
+   +p.chapters.map(function(c,i){
+      return '<div class="chap"><span class="n">'+(i+1)+'</span><span class="t">'+esc(c)+'</span><button class="go" onclick="teachChapter('+i+')">Teach me this</button></div>';
+    }).join('')+'</div></div>';
+}
+function teachChapter(i){
+  var p=activeProf();if(!p||!p.chapters||!p.chapters[i])return;
+  var q='Teach me chapter '+(i+1)+': '+p.chapters[i];
+  addMsg('stChat','me',q);
+  typing('stChat',true);
+  setTimeout(function(){typing('stChat',false);addMsg('stChat','bot',chapterLesson(p,i),readOn.st);
+    document.getElementById('stChat').scrollIntoView({behavior:'smooth',block:'center'});},800);
+}
+/* A full chapter lesson, written around the student's board, level and books.
+   INTEGRATION POINT: this is the exact call that becomes the live WavesAI
+   tutoring agent — it already receives the chapter, spec, level and book list. */
+function chapterLesson(p,i){
+  var c=p.chapters[i], subjShort=stSubject.name.replace(' Tutor','');
+  var board=(p.board&&p.board.indexOf('isn\'t listed')<0&&p.board.indexOf('no exam board')<0)?p.board:'your board';
+  var bk=(p.books&&p.books.length)?p.books[0]:'your textbook';
+  var lvl=p.level.replace(/ \(.*\)/,'');
+  var next=p.chapters[i+1];
+  return "Chapter "+(i+1)+" — "+c+"\n"
+   +"("+board+" · "+lvl+" "+subjShort+")\n\n"
+   +"WHAT YOU NEED TO KNOW\nBy the end of this chapter you should be able to explain "+c.toLowerCase()+" in your own words, use it in a question, and spot it when it comes up in a different context.\n\n"
+   +"HOW I'LL TEACH IT\n1. The big idea in plain English, no jargon.\n2. One worked example, talked through line by line.\n3. One we do together — I give you the question, you give me the next step.\n4. Three practice questions rising in difficulty, marked with feedback.\n5. An exam-style question in "+board+"'s wording, with the mark scheme.\n\n"
+   +"FROM YOUR BOOK\nOpen "+bk+" at the "+c.toLowerCase()+" chapter and keep it next to you — I'll refer to the same examples so it lines up with what you're reading.\n\n"
+   +"EXAMINER'S TIP\nMarks in this topic are usually lost on method rather than the final answer. Show every step, and use the technical words from the specification — examiners award those.\n\n"
+   +"Ready? Say \"start\" and I'll teach it step by step, or ask me anything about "+c.toLowerCase()+" and we'll begin there."
+   +(next?"\n\nWhen you're confident, chapter "+(i+2)+" is "+next+".":"\n\nThat's the last chapter on your plan — after this we move on to full past papers.");
 }
 
 /* ---------- Tutor tabs ---------- */
@@ -1991,6 +2506,7 @@ function retryPrac(){document.getElementById('pracSetup').style.display='';docum
 
 /* ---------- Init ---------- */
 loadProfiles();
+initSubjectSelect();
 initCountries();
 renderSubjects();
 selectSubject(SUBJECTS[0]);
