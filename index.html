@@ -1585,6 +1585,7 @@ function recommendBooks(key,level,board){
 
 var stProfiles={};      // {subjKey:{country,level,board,cls,books:[],syllabus,chapters:[],goal,examDate}}
 var stMyBooks=[];       // working list while the form is open
+var stBooksAuto=true;   // true until the student edits the book list themselves
 var stCurrentRecs=[];
 function loadProfiles(){try{stProfiles=JSON.parse(localStorage.getItem('wavesaiTutorProfiles2')||'{}');}catch(e){stProfiles={};}}
 function persistProfiles(){try{localStorage.setItem('wavesaiTutorProfiles2',JSON.stringify(stProfiles));}catch(e){}}
@@ -1609,17 +1610,22 @@ function onLevel(){
 function refreshBooks(){
   var level=document.getElementById('stLevel').value, board=document.getElementById('stBoard').value;
   stCurrentRecs=recommendBooks(stSubject.key,level,board);
+  /* keep the pre-filled book list in step with the level/board until the
+     student edits it themselves — otherwise an A-Level student is left
+     holding the GCSE titles we guessed before they'd chosen their level */
+  if(stBooksAuto){stMyBooks=stCurrentRecs.slice(0,3);renderMyBooks();}
   document.getElementById('stBookRecs').innerHTML=stCurrentRecs.map(function(b,i){
     return '<button type="button" onclick="addBook(stCurrentRecs['+i+'])">'+esc(b)+'</button>';
   }).join('');
 }
 function addBook(txt){
+  stBooksAuto=false;
   if(txt===undefined){var inp=document.getElementById('stBookInput');txt=inp.value;inp.value='';}
   txt=(txt||'').trim();if(!txt)return;
   if(stMyBooks.indexOf(txt)>-1)return;
   stMyBooks.push(txt);renderMyBooks();
 }
-function removeBook(i){stMyBooks.splice(i,1);renderMyBooks();}
+function removeBook(i){stBooksAuto=false;stMyBooks.splice(i,1);renderMyBooks();}
 function renderMyBooks(){
   var w=document.getElementById('stMyBooks');
   if(!stMyBooks.length){w.innerHTML='<span class="none">No books yet — tap a recommendation above or type your own.</span>';return;}
@@ -1633,6 +1639,7 @@ function resetForm(){
   document.getElementById('stExamDate').value='';
   document.getElementById('stSyllabus').value='';
   stChapters=[];renderChapPreview();
+  stBooksAuto=true;
   stMyBooks=stCurrentRecs.slice(0,3);   // pre-fill with the recommendations; student can edit
   renderMyBooks();
 }
@@ -1649,6 +1656,7 @@ function fillFormFromProfile(p){
   document.getElementById('stExamDate').value=p.examDate||'';
   document.getElementById('stSyllabus').value=p.syllabus||'';
   stChapters=(p.chapters||[]).slice();renderChapPreview();
+  stBooksAuto=false;
   stMyBooks=(p.books||[]).slice();renderMyBooks();
 }
 function selectSubject(s){
@@ -1679,7 +1687,7 @@ function parseSyllabus(txt){
     var t=line.replace(/\s+/g,' ').trim();
     if(!t)return;
     t=t.replace(/^\(?\d+([.)]\d+)*[.):\-\s]+/,'');                          // "1." "2.3)" "4 - "
-    t=t.replace(/^(chapter|unit|module|topic|section|paper|theme|part)\b\s*\d*\s*[:.\-–]?\s*/i,''); // "Chapter 3 –"
+    t=t.replace(/^(chapter|unit|module|topic|section|paper|theme|part)(?![\w-])\s*\d*\s*[:.\-–]?\s*/i,''); // "Chapter 3 –"
     t=t.replace(/^[-–—*•\s]+/,'').replace(/[.\s]+$/,'').trim();
     t=t.replace(/\s*\.{2,}\s*\d+$/,'').trim();                              // contents-page dot leaders + page no
     t=t.replace(/\s+\d{1,3}$/,'').trim();                                   // trailing page number
