@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WavesAI Tutor — Learn, Teach & Ace Your Exams</title>
-<meta name="description" content="An AI-powered tutoring platform. Students learn through personal AI tutors, tutors prepare lessons in minutes, and practice exams are marked instantly — with audio on everything.">
+<meta name="description" content="An AI-powered tutoring platform. Students learn through personal AI Tutors, tutors prepare lessons in minutes, and practice exams are marked instantly — with audio on everything.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
@@ -12,7 +12,10 @@
 :root{
   --cream:#FDFBF7; --panel:#F7F4EE; --panel-2:#F0EDE6; --line:#E8E4DB;
   --navy:#1B2D4F; --navy-soft:#2C3E63; --ink:#3a3a3a; --muted:#6d6a63;
-  --gold:#B8922E; --gold-lite:#D4A853; --gold-glow:rgba(184,146,46,.14);
+  /* Accent — a professional teal, not gold. Gold read as luxury; this reads as
+     education/trust. Variable names kept as --gold* so every existing rule
+     picks the new colour up in one place. */
+  --gold:#0F766E; --gold-lite:#12907F; --gold-glow:rgba(15,118,110,.10);
   --serif:'Playfair Display',Georgia,serif; --sans:'DM Sans',-apple-system,sans-serif;
   --radius:18px; --shadow:0 18px 50px -24px rgba(27,45,79,.35);
   --shadow-sm:0 8px 26px -18px rgba(27,45,79,.4);
@@ -31,7 +34,7 @@ button{font-family:var(--sans);cursor:pointer}
 .btn{display:inline-flex;align-items:center;gap:8px;border:none;border-radius:999px;padding:13px 26px;font-weight:600;font-size:15px;transition:.2s;white-space:nowrap}
 .btn-navy{background:var(--navy);color:#fff;box-shadow:var(--shadow-sm)}
 .btn-navy:hover{background:var(--navy-soft);transform:translateY(-2px)}
-.btn-gold{background:linear-gradient(135deg,var(--gold-lite),var(--gold));color:#fff;box-shadow:0 10px 24px -12px rgba(184,146,46,.7)}
+.btn-gold{background:linear-gradient(135deg,var(--gold-lite),var(--gold));color:#fff;box-shadow:0 10px 24px -12px rgba(15,118,110,.55)}
 .btn-gold:hover{transform:translateY(-2px)}
 .btn-ghost{background:transparent;color:var(--navy);border:1.5px solid var(--line)}
 .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
@@ -95,7 +98,7 @@ section.block{padding:64px 0}
 
 /* Cards */
 .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:28px;transition:.22s;position:relative}
-.card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:rgba(184,146,46,.4)}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:rgba(15,118,110,.35)}
 .card .ic{width:54px;height:54px;border-radius:14px;background:var(--panel);display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:16px}
 .card h3{font-size:22px;margin-bottom:8px}
 .card p{color:var(--muted);font-size:15px}
@@ -113,7 +116,7 @@ section.block{padding:64px 0}
 
 /* Audio callout */
 .audio-callout{display:flex;align-items:center;gap:26px;background:linear-gradient(120deg,var(--panel),#fff);border:1px solid var(--line);border-radius:24px;padding:34px 38px;margin-top:52px;flex-wrap:wrap}
-.audio-callout .big{width:76px;height:76px;border-radius:20px;background:linear-gradient(140deg,var(--gold-lite),var(--gold));display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;box-shadow:0 14px 30px -14px rgba(184,146,46,.7)}
+.audio-callout .big{width:76px;height:76px;border-radius:20px;background:linear-gradient(140deg,var(--gold-lite),var(--gold));display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;box-shadow:0 14px 30px -14px rgba(15,118,110,.55)}
 .audio-callout h3{font-size:26px}
 .audio-callout p{color:var(--muted);margin-top:6px;max-width:60ch}
 .who-card{text-align:left}
@@ -335,7 +338,7 @@ input.f:focus,select.f:focus,textarea.f:focus{border-color:var(--gold)}
 .pbar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--gold-lite),var(--gold));width:0;transition:width 1s cubic-bezier(.25,.9,.3,1)}
 .trend{font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px}
 .trend.up{color:#2e7d5b;background:rgba(46,125,91,.1)}
-.trend.flat{color:#B8922E;background:var(--gold-glow)}
+.trend.flat{color:#0F766E;background:var(--gold-glow)}
 .trend.down{color:#c0392b;background:rgba(192,57,43,.08)}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
 .info-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 24px}
@@ -390,7 +393,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
 <header>
   <div class="wrap nav">
     <div class="logo" onclick="go('home')" style="cursor:pointer">
-      <span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M2 16c2 0 2-4 4-4s2 4 4 4 2-6 4-6 2 6 4 6 2-4 4-4" stroke="#D4A853" stroke-width="2" stroke-linecap="round"/><path d="M12 3l1.4 3.2L17 7l-2.6 2 .8 3.4L12 10.7 8.8 12.4l.8-3.4L7 7l3.6-.8L12 3z" fill="#D4A853" opacity=".9"/></svg></span>
+      <span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M2 16c2 0 2-4 4-4s2 4 4 4 2-6 4-6 2 6 4 6 2-4 4-4" stroke="#4FB3A6" stroke-width="2" stroke-linecap="round"/><path d="M12 3l1.4 3.2L17 7l-2.6 2 .8 3.4L12 10.7 8.8 12.4l.8-3.4L7 7l3.6-.8L12 3z" fill="#4FB3A6" opacity=".9"/></svg></span>
       WavesAI Tutor
     </div>
     <nav class="navlinks">
@@ -426,7 +429,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
       <span class="pill">★ AI Tutoring · Learn · Teach · Examine</span>
       <h1><span class="nb">Your personal</span><em>AI&nbsp;Tutor</em><span class="nb">Available 24/7</span></h1>
       <p class="hero-kicker">One monthly fee. Stop paying by the hour.</p>
-      <p class="sub">Every subject, every night, as many questions as you like — for less than the price of a single hour with a private tutor. Your tutor knows your exam board, your class and the books you actually use, and it never watches the clock.</p>
+      <p class="sub">Ask as many questions as you want, whenever you want — homework at 7pm, revision at 11pm, the day before an exam. Your AI Tutor knows your exam board, your year group and the books you're actually using, so what it teaches you matches what you're being taught at school.</p>
       <div class="hero-cta">
         <button class="btn btn-navy" onclick="go('students')">I'm a Student</button>
         <button class="btn btn-gold" onclick="go('tutors')">I'm a Tutor</button>
@@ -475,7 +478,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
         <div class="card role-card" onclick="go('students')">
           <div class="ic">🎓</div>
           <h3>Subject Tutors</h3>
-          <p>An AI tutor for over 60 subjects — every main GCSE and A-Level subject, from Maths and the sciences to languages, business, computing and the arts, right up to university modules. Set to your country, exam board, class and books, it explains step by step and answers anything.</p>
+          <p>An AI Tutor for over 60 subjects — every main GCSE and A-Level subject, from Maths and the sciences to languages, business, computing and the arts, right up to university modules. Set to your country, exam board, class and books, it explains step by step and answers anything.</p>
           <span class="go">Start learning →</span>
         </div>
         <div class="card role-card" onclick="go('tutors')">
@@ -526,7 +529,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
         <div class="card who-card">
           <div class="ic">👨‍👩‍👧</div>
           <h3>Parents</h3>
-          <p>See how your child is really doing, spot where they're stuck, and get an AI tutor plus study coach that genuinely helps them improve.</p>
+          <p>See how your child is really doing, spot where they're stuck, and get an AI Tutor plus study coach that genuinely helps them improve.</p>
           <p class="quote">“I can finally see where she needs help — and actually help.”</p>
         </div>
         <div class="card who-card">
@@ -548,12 +551,12 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
         <div class="step">
           <div class="num">1</div>
           <h3>Pick your subject &amp; set it up</h3>
-          <p>Choose a subject, then tell your tutor your country, exam board, level and the books you use — then it trains itself on your specification before your first question.</p>
+          <p>Choose a subject, then tell your AI Tutor your country, exam board, level and the books you use — then it trains itself on your specification before your first question.</p>
         </div>
         <div class="step">
           <div class="num">2</div>
           <h3>Learn, practise &amp; get marked</h3>
-          <p>Ask your tutor anything and get it explained step by step, sit practice exams marked instantly, or learn a language — with everything read aloud.</p>
+          <p>Ask your AI Tutor anything and get it explained step by step, sit practice exams marked instantly, or learn a language — with everything read aloud.</p>
         </div>
         <div class="step">
           <div class="num">3</div>
@@ -583,7 +586,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
           <h3>Everything can be heard, not just read</h3>
           <p>Tap the speaker on any answer, question or lesson and it's read aloud in a natural voice — perfect for revision on the go, younger learners, and anyone who takes things in better by ear.</p>
         </div>
-        <button class="btn btn-gold" onclick="speak('Hi! I\\'m your WavesAI tutor. Tap any speaker icon and I\\'ll read things aloud for you, just like this.')">▶ Hear a sample</button>
+        <button class="btn btn-gold" id="sampleBtn" onclick="playSample()">▶ Hear a sample</button>
       </div>
     </div>
   </section>
@@ -625,7 +628,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
 
       <div class="cta-band">
         <h2>Ready to learn the smarter way?</h2>
-        <p>Pick a subject, set your exam board, and start learning in seconds — with a tutor, exam practice, translator and study coach all built in.</p>
+        <p>Pick a subject, set your exam board, and start learning in seconds — with your AI Tutor, exam practice, translator and study coach all built in.</p>
         <div class="hero-cta">
           <button class="btn btn-gold" onclick="go('students')">Start learning free</button>
           <button class="btn btn-ghost" style="background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.35)" onclick="go('exams')">Take a practice exam</button>
@@ -640,8 +643,8 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
   <section class="page-head">
     <div class="wrap">
       <p class="eyebrow">For students</p>
-      <h1>Pick a tutor and start learning</h1>
-      <p>Choose a subject below. Your AI tutor explains things simply, answers your questions, and reads every answer aloud if you want.</p>
+      <h1>Pick a subject and start learning</h1>
+      <p>Choose a subject below. Your AI Tutor explains things simply, answers your questions, and reads every answer aloud if you want.</p>
     </div>
   </section>
   <section class="block" style="padding-top:26px">
@@ -658,7 +661,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
       <!-- Subject setup: exam board / level / class / books / syllabus -->
       <div class="form-card" id="stSetup" style="margin-top:22px">
         <h3 id="stSetupTitle">Set up your Maths</h3>
-        <p class="hint">Every country and exam board is different — so tell your tutor exactly what you're sitting. It'll teach to your specification, your class and the books you actually use.</p>
+        <p class="hint">Every country and exam board is different — so tell your AI Tutor exactly what you're sitting. It'll teach to your specification, your class and the books you actually use.</p>
         <div class="setup-grid">
           <div>
             <label>Your country</label>
@@ -678,7 +681,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
           </div>
         </div>
 
-        <label style="margin-top:18px">Recommended study books <span style="font-weight:400;color:var(--muted)">— tap to add the ones you're using</span></label>
+        <label style="margin-top:18px">Books commonly used on this course <span style="font-weight:400;color:var(--muted)">— tap only the ones you actually use, or skip this</span></label>
         <div class="book-recs" id="stBookRecs"></div>
 
         <label style="margin-top:16px">Your textbooks</label>
@@ -690,8 +693,8 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
 
         <!-- Syllabus / textbook contents → chapters -->
         <div class="syll-box">
-          <label>📚 Your textbook contents or course syllabus <span style="font-weight:400;color:var(--muted)">— paste it in and your tutor will teach chapter by chapter</span></label>
-          <p class="hint" style="margin:2px 0 10px">Copy the contents page out of your textbook, or paste the topic list from your exam board's specification. Your tutor breaks it into chapters and builds a lesson for each one.</p>
+          <label>📚 Your textbook contents or course syllabus <span style="font-weight:400;color:var(--muted)">— paste it in and your AI Tutor will teach chapter by chapter</span></label>
+          <p class="hint" style="margin:2px 0 10px">Copy the contents page out of your textbook, or paste the topic list from your exam board's specification. Your AI Tutor breaks it into chapters and builds a lesson for each one.</p>
           <textarea class="f" id="stSyllabus" rows="5" oninput="onSyllabusInput()" placeholder="Paste here, one topic or chapter per line. For example:&#10;1. Number&#10;2. Algebra&#10;3. Ratio, proportion and rates of change&#10;4. Geometry and measures&#10;5. Probability&#10;6. Statistics"></textarea>
           <div class="syll-actions">
             <button class="btn btn-ghost btn-sm" type="button" onclick="useStandardSyllabus()">Use the standard topic list for my exam board</button>
@@ -712,7 +715,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
           </div>
         </div>
 
-        <button class="btn btn-navy" style="margin-top:20px" onclick="saveProfile()">Save &amp; train my tutor →</button>
+        <button class="btn btn-navy" style="margin-top:20px" onclick="saveProfile()">Save &amp; train my AI Tutor →</button>
       </div>
 
       <!-- Agent training: the tutor becomes an expert in this exact course -->
@@ -720,7 +723,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
         <div class="train-head">
           <div class="train-spin" id="stTrainSpin">🎓</div>
           <div>
-            <h3 id="stTrainTitle">Training your tutor…</h3>
+            <h3 id="stTrainTitle">Training your AI Tutor…</h3>
             <p id="stTrainSub">Give it a moment — it's becoming an expert in exactly what you're studying.</p>
           </div>
         </div>
@@ -746,11 +749,11 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
         <div class="chat" id="stChat"></div>
         <div class="composer">
           <button class="mic" id="stMic" onclick="startVoice('st')" title="Speak your question">🎙️</button>
-          <input id="stInput" placeholder="Ask your tutor anything…" onkeydown="if(event.key==='Enter')sendSt()">
+          <input id="stInput" placeholder="Ask your AI Tutor anything…" onkeydown="if(event.key==='Enter')sendSt()">
           <button class="send" onclick="sendSt()">➤</button>
         </div>
       </div>
-      <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:16px">Powered by WavesAI tutoring agents — trained on your exam board's specification, your class and your books. Try: “Explain photosynthesis simply” or “How do I solve 2x + 3 = 11?”</p>
+      <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:16px">Powered by WavesAI Tutoring agents — trained on your exam board's specification, your class and your books. Try: “Explain photosynthesis simply” or “How do I solve 2x + 3 = 11?”</p>
       </div>
     </div>
   </section>
@@ -1084,7 +1087,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
     <div class="cols">
       <div>
         <div class="foot-logo">WavesAI Tutor</div>
-        <p style="max-width:38ch;font-size:14.5px">AI tutoring for students, a prep desk for tutors, and instant-marked practice exams — with audio on everything.</p>
+        <p style="max-width:38ch;font-size:14.5px">AI Tutoring for students, a prep desk for tutors, and instant-marked practice exams — with audio on everything.</p>
       </div>
       <div>
         <h5>Explore</h5>
@@ -1096,7 +1099,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
       </div>
       <div>
         <h5>Get started</h5>
-        <a onclick="go('students')">Find a tutor</a>
+        <a onclick="go('students')">Find your AI Tutor</a>
         <a onclick="go('exams')">Take a practice exam</a>
         <a onclick="go('parents')">Track progress</a>
         <a onclick="go('coach')">Motivate your child</a>
@@ -1121,20 +1124,88 @@ function toggleMenu(){var m=document.getElementById('mm');m.style.display=m.styl
 /* ---------- Audio (text to speech) ---------- */
 var readOn={st:true,tu:true,pa:true,co:true,tr:true};
 function toggleRead(k){readOn[k]=!readOn[k];document.getElementById(k+'Switch').classList.toggle('on',readOn[k]);if(!readOn[k])stopSpeak();}
+/* Voice choice, best first. The "Natural"/"Online" Microsoft voices and Google's
+   UK voices are neural and sound human; the local eSpeak/Android fallbacks are the
+   robotic ones, so they come last. */
 function pickVoice(){
-  var vs=speechSynthesis.getVoices();
-  return vs.find(v=>/en-GB/.test(v.lang)&&/female|Google UK English Female|Libby|Sonia/i.test(v.name))
-      || vs.find(v=>/en-GB/.test(v.lang)) || vs.find(v=>/^en/i.test(v.lang)) || vs[0];
+  var vs=speechSynthesis.getVoices()||[];
+  var en=vs.filter(function(v){return /^en/i.test(v.lang||'');});
+  var gb=en.filter(function(v){return /en[-_]GB/i.test(v.lang);});
+  function first(list,re){for(var i=0;i<list.length;i++){if(re.test(list[i].name||''))return list[i];}return null;}
+  return first(gb,/natural|neural|online/i)          /* Microsoft Libby/Sonia Online (Natural) */
+      || first(en,/natural|neural|online/i)
+      || first(gb,/google/i)                          /* Google UK English Female */
+      || first(en,/google/i)
+      || first(gb,/libby|sonia|hazel|serena|kate|amelie/i)
+      || gb[0] || en[0] || vs[0];
 }
+/* Text meant for the ear, not the eye: emoji, bullets and arrows all get read out
+   literally ("hand waving", "black small square"), so they come out first. */
+function speakable(t){
+  return String(t)
+    .replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g,' ')                    /* 👋 🧬 🎓 — every emoji in the astral planes */
+    .replace(/[\u2190-\u2BFF\u2600-\u27BF\u2934\u2935\uFE0F\u200D\u24C2\u3030\u303D\u3297\u3299\u00A9\u00AE\u2122]/g,' ')  /* arrows, dingbats, check marks, stars, variation selectors */
+    .replace(/[#*_`>|]/g,' ')
+    .replace(/[•·➜➤▶►]/g,' ')
+    .replace(/\s{2,}/g,' ')
+    .replace(/\s+([,.!?;:])/g,'$1')
+    .trim();
+}
+var speakQueue=[],speakTimer=null;
 function speak(t){
-  if(!('speechSynthesis'in window))return;
+  if(!('speechSynthesis'in window))return false;
+  var txt=speakable(t);
+  if(!txt)return false;
   stopSpeak();
-  var u=new SpeechSynthesisUtterance(String(t).replace(/[#*•▶➜➤]/g,' '));
-  var v=pickVoice(); if(v)u.voice=v;
-  u.rate=.98;u.pitch=1.02;
-  speechSynthesis.speak(u);
+  /* Chrome drops an utterance queued in the same tick as cancel(), which is why
+     the sample button did nothing. Give it a tick to clear first. */
+  speakTimer=setTimeout(function(){speakNow(txt);},130);
+  return true;
 }
-function stopSpeak(){if('speechSynthesis'in window)speechSynthesis.cancel();}
+function speakNow(txt){
+  /* Split on sentences: long single utterances get cut off in Chrome, and the
+     natural pause between sentences is most of what stops it sounding robotic. */
+  var parts=txt.match(/[^.!?\n]+[.!?]*/g)||[txt];
+  speakQueue=parts.map(function(s){return s.trim();}).filter(Boolean);
+  var v=pickVoice();
+  speakQueue.forEach(function(s){
+    var u=new SpeechSynthesisUtterance(s);
+    if(v)u.voice=v;
+    u.lang=(v&&v.lang)||'en-GB';
+    u.rate=.95;u.pitch=1;u.volume=1;
+    speechSynthesis.speak(u);
+  });
+  /* Chrome pauses itself on long queues — nudge it back awake. */
+  clearInterval(window._ssKeep);
+  window._ssKeep=setInterval(function(){
+    if(!speechSynthesis.speaking){clearInterval(window._ssKeep);return;}
+    if(speechSynthesis.paused)speechSynthesis.resume();
+  },4000);
+}
+function stopSpeak(){
+  if(!('speechSynthesis'in window))return;
+  clearTimeout(speakTimer);clearInterval(window._ssKeep);
+  speechSynthesis.cancel();
+}
+/* The sample button: if the device genuinely has no voices installed (some Linux
+   and locked-down browsers), say so rather than looking broken. */
+function playSample(){
+  var b=document.getElementById('sampleBtn');
+  var line="Hi! I'm your AI Tutor. Tap the speaker on any answer and I'll read it aloud for you, just like this.";
+  if(!('speechSynthesis'in window)){if(b)b.textContent='Audio not supported in this browser';return;}
+  var go=function(){
+    speak(line);
+    if(b){b.textContent='🔊 Playing…';setTimeout(function(){b.innerHTML='▶ Hear a sample';},4500);}
+  };
+  if((speechSynthesis.getVoices()||[]).length){go();return;}
+  /* Voices load asynchronously on first use — wait for them, then play. */
+  var done=false;
+  speechSynthesis.onvoiceschanged=function(){if(done)return;done=true;go();};
+  setTimeout(function(){if(done)return;done=true;
+    if((speechSynthesis.getVoices()||[]).length)go();
+    else if(b)b.textContent='No voices installed on this device';
+  },1200);
+}
 /* Speak in a specific language (used by the Translator Coach) */
 function speakLang(t,code){
   if(!('speechSynthesis'in window))return;
@@ -1187,8 +1258,34 @@ function typing(chatId,on){
 /* ---------- Tutoring agent (demo brain — wire to WavesAI agent API here) ---------- */
 /* INTEGRATION POINT: replace tutorReply() with a fetch() to the agent endpoint Claude builds. */
 function tutorReply(subject,q){
-  var s=subject.toLowerCase(), t=q.toLowerCase();
+  var s=subject.toLowerCase(), t=q.toLowerCase().trim();
   var p=activeProf();
+
+  /* --- the topic we're already working through --- */
+  if(stParts.length){
+    /* "1", "part 3", "number 2" — start that part */
+    var pm=t.match(/^(?:part\s*|number\s*|no\.?\s*)?(\d{1,2})[.)]?$/)||t.match(/^(?:part|number)\s*(\d{1,2})\b/);
+    if(pm){
+      var idx=parseInt(pm[1],10)-1;
+      var l=partLesson(p,idx);
+      if(l)return l;
+      return "There are "+stParts.length+" parts to "+stTopic+", so there's no part "+(idx+1)+". Pick a number from 1 to "+stParts.length+".";
+    }
+    if(/^(start|begin|start at the beginning|from the beginning|go|yes|ok|okay|sure|lets go|let's go|first one|the first)\b/.test(t))
+      return partLesson(p,0);
+    if(/^(next|next part|carry on|continue|move on|done|got it|understood|makes sense)\b/.test(t)){
+      if(stPartIdx+1<stParts.length)return partLesson(p,stPartIdx+1);
+      return "That's all "+stParts.length+" parts of "+stTopic+" covered. Next step is a full exam-style question on it under timed conditions — say \"give me a past paper question\" and I'll set one, or name another topic and we'll break that one down.";
+    }
+    if(/(all of it|everything|the whole thing|not sure|dont know|don't know|no idea|you choose|you decide)/.test(t))
+      return "No problem — we'll go in order and you'll pick it up as we go.\n\n"+partLesson(p,0);
+    /* did they name one of the parts? */
+    for(var qi=0;qi<stParts.length;qi++){
+      var key=stParts[qi].toLowerCase().replace(/\{t\}/g,'').replace(/[^a-z ]/g,' ');
+      var kw=key.split(' ').filter(function(w){return w.length>5;});
+      if(kw.length>=2&&kw.filter(function(w){return t.indexOf(w)>-1;}).length>=2)return partLesson(p,qi);
+    }
+  }
   if(p&&(t.includes('which book')||t.includes('what book')||t.includes('book should')||t.includes('my books')||t.includes('recommend')&&t.includes('book'))){
     if(p.books&&p.books.length)return "From your setup, the books you're working from are:\n\n• "+p.books.join("\n• ")+"\n\nTell me which one — plus the chapter or page — and I'll explain it or set you questions straight from it.";
   }
@@ -1202,18 +1299,18 @@ function tutorReply(subject,q){
     var m=t.match(/chapter\s*(\d+)|topic\s*(\d+)|number\s*(\d+)/);
     if(m){
       var n=parseInt(m[1]||m[2]||m[3],10)-1;
-      if(n>=0&&n<p.chapters.length)return chapterLesson(p,n);
+      if(n>=0&&n<p.chapters.length)return startTopic(p,p.chapters[n],false);
       return "You've got "+p.chapters.length+" chapters on your plan, so chapter "+(n+1)+" isn't one of them yet. Add more of your contents page in Edit setup and I'll pick it up.";
     }
     if(t.includes('next chapter')||t.includes('what next')||t.includes('carry on')||t.includes('move on')){
-      return chapterLesson(p,0);
+      return startTopic(p,p.chapters[0],false);
     }
     /* match by chapter title */
     for(var ci=0;ci<p.chapters.length;ci++){
       var title=p.chapters[ci].toLowerCase().replace(/[^a-z0-9 ]/g,'');
       var words=title.split(' ').filter(function(w){return w.length>4;});
-      if(title.length>4&&t.indexOf(title)>-1)return chapterLesson(p,ci);
-      if(words.length&&words.every(function(w){return t.indexOf(w)>-1;}))return chapterLesson(p,ci);
+      if(title.length>4&&t.indexOf(title)>-1)return startTopic(p,p.chapters[ci],false);
+      if(words.length&&words.every(function(w){return t.indexOf(w)>-1;}))return startTopic(p,p.chapters[ci],false);
     }
   }
   var eq=q.match(/([-\d]+)\s*x\s*([+\-])\s*(\d+)\s*=\s*(-?\d+)/i);
@@ -1223,10 +1320,23 @@ function tutorReply(subject,q){
     return "Great — let's solve it step by step:\n\n1) Start with "+eq[0]+"\n2) Move the "+(sign>0?'+':'−')+Math.abs(b)+" across: "+a+"x = "+c+" "+(sign>0?'−':'+')+" "+Math.abs(b)+" = "+(c-b)+"\n3) Divide both sides by "+a+": x = "+(c-b)+" ÷ "+a+"\n\n➜ So x = "+(Number.isInteger(x)?x:x.toFixed(2))+"\n\nWant me to set you a similar one to try?";
   }
   if(t.includes('photosynthesis'))return "Photosynthesis is how plants make their own food. 🌱\n\nIn simple terms: leaves take in sunlight, water from the roots, and carbon dioxide from the air. Inside the leaf, a green substance called chlorophyll uses the sunlight's energy to turn the water and CO₂ into sugar (the plant's food) and oxygen, which it releases.\n\nWord equation: carbon dioxide + water → (light) → glucose + oxygen\n\nShall I give you a quick question to check you've got it?";
-  if(s.includes('english')||t.includes('essay')||t.includes('adjective'))return "Happy to help with English! ✍️\n\nTell me what you're working on — a story, an essay, grammar, or a text you're analysing — and I'll break it down. A quick tip: strong writing usually has a clear point, a piece of evidence, and then an explanation of why it matters (Point → Evidence → Explain).\n\nWhat would you like to practise first?";
-  if(s.includes('science'))return "Let's tackle it together. 🔬\n\nGive me the exact topic or question and I'll explain it in plain language, step by step, then check your understanding with a quick question. What are we looking at — biology, chemistry or physics?";
-  if(s.includes('history'))return "Good choice. 📜\n\nWith history it helps to think about causes, events and consequences. Tell me the period or event you're studying and I'll summarise the key points and what examiners look for.";
-  return "Good question! Let me help you understand it.\n\nHere's how I'd approach it: first we pin down exactly what's being asked, then break it into small steps, and I'll explain each one simply. Tell me a little more about what you already know, and we'll build from there.\n\nWhat part is trickiest for you right now?";
+  /* The old generic "tell me what you're working on" replies per subject were
+     removed — they asked the student for information they had already given. */
+  /* Anything else is treated as the topic they want. Never ask them which bit is
+     hardest — they don't know yet. Break it down and offer the parts. */
+  var topic=asTopic(q);
+  if(topic)return startTopic(p,topic,false);
+  return "Tell me the topic and I'll break it into parts and teach it — a chapter title, a homework question, or just the thing you're stuck on.";
+}
+/* Pull a teachable topic out of whatever the student typed. */
+function asTopic(q){
+  var t=String(q).trim().replace(/\s+/g,' ');
+  t=t.replace(/^(can you |could you |please |i want to |i'd like to |i would like to |help me |teach me |explain |tell me about |i need help with |i am studying |i'm studying |lets do |let's do |study |revise |learn |do )+/i,'');
+  t=t.replace(/^(the topic of |about |on |with )/i,'');
+  t=t.replace(/[?.!]+$/,'').trim();
+  if(t.length<3||t.length>90)return '';
+  if(/^(hi|hello|hey|thanks|thank you|ok|okay|yes|no|cool|nice)$/i.test(t))return '';
+  return t;
 }
 var stSubject={name:'Maths Tutor',emoji:'🧮',key:'maths'};
 function sendSt(){
@@ -1326,15 +1436,25 @@ var SUBJECTS=[
   {name:'Dissertation & Research Tutor',emoji:'📄',key:'diss',bk:'uni',cat:'University',desc:'Research design, methods & writing up'}
 ];
 function subjByKey(k){for(var i=0;i<SUBJECTS.length;i++){if(SUBJECTS[i].key===k)return SUBJECTS[i];}return SUBJECTS[0];}
-function initSubjectSelect(){
-  var sel=document.getElementById('stSubjectSel');
+/* One grouped subject list, used by EVERY subject dropdown on the site — the
+   student setup, the exam builder and the tutors' lesson-plan and worksheet
+   tools all read from SUBJECTS so they can never drift apart again. */
+function subjectOptionsHTML(useKeys){
   var cats=[],byCat={};
   SUBJECTS.forEach(function(s){if(!byCat[s.cat]){byCat[s.cat]=[];cats.push(s.cat);}byCat[s.cat].push(s);});
-  sel.innerHTML=cats.map(function(c){
+  return cats.map(function(c){
     return '<optgroup label="'+c+'">'+byCat[c].map(function(s){
-      return '<option value="'+s.key+'">'+s.emoji+'  '+s.name.replace(' Tutor','')+'</option>';
+      var label=s.emoji+'  '+s.name.replace(' Tutor','');
+      return '<option'+(useKeys?' value="'+s.key+'"':' value="'+esc(s.name.replace(' Tutor',''))+'"')+'>'+label+'</option>';
     }).join('')+'</optgroup>';
   }).join('');
+}
+function initSubjectSelect(){
+  document.getElementById('stSubjectSel').innerHTML=subjectOptionsHTML(true);
+  ['lpSubject','wkSubject','exSubject'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el)el.innerHTML=subjectOptionsHTML(false);
+  });
 }
 function onSubjectSel(){
   var k=document.getElementById('stSubjectSel').value;
@@ -1611,10 +1731,10 @@ function onLevel(){
 function refreshBooks(){
   var level=document.getElementById('stLevel').value, board=document.getElementById('stBoard').value;
   stCurrentRecs=recommendBooks(stSubject.key,level,board);
-  /* keep the pre-filled book list in step with the level/board until the
-     student edits it themselves — otherwise an A-Level student is left
-     holding the GCSE titles we guessed before they'd chosen their level */
-  if(stBooksAuto){stMyBooks=stCurrentRecs.slice(0,3);renderMyBooks();}
+  /* Suggestions only — never pre-filled. Guessing a student's books meant a Food
+     & Nutrition student was told "I'll teach from your books: Cambridge IGCSE
+     Combined Science", which was simply untrue. Now "your books" only ever
+     contains books the student added. */
   document.getElementById('stBookRecs').innerHTML=stCurrentRecs.map(function(b,i){
     return '<button type="button" onclick="addBook(stCurrentRecs['+i+'])">'+esc(b)+'</button>';
   }).join('');
@@ -1640,8 +1760,8 @@ function resetForm(){
   document.getElementById('stExamDate').value='';
   document.getElementById('stSyllabus').value='';
   stChapters=[];renderChapPreview();
-  stBooksAuto=true;
-  stMyBooks=stCurrentRecs.slice(0,3);   // pre-fill with the recommendations; student can edit
+  stBooksAuto=false;
+  stMyBooks=[];                          // only the student's own books ever go in here
   renderMyBooks();
 }
 function fillFormFromProfile(p){
@@ -1770,14 +1890,14 @@ function renderChapPreview(){
   var w=document.getElementById('stChapPreview');
   if(!w)return;
   if(!stChapters.length){w.innerHTML='';return;}
-  w.innerHTML='<div class="ch-head">✅ Found '+stChapters.length+' chapter'+(stChapters.length===1?'':'s')+' — your tutor will teach through these in order</div><div class="chap-list">'
+  w.innerHTML='<div class="ch-head">✅ Found '+stChapters.length+' chapter'+(stChapters.length===1?'':'s')+' — your AI Tutor will teach through these in order</div><div class="chap-list">'
     +stChapters.map(function(c,i){return '<div class="chap"><span class="n">'+(i+1)+'</span><span class="t">'+esc(c)+'</span></div>';}).join('')+'</div>';
 }
 function editSetup(){showSetup();window.scrollTo({top:document.getElementById('stSetup').offsetTop-80,behavior:'smooth'});}
 function fmtDate(d){try{var x=new Date(d+'T00:00:00');return x.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'});}catch(e){return d;}}
 function saveProfile(){
   var cls=document.getElementById('stClass').value.trim();
-  if(!cls){alert("Please tell your tutor which class, year or grade you're in.");document.getElementById('stClass').focus();return;}
+  if(!cls){alert("Please tell your AI Tutor which class, year or grade you're in.");document.getElementById('stClass').focus();return;}
   onSyllabusInput();
   var p={
     country:document.getElementById('stCountry').value,
@@ -1844,6 +1964,76 @@ function trainTutor(p){
   })();
 }
 
+/* ---------- Breaking a topic into parts ----------
+   The student should never be asked "which bit is trickiest?" — they don't know
+   yet, that's why they're here. So the tutor splits the topic itself and offers
+   the parts. Templates are per subject family so the split fits the subject.
+   INTEGRATION POINT: the live WavesAI agent returns the real sub-topics for the
+   student's board and level; this keeps the same shape, so only topicParts()
+   changes when it goes live. */
+var PART_TEMPLATES={
+  science:['What {T} actually is, in plain English','The key words and definitions you have to use correctly','How it works, step by step','The diagram you need to be able to label and describe','How it links to the rest of the course','Exam questions on {T} — and the marks people drop'],
+  maths:  ['The idea behind {T}, without the jargon','The method, step by step','A worked example, talked through line by line','The harder variations that come up in papers','The mistakes that lose marks','Exam questions on {T}, with the mark scheme'],
+  english:['What the question is really asking you to do','The key terms and techniques for {T}','A short extract read closely together','How to structure the answer — point, evidence, explanation','Building a model paragraph line by line','What the examiner rewards on {T}'],
+  history:['The context — what was happening, and when','The key people, events and dates','Causes: why {T} happened','Consequences and why it mattered','Working with sources and evidence','Exam questions on {T} and how they are marked'],
+  geo:    ['What {T} means and where it happens','The processes behind it, step by step','A case study you can name in the exam','Data, maps and graphs you need to read','Impacts and management','Exam questions on {T} and the command words'],
+  business:['The concept in plain English','The key terms and formulas','How it works in a real business','Calculations and diagrams you need','Evaluation — the argument on both sides','Exam questions on {T} and where the evaluation marks are'],
+  compsci:['What {T} is and why it exists','The terminology you must use','How it works, step by step','A worked example you can follow','The traps that catch people out','Exam questions on {T} and the mark scheme wording'],
+  lang:   ['The vocabulary for {T}','The grammar this topic needs','Listening and reading practice','Speaking phrases you can actually use','Writing a paragraph on {T}','Exam tasks on {T} and how they are marked'],
+  art:    ['What the task is asking for','Artists and techniques linked to {T}','Developing your ideas','The practical skills you need','Annotating and evaluating your work','How the assessment objectives are met'],
+  uni:    ['The core concept and the debate around it','The key readings and what each one argues','The main theories and models','Applying it — a worked example or case','Critique and counter-arguments','Structuring the essay or exam answer']
+};
+function topicParts(topic){
+  var fam=(stSubject&&stSubject.bk)||'science';
+  var tpl=PART_TEMPLATES[fam]||PART_TEMPLATES.science;
+  /* keep the article — "What the digestive system actually is" reads properly,
+     "What digestive system actually is" does not */
+  var t=lowerTopic(String(topic||'this topic'));
+  return tpl.map(function(x){return x.replace(/\{T\}/g,t);});
+}
+/* "The digestive system" mid-sentence should not keep its capital T, but "DNA"
+   and "Macbeth" must keep theirs. */
+function lowerTopic(t){
+  t=t.trim();
+  if(/^[A-Z][a-z]/.test(t)&&!/^(I|A)\b/.test(t))return t.charAt(0).toLowerCase()+t.slice(1);
+  return t;
+}
+var stTopic='',stParts=[],stPartIdx=-1;
+/* Opens a topic: names it, breaks it down, and asks which part to start with. */
+function startTopic(p,topic,fromSetup){
+  stTopic=String(topic).replace(/\s+/g,' ').trim().replace(/[.!]$/,'');
+  stParts=topicParts(stTopic);stPartIdx=-1;
+  var lead=fromSetup
+    ? "You said you want to work on "+lowerTopic(stTopic)+" — so let's go straight into it."
+    : "Right — "+lowerTopic(stTopic)+". Let's break it down.";
+  return lead+"\n\nHere's how I'd split it:\n\n"
+    +stParts.map(function(c,i){return (i+1)+". "+c;}).join("\n")
+    +"\n\nWhich part shall we start with? Type a number — or say \"start\" and I'll take them in order from 1.";
+}
+/* A real mini-lesson for one part, then a check question and the next step. */
+function partLesson(p,i){
+  if(i<0||i>=stParts.length)return null;
+  stPartIdx=i;
+  var part=stParts[i],subjShort=stSubject.name.replace(' Tutor','');
+  var board=(p&&p.board&&p.board.indexOf('isn\'t listed')<0&&p.board.indexOf('no exam board')<0)?p.board:'your exam board';
+  var lvl=p?p.level.replace(/ \(.*\)/,''):'';
+  var bookLine=(p&&p.books&&p.books.length)
+    ? "Open "+p.books[0]+" at the "+stTopic.toLowerCase()+" section and keep it beside you — I'll follow the same order it uses."
+    : "If you tell me which textbook you're using, I'll follow the same order it uses.";
+  var next=stParts[i+1];
+  return "Part "+(i+1)+" of "+stParts.length+" — "+part+"\n"
+   +"("+stTopic+" · "+board+" "+lvl+" "+subjShort+")\n\n"
+   +"Here's how we'll do this part:\n"
+   +"1. I explain it in plain English, no jargon.\n"
+   +"2. I show you one example and talk through every step.\n"
+   +"3. You try one and I mark it with feedback.\n"
+   +"4. I give you the exam-style version in "+board+"'s own wording.\n\n"
+   +bookLine+"\n\n"
+   +"To check where you're starting from, one quick question before I teach it:\n"
+   +"→ In your own words, what do you already know about "+lowerTopic(stTopic)+"?\n\n"
+   +"Answer in a line — even \"nothing yet\" is a fine answer, it just tells me where to begin."
+   +(next?"\n\nWhen this part's done, say \"next\" and we move to part "+(i+2)+": "+next+".":"\n\nThat's the last part — after this we do a full past-paper question on "+stTopic+".");
+}
 function renderProfBar(p){
   function pi(l,v){return '<div class="pi"><span>'+l+'</span><b>'+esc(v)+'</b></div>';}
   var html=pi('Subject',stSubject.name.replace(' Tutor',''))+pi('Country',p.country)+pi('Level',p.level)+pi('Exam board',p.board||'—')+pi('Class',p.cls);
@@ -1862,22 +2052,31 @@ function showTutor(p){
   renderStudyPlan(p);
   var subjShort=stSubject.name.replace(' Tutor','');
   var board=(p.board&&p.board.indexOf('isn\'t listed')<0&&p.board.indexOf('no exam board')<0)?p.board:'';
-  var g="Hi! I'm your "+stSubject.name+". 👋\n\nI've trained on your exact course: "+(board?board+" ":"")+p.level.replace(/ \(.*\)/,'')+" "+subjShort+", "+p.cls+" in "+p.country+".";
-  if(p.chapters&&p.chapters.length)g+="\n\nI've mapped your course into "+p.chapters.length+" chapters — we can work through them in order, or jump to whichever one you need. First up: "+p.chapters[0]+".";
-  if(p.books&&p.books.length)g+="\n\nI'll teach from your books — "+p.books.slice(0,3).join(', ')+(p.books.length>3?', and more':'')+".";
-  if(p.goal)g+="\n\nWe'll focus on: "+p.goal+".";
-  if(p.examDate)g+="\n\nAnd I'll keep your "+fmtDate(p.examDate)+" exam in mind when we plan revision.";
-  g+="\n\nWhat would you like to start with today?";
+  var g="Hi — I'm your AI Tutor for "+subjShort+".\n\nI've trained on your course: "+(board?board+", ":"")+p.level.replace(/ \(.*\)/,'')+", "+p.cls+", "+p.country+".";
+  if(p.books&&p.books.length)g+="\n\nI'll work from the books you gave me: "+p.books.slice(0,3).join(', ')+(p.books.length>3?', and the rest of your list':'')+".";
+  if(p.examDate)g+="\n\nYour exam is "+fmtDate(p.examDate)+", so I'll keep that pace in mind.";
+  /* The student already told us what they want to study during setup. Asking
+     again was the single biggest complaint — so we go straight into it. */
+  if(p.goal){
+    g+="\n\n"+startTopic(p,p.goal,true);
+  } else if(p.chapters&&p.chapters.length){
+    g+="\n\nI've mapped your course into "+p.chapters.length+" chapters. We'll start at the top unless you'd rather jump somewhere:\n\n"
+      +p.chapters.slice(0,6).map(function(c,i){return (i+1)+". "+c;}).join("\n")
+      +(p.chapters.length>6?"\n…and "+(p.chapters.length-6)+" more in your study plan below.":"")
+      +"\n\nType a chapter number and I'll teach it, or tell me any topic you're stuck on.";
+  } else {
+    g+="\n\nTell me the topic you're working on — a chapter title, a homework question, anything — and I'll break it into parts and teach it.";
+  }
   addMsg('stChat','bot',g,false);
 }
 /* The chapter plan built from the student's own textbook / syllabus */
 function renderStudyPlan(p){
   var w=document.getElementById('stPlan');if(!w)return;
   if(!p.chapters||!p.chapters.length){
-    w.innerHTML='<div class="plan-card"><h4>📚 Your study plan</h4><p class="ph">You haven\'t added your textbook contents or syllabus yet. Add it in <a href="#" onclick="editSetup();return false;" style="color:var(--gold);font-weight:600">Edit setup</a> and your tutor will teach chapter by chapter.</p></div>';
+    w.innerHTML='<div class="plan-card"><h4>📚 Your study plan</h4><p class="ph">You haven\'t added your textbook contents or syllabus yet. Add it in <a href="#" onclick="editSetup();return false;" style="color:var(--gold);font-weight:600">Edit setup</a> and your AI Tutor will teach chapter by chapter.</p></div>';
     return;
   }
-  w.innerHTML='<div class="plan-card"><h4>📚 Your study plan</h4><p class="ph">Built from your own textbook and syllabus — '+p.chapters.length+' chapters. Tap any chapter and your tutor will teach it.</p><div class="chap-list">'
+  w.innerHTML='<div class="plan-card"><h4>📚 Your study plan</h4><p class="ph">Built from your own textbook and syllabus — '+p.chapters.length+' chapters. Tap any chapter and your AI Tutor will teach it.</p><div class="chap-list">'
    +p.chapters.map(function(c,i){
       return '<div class="chap"><span class="n">'+(i+1)+'</span><span class="t">'+esc(c)+'</span><button class="go" onclick="teachChapter('+i+')">Teach me this</button></div>';
     }).join('')+'</div></div>';
@@ -1887,28 +2086,9 @@ function teachChapter(i){
   var q='Teach me chapter '+(i+1)+': '+p.chapters[i];
   addMsg('stChat','me',q);
   typing('stChat',true);
-  setTimeout(function(){typing('stChat',false);addMsg('stChat','bot',chapterLesson(p,i),readOn.st);
+  setTimeout(function(){typing('stChat',false);addMsg('stChat','bot',startTopic(p,p.chapters[i],false),readOn.st);
     document.getElementById('stChat').scrollIntoView({behavior:'smooth',block:'center'});},800);
 }
-/* A full chapter lesson, written around the student's board, level and books.
-   INTEGRATION POINT: this is the exact call that becomes the live WavesAI
-   tutoring agent — it already receives the chapter, spec, level and book list. */
-function chapterLesson(p,i){
-  var c=p.chapters[i], subjShort=stSubject.name.replace(' Tutor','');
-  var board=(p.board&&p.board.indexOf('isn\'t listed')<0&&p.board.indexOf('no exam board')<0)?p.board:'your board';
-  var bk=(p.books&&p.books.length)?p.books[0]:'your textbook';
-  var lvl=p.level.replace(/ \(.*\)/,'');
-  var next=p.chapters[i+1];
-  return "Chapter "+(i+1)+" — "+c+"\n"
-   +"("+board+" · "+lvl+" "+subjShort+")\n\n"
-   +"WHAT YOU NEED TO KNOW\nBy the end of this chapter you should be able to explain "+c.toLowerCase()+" in your own words, use it in a question, and spot it when it comes up in a different context.\n\n"
-   +"HOW I'LL TEACH IT\n1. The big idea in plain English, no jargon.\n2. One worked example, talked through line by line.\n3. One we do together — I give you the question, you give me the next step.\n4. Three practice questions rising in difficulty, marked with feedback.\n5. An exam-style question in "+board+"'s wording, with the mark scheme.\n\n"
-   +"FROM YOUR BOOK\nOpen "+bk+" at the "+c.toLowerCase()+" chapter and keep it next to you — I'll refer to the same examples so it lines up with what you're reading.\n\n"
-   +"EXAMINER'S TIP\nMarks in this topic are usually lost on method rather than the final answer. Show every step, and use the technical words from the specification — examiners award those.\n\n"
-   +"Ready? Say \"start\" and I'll teach it step by step, or ask me anything about "+c.toLowerCase()+" and we'll begin there."
-   +(next?"\n\nWhen you're confident, chapter "+(i+2)+" is "+next+".":"\n\nThat's the last chapter on your plan — after this we move on to full past papers.");
-}
-
 /* ---------- Tutor tabs ---------- */
 function tutorTab(btn,id){
   document.querySelectorAll('#tutors .subtab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
@@ -1939,7 +2119,9 @@ function buildWorksheet(){
 }
 function speakEl(btn){speak(btn.closest('.doc').innerText);}
 function printDoc(){window.print();}
-function v(id){var e=document.getElementById(id);return e.options[e.selectedIndex].text;}
+/* Prefer the value — the subject options carry the plain name there, while the
+   visible label also has the emoji on the front. */
+function v(id){var e=document.getElementById(id),o=e.options[e.selectedIndex];return (o&&o.value)||o.text;}
 function val(id){return document.getElementById(id).value.trim();}
 
 /* ---------- Exams ---------- */
@@ -1968,9 +2150,57 @@ var EXAMS={
     {q:'"She sells sea shells" is an example of…',opts:['Alliteration','Metaphor','Simile','Onomatopoeia'],a:0,fb:'Repeated "s" sounds at the start of words = alliteration.'}
   ]
 };
+/* The dropdown now carries the real subject names, so point the existing banks
+   at the names they're actually selected by. */
+EXAMS['Combined Science']=EXAMS.Science;
+EXAMS['English Language']=EXAMS.English;
+EXAMS['English Literature']=EXAMS.English;
+/* Extra banks so the common science and humanities subjects get real questions
+   rather than falling back. */
+EXAMS.Biology=[
+  {q:'Which organ produces bile?',opts:['The liver','The pancreas','The stomach','The small intestine'],a:0,fb:'Bile is made in the liver and stored in the gall bladder. It emulsifies fats.'},
+  {q:'Enzymes are denatured at high temperature because…',opts:['their active site changes shape','they are used up','they dissolve','they become acidic'],a:0,fb:'Heat breaks the bonds holding the enzyme\'s shape, so the substrate no longer fits the active site.'},
+  {q:'Where is most water absorbed in the digestive system?',opts:['The large intestine','The stomach','The oesophagus','The mouth'],a:0,fb:'The large intestine (colon) absorbs water; the small intestine absorbs the nutrients.'},
+  {q:'Which vessel carries blood away from the heart?',opts:['Artery','Vein','Capillary','Venule'],a:0,fb:'Arteries carry blood away from the heart — thick, muscular walls to take the pressure.'}
+];
+EXAMS.Chemistry=[
+  {q:'What is the charge on a proton?',opts:['+1','−1','0','+2'],a:0,fb:'Protons are +1, electrons −1, neutrons 0.'},
+  {q:'Balance: H₂ + O₂ → H₂O. The coefficients are…',opts:['2, 1, 2','1, 1, 1','2, 2, 2','1, 2, 1'],a:0,fb:'2H₂ + O₂ → 2H₂O — four hydrogens and two oxygens on each side.'},
+  {q:'A substance with pH 2 is…',opts:['strongly acidic','neutral','weakly alkaline','strongly alkaline'],a:0,fb:'Below 7 is acidic; pH 2 is strongly acidic.'},
+  {q:'What does a catalyst do?',opts:['Speeds up a reaction without being used up','Is consumed in the reaction','Raises the temperature','Changes the products'],a:0,fb:'A catalyst lowers the activation energy and is unchanged at the end.'}
+];
+EXAMS.Physics=[
+  {q:'What is the unit of force?',opts:['Newton','Joule','Watt','Pascal'],a:0,fb:'Force is measured in newtons (N). Joules are energy, watts power.'},
+  {q:'Speed = distance ÷ …',opts:['time','mass','force','acceleration'],a:0,fb:'Speed = distance ÷ time. Rearranged: distance = speed × time.'},
+  {q:'Which of these is a vector quantity?',opts:['Velocity','Speed','Mass','Energy'],a:0,fb:'Vectors have direction as well as size — velocity is a vector, speed is not.'},
+  {q:'In a series circuit, the current…',opts:['is the same everywhere','splits between branches','is greatest near the cell','is zero across a resistor'],a:0,fb:'Series: one path, so the current is identical at every point.'}
+];
+EXAMS.History=[
+  {q:'A source written at the time of the event is called…',opts:['a primary source','a secondary source','an interpretation','a hypothesis'],a:0,fb:'Primary = from the time. Secondary = written later, about the time.'},
+  {q:'"Utility" of a source means…',opts:['how useful it is for a specific enquiry','whether it is true','how old it is','who wrote it'],a:0,fb:'Utility is always judged against the question being asked — content plus provenance.'},
+  {q:'Which is a long-term cause rather than a trigger?',opts:['Years of economic decline','An assassination','A declaration of war','A single riot'],a:0,fb:'Long-term causes build up over years; triggers are the immediate spark.'},
+  {q:'In an essay, "significance" asks you to explain…',opts:['the effects and how long they lasted','what happened','who was involved','when it happened'],a:0,fb:'Significance = consequences, scale, and how long the impact lasted.'}
+];
+EXAMS.Geography=[
+  {q:'Which of these is a physical (not human) geography topic?',opts:['River processes','Urbanisation','Migration','Tourism'],a:0,fb:'Rivers, coasts, tectonics and weather are physical; population and cities are human.'},
+  {q:'Erosion by the load being carried scraping the bed is…',opts:['abrasion','attrition','hydraulic action','solution'],a:0,fb:'Abrasion = load scrapes the bed and banks. Attrition = the load wearing itself down.'},
+  {q:'A "case study" is needed in an exam answer to…',opts:['give named, specific evidence','make the answer longer','show a diagram','define a term'],a:0,fb:'Named places, figures and dates are what lift a level-3 answer to level 4.'},
+  {q:'Which command word asks for both sides?',opts:['Evaluate','Describe','State','Label'],a:0,fb:'Evaluate / assess / discuss all want a judgement supported by both sides.'}
+];
+/* Any subject without its own bank gets a real exam-technique paper rather than
+   silently handing out Maths questions. */
+function genericExam(subj){
+  return [
+    {q:'In "'+subj+'", what does the command word "explain" ask you to do?',opts:['Give reasons — say how or why','List the facts','Give your opinion','Draw a diagram'],a:0,fb:'"Explain" wants reasons and links: X happens because Y. "Describe" just wants what.'},
+    {q:'You have a 6-mark question. Roughly how long should you spend?',opts:['About 6–8 minutes','30 seconds','25 minutes','As long as it takes'],a:0,fb:'A minute a mark plus a little thinking time is the standard rule.'},
+    {q:'The best way to revise '+subj+' is…',opts:['testing yourself from memory','re-reading your notes','highlighting the textbook','copying out notes neatly'],a:0,fb:'Active recall beats re-reading in every study that has tested it. Close the book and write what you remember.'},
+    {q:'Marks in a longer answer are usually lost by…',opts:['not answering the actual question asked','poor handwriting','writing too little detail on the first line','using technical words'],a:0,fb:'Read the question twice and underline the command word — most lost marks are answers to a question that was not asked.'}
+  ];
+}
 var curExam=[],picks=[];
 function startExam(){
-  var subj=v('exSubject');curExam=EXAMS[subj]||EXAMS.Maths;picks=new Array(curExam.length).fill(null);
+  var subj=v('exSubject');
+  curExam=EXAMS[subj]||genericExam(subj);picks=new Array(curExam.length).fill(null);
   document.getElementById('examSetup').style.display='none';
   var h='';
   curExam.forEach(function(item,qi){
@@ -2158,9 +2388,67 @@ function sendCo(){
   setTimeout(function(){typing('coChat',false);addMsg('coChat','bot',coachReply(q),readOn.co);},700+Math.random()*500);
 }
 /* INTEGRATION POINT: replace coachReply() with a call to the WavesAI student study-coach agent
-   (student-facing — talks to the learner about their weaknesses, challenges and how to improve). */
+   (student-facing — talks to the learner about their weaknesses, challenges and how to improve).
+
+   The coach keeps a short memory: which theme it has already answered, and the
+   subject the student mentioned. Without it, it asked the same opening question
+   every message and the conversation never moved forward. */
+var coState={seen:{},subject:'',turns:0};
+var COACH_SUBJECTS=['maths','further maths','biology','chemistry','physics','science','english','english literature','english language','history','geography','french','spanish','german','business','economics','psychology','sociology','computer science','art','music','drama','food','nutrition','pe','religious studies','law','politics','statistics'];
+function coachSubject(t){
+  for(var i=0;i<COACH_SUBJECTS.length;i++){if(t.indexOf(COACH_SUBJECTS[i])>-1)return COACH_SUBJECTS[i];}
+  return '';
+}
+/* Once the coach has asked "which subject?", the student's answer must move it
+   on rather than trigger the same reply again. */
+function coachFollowUp(q){
+  var t=q.toLowerCase(),subj=coachSubject(t)||coState.subject;
+  if(!subj)return null;
+  coState.subject=subj;
+  var S=subj.charAt(0).toUpperCase()+subj.slice(1);
+  return "Right — "+S+". Let's make this concrete rather than talking about it in the abstract.\n\n"
+    +"Here's your plan for this week:\n"
+    +"Mon — 20 mins: pick the ONE "+subj+" topic you'd least like to see in an exam. Read it once, then close the book and write down everything you remember.\n"
+    +"Tue — 20 mins: mark what you wrote against the book. The gaps are your real revision list, not the whole chapter.\n"
+    +"Wed — 20 mins: 5 practice questions on just those gaps.\n"
+    +"Thu — rest, or 10 mins re-testing Monday's topic from memory.\n"
+    +"Fri — 25 mins: one past-paper question on it, timed.\n\n"
+    +"That's under two hours across a week and it will shift the topic more than five hours of re-reading.\n\n"
+    +"Open your AI Tutor for "+S+", say \"teach me\" plus the topic, and it'll take you through it properly. Which topic are you picking?";
+}
+/* Never send the same canned answer twice — that was the "asks me the same
+   question again and again" complaint. If a theme repeats, escalate instead. */
+var coLast='';
 function coachReply(q){
+  var r=coachReplyRaw(q);
+  if(r===coLast)r=coachNudge(q);
+  coLast=r;
+  return r;
+}
+function coachNudge(q){
+  var subj=coState.subject;
+  if(subj){
+    var S=subj.charAt(0).toUpperCase()+subj.slice(1);
+    return "You've got the plan for "+S+" — so let's not go round again. Pick the starting point instead.\n\n"
+      +"Answer one of these and I'll build the session around it:\n"
+      +"• Which topic in "+subj+" would you least want to come up in the exam?\n"
+      +"• Or: what happened in the last piece of "+subj+" work you got back — where did the marks go?\n\n"
+      +"Give me that one line and we stop planning and start working.";
+  }
+  return "I don't want to keep saying the same thing back to you — let's do something instead.\n\n"
+    +"Give me one line: the subject, and the exact thing that goes wrong. For example \"Chemistry — I can balance equations but moles questions lose me\", or \"English — I run out of time on the essay\".\n\n"
+    +"With that one line I can give you a real plan for this week instead of general advice.";
+}
+function coachReplyRaw(q){
   var t=q.toLowerCase();
+  coState.turns++;
+  var sub=coachSubject(t);if(sub)coState.subject=sub;
+  /* Short answers ("maths", "algebra", "yes") after an opening question are the
+     student answering — respond to that instead of restarting. */
+  if(coState.turns>1&&(sub||t.split(' ').length<=4)){
+    var fu=coachFollowUp(q);
+    if(fu)return fu;
+  }
   if(t.includes('struggl')||t.includes('bad at')||t.includes('weak')||t.includes('rubbish at')||t.includes('terrible at')||t.includes('find it hard')||t.includes('so hard')||t.includes('difficult'))
     return "First — struggling with something doesn't mean you're not capable. It means you haven't cracked it YET. That's normal, and it's fixable. 💪\n\nLet's get specific so we can actually move it:\n• Which subject or topic is it, and what part loses you — the start, a certain type of question, or remembering it under pressure?\n• Once you tell me, I'll pin down the exact weak spot and set you 2-3 short practice questions to rebuild it from the ground up.\n\nA good rule: don't reread the same notes hoping it sticks. Test yourself, get it wrong, fix it — that's what actually makes it stick. What subject shall we start with?";
   if(t.includes("don't understand")||t.includes('dont understand')||t.includes('confus')||t.includes("doesn't make sense")||t.includes('makes no sense')||t.includes('lost in')||t.includes('no idea'))
