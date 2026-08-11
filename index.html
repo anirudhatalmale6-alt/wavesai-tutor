@@ -523,7 +523,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
         <div class="card who-card">
           <div class="ic">🧑‍🎓</div>
           <h3>Students</h3>
-          <p>Your own tutor for every subject — explained your way, in your language, out loud, any hour of the day. Plus a coach for when it gets tough.</p>
+          <p>Your own AI Tutor for every subject — explained your way, in your language, out loud, any hour of the day. Plus a coach for when it gets tough.</p>
           <p class="quote">“Explains it my way, in my language, whenever I need it.”</p>
         </div>
         <div class="card who-card">
@@ -613,7 +613,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
             <div class="amt">£20<span> / month</span></div>
             <div class="per-sub">Full access to <b>one subject</b> — then just <b>£5/month</b> per extra subject you add.</div>
             <ul>
-              <li>Your AI subject tutor, tuned to your exam board &amp; books</li>
+              <li>Your AI Tutor for the subject, tuned to your exam board &amp; books</li>
               <li>Practice exams marked instantly + revision tools</li>
               <li>The Translator for language learning</li>
               <li>Parent progress dashboard</li>
@@ -653,7 +653,12 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
       <div class="form-card" id="stPick">
         <label>Choose your subject</label>
         <select class="f f-big" id="stSubjectSel" onchange="onSubjectSel()"></select>
-        <p class="hint" style="margin-top:10px">Over 60 subjects covered — every main GCSE and A-Level subject, plus university modules.</p>
+        <div id="stOtherWrap" style="display:none;margin-top:12px">
+          <label>Type your subject</label>
+          <input class="f f-big" id="stOtherSubject" placeholder="e.g. Marine Biology, Nursing, Accounting, Agriculture…" oninput="onOtherSubject()">
+          <p class="hint" style="margin-top:8px">Anything you're studying — school, college, university or professional. Your AI Tutor teaches it against your own exam board, level and books, exactly like the subjects on the list.</p>
+        </div>
+        <p class="hint" style="margin-top:10px">Over 60 subjects ready to go — every main GCSE and A-Level subject, plus university modules. And if yours isn't there, pick “My subject isn't listed” at the bottom and type it in.</p>
         <div class="pop-label">Popular right now</div>
         <div class="subject-grid" id="subjectGrid"></div>
       </div>
@@ -782,7 +787,8 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
             <h3>Lesson Plan Builder</h3>
             <p class="hint">Fill this in and generate a ready-to-teach plan.</p>
             <label>Subject</label>
-            <select class="f" id="lpSubject"><option>Maths</option><option>English</option><option>Science</option><option>History</option><option>Geography</option><option>Languages</option></select>
+            <select class="f" id="lpSubject"><option>Maths</option></select>
+            <input class="f" id="lpSubjectOther" placeholder="Type the subject you teach…" style="display:none;margin-top:8px">
             <label>Topic</label>
             <input class="f" id="lpTopic" placeholder="e.g. Fractions, Photosynthesis, WWII">
             <label>Level / Year group</label>
@@ -803,7 +809,8 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
             <h3>Worksheet Generator</h3>
             <p class="hint">Create practice questions for your class.</p>
             <label>Subject</label>
-            <select class="f" id="wkSubject"><option>Maths</option><option>English</option><option>Science</option><option>History</option><option>Geography</option></select>
+            <select class="f" id="wkSubject"><option>Maths</option></select>
+            <input class="f" id="wkSubjectOther" placeholder="Type the subject you teach…" style="display:none;margin-top:8px">
             <label>Topic</label>
             <input class="f" id="wkTopic" placeholder="e.g. Multiplication, Adjectives">
             <label>Level</label>
@@ -866,7 +873,8 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
           <p class="hint">Choose a subject and level — we'll pull a short paper for you.</p>
           <div style="display:flex;gap:14px;flex-wrap:wrap">
             <div style="flex:1;min-width:180px"><label>Subject</label>
-              <select class="f" id="exSubject"><option>Maths</option><option>Science</option><option>English</option></select></div>
+              <select class="f" id="exSubject"><option>Maths</option></select>
+              <input class="f" id="exSubjectOther" placeholder="Type the subject…" style="display:none;margin-top:8px"></div>
             <div style="flex:1;min-width:180px"><label>Level</label>
               <select class="f" id="exLevel"><option>KS3</option><option selected>GCSE</option><option>A-Level</option></select></div>
           </div>
@@ -1342,7 +1350,7 @@ var stSubject={name:'Maths Tutor',emoji:'🧮',key:'maths'};
 function sendSt(){
   var inp=document.getElementById('stInput');var q=inp.value.trim();if(!q)return;
   addMsg('stChat','me',q);inp.value='';typing('stChat',true);
-  setTimeout(function(){typing('stChat',false);addMsg('stChat','bot',tutorReply(stSubject.name,q),readOn.st);},700+Math.random()*500);
+  setTimeout(function(){typing('stChat',false);addMsg('stChat','bot',tutorReply(subjName()+' Tutor',q),readOn.st);},700+Math.random()*500);
 }
 function sendTu(){
   var inp=document.getElementById('tuInput');var q=inp.value.trim();if(!q)return;
@@ -1433,7 +1441,11 @@ var SUBJECTS=[
   {name:'Child Development Tutor',emoji:'🧸',key:'child',bk:'science',cat:'Health, PE & Vocational',desc:'Stages of development & play'},
   /* University */
   {name:'University Module Tutor',emoji:'🎓',key:'uni',bk:'uni',cat:'University',desc:'Any degree module — bring your reading list'},
-  {name:'Dissertation & Research Tutor',emoji:'📄',key:'diss',bk:'uni',cat:'University',desc:'Research design, methods & writing up'}
+  {name:'Dissertation & Research Tutor',emoji:'📄',key:'diss',bk:'uni',cat:'University',desc:'Research design, methods & writing up'},
+  /* Nobody gets turned away: whatever the student types here becomes the subject,
+     and the rest of the setup (board, level, class, books, syllabus) works exactly
+     the same way, so the AI Tutor can teach a subject that isn't on the list. */
+  {name:'My subject isn\'t listed — type it in',emoji:'✏️',key:'other',bk:'any',cat:'Anything else',desc:'Any subject at all — you name it, your AI Tutor teaches it'}
 ];
 function subjByKey(k){for(var i=0;i<SUBJECTS.length;i++){if(SUBJECTS[i].key===k)return SUBJECTS[i];}return SUBJECTS[0];}
 /* One grouped subject list, used by EVERY subject dropdown on the site — the
@@ -1445,7 +1457,10 @@ function subjectOptionsHTML(useKeys){
   return cats.map(function(c){
     return '<optgroup label="'+c+'">'+byCat[c].map(function(s){
       var label=s.emoji+'  '+s.name.replace(' Tutor','');
-      return '<option'+(useKeys?' value="'+s.key+'"':' value="'+esc(s.name.replace(' Tutor',''))+'"')+'>'+label+'</option>';
+      /* the teacher tools pass the subject through as text, so the catch-all
+         option carries a sentinel and reveals a free-text box instead */
+      var val=useKeys?s.key:(s.key==='other'?'__other__':s.name.replace(' Tutor',''));
+      return '<option value="'+esc(val)+'">'+label+'</option>';
     }).join('')+'</optgroup>';
   }).join('');
 }
@@ -1453,8 +1468,28 @@ function initSubjectSelect(){
   document.getElementById('stSubjectSel').innerHTML=subjectOptionsHTML(true);
   ['lpSubject','wkSubject','exSubject'].forEach(function(id){
     var el=document.getElementById(id);
-    if(el)el.innerHTML=subjectOptionsHTML(false);
+    if(!el)return;
+    el.innerHTML=subjectOptionsHTML(false);
+    el.onchange=function(){toggleOtherSubject(id);};
   });
+}
+/* Teacher tools: show the free-text box when "my subject isn't listed" is picked */
+function toggleOtherSubject(id){
+  var sel=document.getElementById(id), inp=document.getElementById(id+'Other');
+  if(!sel||!inp)return;
+  inp.style.display=(sel.value==='__other__')?'':'none';
+  if(sel.value==='__other__')inp.focus();
+}
+/* The subject a teacher tool should actually use — typed text wins */
+function subjOf(id){
+  var sel=document.getElementById(id);
+  if(!sel)return '';
+  if(sel.value==='__other__'){
+    var t=((document.getElementById(id+'Other')||{}).value||'').replace(/\s+/g,' ').trim();
+    return t||'your subject';
+  }
+  var o=sel.options[sel.selectedIndex];
+  return (o&&o.value)||o.text;
 }
 function onSubjectSel(){
   var k=document.getElementById('stSubjectSel').value;
@@ -1552,6 +1587,9 @@ var COUNTRIES={
  'Kenya':{
    levels:['Primary / CBC','Junior Secondary','Senior Secondary (KCSE)','University'],
    boards:{'*':['KNEC (Kenya National Examinations Council)','Cambridge International (CAIE)','International Baccalaureate (IB)','My university / awarding body']}},
+ 'Mauritius':{
+   levels:['Primary (PSAC)','Lower Secondary (NCE)','School Certificate (SC / O-Level)','Higher School Certificate (HSC / A-Level)','University'],
+   boards:{'*':['Mauritius Examinations Syndicate (MES)','Cambridge International (CAIE)','Pearson Edexcel International','International Baccalaureate (IB)','My university / awarding body']}},
  'Malaysia':{
    levels:['Primary (UPSR)','Lower Secondary (PT3)','SPM','STPM / Pre-U','University'],
    boards:{'*':['Lembaga Peperiksaan (Malaysian Examinations Syndicate)','Majlis Peperiksaan Malaysia (STPM)','Cambridge International (CAIE)','International Baccalaureate (IB)','My university / awarding body']}},
@@ -1694,12 +1732,15 @@ var BOOKS={
   'A-Level':['Your personal investigation sketchbook','A Level Art & Design study guide','Gallery / exhibition notes'],
   'default':['Your sketchbook or portfolio','A technique reference book','Artist and practitioner research notes']
  },
+ any:{
+  'default':['Your class or course textbook','Your teacher\'s or lecturer\'s handouts and notes','A revision guide or workbook for this subject','Past papers with mark schemes, if your course has them']
+ },
  uni:{
   'default':['Your module core textbook','Your lecturer\'s recommended reading list','Key journal articles and research papers','Lecture notes + past exam papers']
  }
 };
 function recommendBooks(key,level,board){
-  var s=subjByKey(key), m=BOOKS[s.key]||BOOKS[s.bk]||BOOKS.maths, f=fam(level,board);
+  var s=subjByKey(key), m=BOOKS[s.key]||BOOKS[s.bk]||BOOKS.any, f=fam(level,board);
   if(f==='University'||s.bk==='uni') return BOOKS.uni['default'];
   return m[f]||m['default'];
 }
@@ -1780,9 +1821,24 @@ function fillFormFromProfile(p){
   stBooksAuto=false;
   stMyBooks=(p.books||[]).slice();renderMyBooks();
 }
+/* The subject as the student sees it. For the catch-all entry that's whatever
+   they typed, so nothing on screen ever says "My subject isn't listed". */
+function subjName(){
+  if(stSubject&&stSubject.key==='other')return stOtherName||'your subject';
+  return stSubject.name.replace(' Tutor','');
+}
+var stOtherName='';
+function onOtherSubject(){
+  stOtherName=(document.getElementById('stOtherSubject').value||'').replace(/\s+/g,' ').trim();
+  document.getElementById('stSetupTitle').textContent='Set up your '+(stOtherName||'subject');
+}
 function selectSubject(s){
   stSubject=s;
-  document.getElementById('stSetupTitle').textContent='Set up your '+s.name.replace(' Tutor','');
+  var isOther=s.key==='other';
+  var ow=document.getElementById('stOtherWrap');
+  if(ow)ow.style.display=isOther?'':'none';
+  if(isOther)stOtherName=((document.getElementById('stOtherSubject')||{}).value||'').replace(/\s+/g,' ').trim();
+  document.getElementById('stSetupTitle').textContent='Set up your '+(isOther?(stOtherName||'subject'):s.name.replace(' Tutor',''));
   document.getElementById('stSubjectSel').value=s.key;
   var p=stProfiles[s.key];
   if(p){fillFormFromProfile(p);showTutor(p);}
@@ -1875,12 +1931,13 @@ var STD_TOPICS={
        'A-Level':['Economic methodology and the economic problem','Price determination in a competitive market','Production, costs and revenue','Market structures','The labour market','Market failure and government intervention','Measurement of macroeconomic performance','Aggregate demand and supply','Fiscal and monetary policy','The international economy'],
        'default':['What economics is','Wants and needs','Money and prices','Buying and selling']},
  art:{'default':['Recording ideas from observation','Artist and practitioner research','Experimenting with materials and techniques','Developing ideas through the sketchbook','Refining a personal outcome','Evaluating and annotating your work']},
+ any:{'default':['What this subject is really about','The core knowledge you have to know','The key skills and methods','Applying it — worked examples and practice','How the subject is assessed','Revision and exam technique']},
  uni:{'default':['Module aims and learning outcomes','Core reading: week-by-week','Key theories and frameworks','Research methods for this module','Assessment 1: essay / report brief','Assessment 2: exam or project','Referencing and academic writing']}
 };
 function useStandardSyllabus(){
   var level=document.getElementById('stLevel').value, board=document.getElementById('stBoard').value;
   var s=subjByKey(stSubject.key), f=fam(level,board);
-  var m=STD_TOPICS[s.key]||STD_TOPICS[s.bk]||STD_TOPICS.maths;
+  var m=STD_TOPICS[s.key]||STD_TOPICS[s.bk]||STD_TOPICS.any;
   var list=(f==='University'||s.bk==='uni')?STD_TOPICS.uni['default']:(m[f]||m['GCSE']||m['default']);
   var ta=document.getElementById('stSyllabus');
   ta.value=list.map(function(t,i){return (i+1)+'. '+t;}).join('\n');
@@ -1896,6 +1953,10 @@ function renderChapPreview(){
 function editSetup(){showSetup();window.scrollTo({top:document.getElementById('stSetup').offsetTop-80,behavior:'smooth'});}
 function fmtDate(d){try{var x=new Date(d+'T00:00:00');return x.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'});}catch(e){return d;}}
 function saveProfile(){
+  if(stSubject.key==='other'&&!stOtherName){
+    alert('Please type the subject you want to study.');
+    document.getElementById('stOtherSubject').focus();return;
+  }
   var cls=document.getElementById('stClass').value.trim();
   if(!cls){alert("Please tell your AI Tutor which class, year or grade you're in.");document.getElementById('stClass').focus();return;}
   onSyllabusInput();
@@ -1923,7 +1984,7 @@ function saveProfile(){
    (fetch the board's specification, ingest the textbook, generate the plan).
    Timings are per-step so a real API call can simply replace the timeout. */
 function trainTutor(p){
-  var subjShort=stSubject.name.replace(' Tutor','');
+  var subjShort=subjName();
   var nCh=(p.chapters||[]).length;
   var steps=[
     'Reading the '+p.board.replace(/ \(.*\)/,'')+' '+p.level.replace(/ \(.*\)/,'')+' '+subjShort+' specification',
@@ -1936,7 +1997,7 @@ function trainTutor(p){
   document.getElementById('stSetup').style.display='none';
   document.getElementById('stTutorWrap').style.display='none';
   var card=document.getElementById('stTrain');card.style.display='';
-  document.getElementById('stTrainTitle').textContent='Training your '+subjShort+' tutor…';
+  document.getElementById('stTrainTitle').textContent='Training your AI Tutor for '+subjShort+'…';
   document.getElementById('stTrainSub').textContent='Give it a moment — it\'s becoming an expert in exactly what you\'re studying.';
   var ul=document.getElementById('stTrainSteps');
   ul.innerHTML=steps.map(function(s){return '<li><span class="tick"></span><span>'+esc(s)+'</span></li>';}).join('');
@@ -1948,7 +2009,7 @@ function trainTutor(p){
     if(i>=items.length){
       bar.style.width='100%';
       document.getElementById('stTrainSpin').textContent='🎓';
-      document.getElementById('stTrainTitle').textContent='Your '+subjShort+' tutor is ready';
+      document.getElementById('stTrainTitle').textContent='Your AI Tutor for '+subjShort+' is ready';
       document.getElementById('stTrainSub').textContent='It knows your specification, your chapters and your books.';
       setTimeout(function(){
         card.style.display='none';
@@ -1972,15 +2033,16 @@ function trainTutor(p){
    student's board and level; this keeps the same shape, so only topicParts()
    changes when it goes live. */
 var PART_TEMPLATES={
-  science:['What {T} actually is, in plain English','The key words and definitions you have to use correctly','How it works, step by step','The diagram you need to be able to label and describe','How it links to the rest of the course','Exam questions on {T} — and the marks people drop'],
+  science:['What {T} actually {IS}, in plain English','The key words and definitions you have to use correctly','How {IT} {WORK}, step by step','The diagram you need to be able to label and describe','How it links to the rest of the course','Exam questions on {T} — and the marks people drop'],
   maths:  ['The idea behind {T}, without the jargon','The method, step by step','A worked example, talked through line by line','The harder variations that come up in papers','The mistakes that lose marks','Exam questions on {T}, with the mark scheme'],
   english:['What the question is really asking you to do','The key terms and techniques for {T}','A short extract read closely together','How to structure the answer — point, evidence, explanation','Building a model paragraph line by line','What the examiner rewards on {T}'],
   history:['The context — what was happening, and when','The key people, events and dates','Causes: why {T} happened','Consequences and why it mattered','Working with sources and evidence','Exam questions on {T} and how they are marked'],
-  geo:    ['What {T} means and where it happens','The processes behind it, step by step','A case study you can name in the exam','Data, maps and graphs you need to read','Impacts and management','Exam questions on {T} and the command words'],
+  geo:    ['What {T} {MEAN} and where {IT} {HAPPEN}','The processes behind {IT}, step by step','A case study you can name in the exam','Data, maps and graphs you need to read','Impacts and management','Exam questions on {T} and the command words'],
   business:['The concept in plain English','The key terms and formulas','How it works in a real business','Calculations and diagrams you need','Evaluation — the argument on both sides','Exam questions on {T} and where the evaluation marks are'],
-  compsci:['What {T} is and why it exists','The terminology you must use','How it works, step by step','A worked example you can follow','The traps that catch people out','Exam questions on {T} and the mark scheme wording'],
+  compsci:['What {T} {IS} and why {IT} {EXIST}','The terminology you must use','How {IT} {WORK}, step by step','A worked example you can follow','The traps that catch people out','Exam questions on {T} and the mark scheme wording'],
   lang:   ['The vocabulary for {T}','The grammar this topic needs','Listening and reading practice','Speaking phrases you can actually use','Writing a paragraph on {T}','Exam tasks on {T} and how they are marked'],
   art:    ['What the task is asking for','Artists and techniques linked to {T}','Developing your ideas','The practical skills you need','Annotating and evaluating your work','How the assessment objectives are met'],
+  any:    ['What {T} {IS}, in plain English','The words and definitions you have to get right','How {IT} {WORK}, step by step','A worked example we go through together','Where people usually go wrong on {T}','How it gets tested — and what a full-mark answer looks like'],
   uni:    ['The core concept and the debate around it','The key readings and what each one argues','The main theories and models','Applying it — a worked example or case','Critique and counter-arguments','Structuring the essay or exam answer']
 };
 function topicParts(topic){
@@ -1989,7 +2051,21 @@ function topicParts(topic){
   /* keep the article — "What the digestive system actually is" reads properly,
      "What digestive system actually is" does not */
   var t=lowerTopic(String(topic||'this topic'));
-  return tpl.map(function(x){return x.replace(/\{T\}/g,t);});
+  /* "coral reef ecosystems is" read badly, so the verbs agree with the topic */
+  var pl=isPlural(t);
+  var w={T:t,IS:pl?'are':'is',IT:pl?'they':'it',WORK:pl?'work':'works',
+         EXIST:pl?'exist':'exists',MEAN:pl?'mean':'means',HAPPEN:pl?'happen':'happens'};
+  return tpl.map(function(x){
+    return x.replace(/\{(T|IS|IT|WORK|EXIST|MEAN|HAPPEN)\}/g,function(m,k){return w[k];});
+  });
+}
+/* Rough but reliable for topic titles: "ecosystems" plural, "photosynthesis",
+   "physics", "kinetics", "the nervous system" singular. */
+function isPlural(t){
+  var last=(t.trim().split(/\s+/).pop()||'').toLowerCase().replace(/[^a-z]/g,'');
+  if(!/s$/.test(last))return false;
+  if(/(ss|us|is|sis|ics|ness|ies|as|os)$/.test(last))return /ies$/.test(last);
+  return true;
 }
 /* "The digestive system" mid-sentence should not keep its capital T, but "DNA"
    and "Macbeth" must keep theirs. */
@@ -2014,7 +2090,7 @@ function startTopic(p,topic,fromSetup){
 function partLesson(p,i){
   if(i<0||i>=stParts.length)return null;
   stPartIdx=i;
-  var part=stParts[i],subjShort=stSubject.name.replace(' Tutor','');
+  var part=stParts[i],subjShort=subjName();
   var board=(p&&p.board&&p.board.indexOf('isn\'t listed')<0&&p.board.indexOf('no exam board')<0)?p.board:'your exam board';
   var lvl=p?p.level.replace(/ \(.*\)/,''):'';
   var bookLine=(p&&p.books&&p.books.length)
@@ -2046,11 +2122,11 @@ function showTutor(p){
   document.getElementById('stTutorWrap').style.display='';
   renderProfBar(p);
   document.getElementById('stAv').textContent=stSubject.emoji;
-  document.getElementById('stName').textContent=stSubject.name;
-  document.getElementById('stDesc').textContent=stSubject.desc;
+  document.getElementById('stName').textContent=(stSubject.key==='other')?(subjName()+' Tutor'):stSubject.name;
+  document.getElementById('stDesc').textContent=(stSubject.key==='other')?('Taught to your exam board, your level and your own books'):stSubject.desc;
   document.getElementById('stChat').innerHTML='';
   renderStudyPlan(p);
-  var subjShort=stSubject.name.replace(' Tutor','');
+  var subjShort=subjName();
   var board=(p.board&&p.board.indexOf('isn\'t listed')<0&&p.board.indexOf('no exam board')<0)?p.board:'';
   var g="Hi — I'm your AI Tutor for "+subjShort+".\n\nI've trained on your course: "+(board?board+", ":"")+p.level.replace(/ \(.*\)/,'')+", "+p.cls+", "+p.country+".";
   if(p.books&&p.books.length)g+="\n\nI'll work from the books you gave me: "+p.books.slice(0,3).join(', ')+(p.books.length>3?', and the rest of your list':'')+".";
@@ -2096,7 +2172,7 @@ function tutorTab(btn,id){
   document.getElementById(id).classList.add('active');
 }
 function buildLesson(){
-  var s=v('lpSubject'),t=val('lpTopic')||'your topic',l=v('lpLevel'),len=v('lpLen');
+  var s=subjOf('lpSubject'),t=val('lpTopic')||'your topic',l=v('lpLevel'),len=v('lpLen');
   var html='<div class="doc"><h3>'+t+' — Lesson Plan</h3><div class="meta">'+s+' · '+l+' · '+len+'</div>'
    +'<h4>🎯 Learning objectives</h4><ul><li>Understand the key idea behind '+t+'.</li><li>Apply it to at least two worked examples.</li><li>Explain it back in their own words.</li></ul>'
    +'<h4>🔑 Starter (5 min)</h4><p>Quick recall question on the board linked to last lesson, then introduce '+t+' with a real-world hook.</p>'
@@ -2108,7 +2184,7 @@ function buildLesson(){
   document.getElementById('lpOut').innerHTML=html;
 }
 function buildWorksheet(){
-  var s=v('wkSubject'),t=val('wkTopic')||'the topic',l=v('wkLevel'),n=+v('wkNum');
+  var s=subjOf('wkSubject'),t=val('wkTopic')||'the topic',l=v('wkLevel'),n=+v('wkNum');
   var qs='';for(var i=1;i<=n;i++){qs+='<li>Question '+i+' on '+t+' ('+(i<=Math.ceil(n/2)?'foundation':'higher')+').</li>';}
   var html='<div class="doc"><h3>'+t+' — Worksheet</h3><div class="meta">'+s+' · '+l+' · '+n+' questions</div>'
    +'<h4>Instructions</h4><p>Answer all questions. Show your working where needed.</p>'
@@ -2191,7 +2267,7 @@ EXAMS.Geography=[
    silently handing out Maths questions. */
 function genericExam(subj){
   return [
-    {q:'In "'+subj+'", what does the command word "explain" ask you to do?',opts:['Give reasons — say how or why','List the facts','Give your opinion','Draw a diagram'],a:0,fb:'"Explain" wants reasons and links: X happens because Y. "Describe" just wants what.'},
+    {q:'In a '+subj+' exam, what does the command word "explain" ask you to do?',opts:['Give reasons — say how or why','List the facts','Give your opinion','Draw a diagram'],a:0,fb:'"Explain" wants reasons and links: X happens because Y. "Describe" just wants what.'},
     {q:'You have a 6-mark question. Roughly how long should you spend?',opts:['About 6–8 minutes','30 seconds','25 minutes','As long as it takes'],a:0,fb:'A minute a mark plus a little thinking time is the standard rule.'},
     {q:'The best way to revise '+subj+' is…',opts:['testing yourself from memory','re-reading your notes','highlighting the textbook','copying out notes neatly'],a:0,fb:'Active recall beats re-reading in every study that has tested it. Close the book and write what you remember.'},
     {q:'Marks in a longer answer are usually lost by…',opts:['not answering the actual question asked','poor handwriting','writing too little detail on the first line','using technical words'],a:0,fb:'Read the question twice and underline the command word — most lost marks are answers to a question that was not asked.'}
@@ -2199,7 +2275,7 @@ function genericExam(subj){
 }
 var curExam=[],picks=[];
 function startExam(){
-  var subj=v('exSubject');
+  var subj=subjOf('exSubject');
   curExam=EXAMS[subj]||genericExam(subj);picks=new Array(curExam.length).fill(null);
   document.getElementById('examSetup').style.display='none';
   var h='';
@@ -2305,7 +2381,7 @@ var CHILDREN=[
   {name:'Jack Roberts',first:'Jack',av:'J',meta:'Year 8 · KS3 · Active today',subj:'he',obj:'him',poss:'his',
     stats:[['74%','Average score'],['17','Lessons this month'],['4','Exams sat'],['🔥 4','Day study streak']],
     subjects:[['🧮 Maths',71,'up'],['🔬 Science',80,'up'],['📖 English',65,'flat'],['🌍 Geography',77,'up']],
-    strengths:['Science — really curious, asks great questions','Improving fast in maths (up 12% this term)','Enjoys the read-aloud tutor sessions'],
+    strengths:['Science — really curious, asks great questions','Improving fast in maths (up 12% this term)','Enjoys the read-aloud AI Tutor sessions'],
     work:['Spelling and punctuation in English','Times tables — needs quicker recall','Building confidence to attempt harder questions'],
     activity:[
       ['🔬','Chatted with the Science Tutor','States of matter · asked 6 questions','Today'],
@@ -2367,7 +2443,7 @@ function progressReply(q){
   if(t.includes('strong')||t.includes('good at')||t.includes('doing well')||t.includes('best'))
     return name+"'s strongest area is "+top[0].replace(/^[^ ]+ /,'')+" at "+top[1]+"%. Here's where "+subj+"'s doing well:\n\n• "+k.strengths.join("\n• ")+"\n\nA little praise for these goes a long way in keeping "+obj+" motivated.";
   if(t.includes('home')||t.includes('support')||t.includes('how can i')||t.includes('help '+name.toLowerCase()))
-    return "Nice — the best things you can do at home for "+name+":\n\n• Ask "+obj+" to teach YOU something "+subj+" learned today — explaining it out loud locks it in.\n• Keep sessions short and regular (20–30 mins) rather than long cram sessions.\n• Celebrate effort, not just marks.\n• Let "+obj+" use the read-aloud tutor for revision on the go.\n\nWant me to turn this into a simple weekly plan?";
+    return "Nice — the best things you can do at home for "+name+":\n\n• Ask "+obj+" to teach YOU something "+subj+" learned today — explaining it out loud locks it in.\n• Keep sessions short and regular (20–30 mins) rather than long cram sessions.\n• Celebrate effort, not just marks.\n• Let "+obj+" use the read-aloud AI Tutor for revision on the go.\n\nWant me to turn this into a simple weekly plan?";
   if(t.includes('struggl')||t.includes('weak')||t.includes('worst')||t.includes('behind')||t.includes('help'))
     return "The main things to work on for "+name+" right now:\n\n• "+k.work.join("\n• ")+"\n\n"+low[0].replace(/^[^ ]+ /,'')+" is "+poss+" lowest subject at "+low[1]+"%. I'd focus a couple of short sessions there this week — I can set "+obj+" some practice questions if that helps.";
   if(t.includes('ready')||t.includes('exam')||t.includes('test'))
