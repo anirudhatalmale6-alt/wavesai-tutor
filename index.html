@@ -1254,6 +1254,18 @@ function addMsg(chatId,who,text,speakIt){
   }
   c.appendChild(d);c.scrollTop=c.scrollHeight;
   if(who==='bot'&&speakIt)speak(text);
+  return d;
+}
+/* Rewrites a message already on screen — used when the live agent comes back
+   with the real version of something the built-in engine drafted first. */
+function replaceMsg(d,text,speakIt){
+  if(!d)return;
+  d.innerHTML=esc(text).replace(/\n/g,'<br>');
+  var b=document.createElement('button');b.className='read';b.innerHTML='🔊 Read aloud';
+  b.onclick=function(){speak(text);};
+  d.appendChild(document.createElement('br'));d.appendChild(b);
+  var c=d.parentNode;if(c)c.scrollTop=c.scrollHeight;
+  if(speakIt)speak(text);
 }
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function typing(chatId,on){
@@ -1263,8 +1275,57 @@ function typing(chatId,on){
   if(!on&&ex)ex.remove();
 }
 
-/* ---------- Tutoring agent (demo brain — wire to WavesAI agent API here) ---------- */
-/* INTEGRATION POINT: replace tutorReply() with a fetch() to the agent endpoint Claude builds. */
+/* ---------- Live AI Tutor agent ----------
+   The API key can't sit in this page — anyone could read it out and spend the
+   credit — so every call goes through a small endpoint on wavesaistudio.com
+   that holds the key server-side. If that call fails for any reason (offline,
+   rate limit, credit run out) the built-in lesson engine below answers instead,
+   so a student never sees a broken screen. */
+var AI_ENDPOINT='https://wavesaistudio.com/wp-json/wavesai/v1/tutor';
+var aiFails=0;                    /* stop hammering a dead endpoint */
+function aiUp(){return aiFails<3;}
+/* Everything the agent needs to teach THIS student's course */
+function aiCtx(p,extra){
+  var c={subject:subjName()};
+  if(p){
+    c.country=p.country||'';c.level=p.level||'';c.board=p.board||'';
+    c.cls=p.cls||'';c.books=(p.books||[]).slice(0,8);
+    if(p.examDate)c.examDate=fmtDate(p.examDate);
+  }
+  if(stTopic)c.topic=stTopic;
+  if(stPartIdx>=0&&stParts[stPartIdx])c.part=stParts[stPartIdx];
+  if(extra)for(var k in extra)c[k]=extra[k];
+  return c;
+}
+/* The last few turns, so the agent keeps the thread */
+function aiHist(chatId,limit){
+  var out=[],c=document.getElementById(chatId);
+  if(!c)return out;
+  var msgs=c.querySelectorAll('.msg');
+  for(var i=Math.max(0,msgs.length-(limit||8));i<msgs.length;i++){
+    var m=msgs[i],t=(m.innerText||'').replace(/🔊 Read aloud\s*$/,'').trim();
+    if(t)out.push({role:m.classList.contains('me')?'user':'assistant',text:t});
+  }
+  return out;
+}
+function aiCall(task,payload,done){
+  if(!aiUp()){done(null);return;}
+  var killed=false;
+  var timer=setTimeout(function(){killed=true;aiFails++;done(null);},60000);
+  try{
+    /* text/plain keeps this a simple cross-origin POST — no preflight */
+    fetch(AI_ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain'},
+      body:JSON.stringify({task:task,ctx:payload.ctx||{},q:payload.q||'',history:payload.history||[]})})
+      .then(function(r){return r.json();})
+      .then(function(j){
+        if(killed)return;clearTimeout(timer);
+        if(j&&j.ok){aiFails=0;done(j);}else{aiFails++;done(null);}
+      })
+      .catch(function(){if(killed)return;clearTimeout(timer);aiFails++;done(null);});
+  }catch(e){clearTimeout(timer);aiFails++;done(null);}
+}
+
+/* ---------- Tutoring engine (used live, and as the fallback) ---------- */
 function tutorReply(subject,q){
   var s=subject.toLowerCase(), t=q.toLowerCase().trim();
   var p=activeProf();
@@ -1350,7 +1411,26 @@ var stSubject={name:'Maths Tutor',emoji:'🧮',key:'maths'};
 function sendSt(){
   var inp=document.getElementById('stInput');var q=inp.value.trim();if(!q)return;
   addMsg('stChat','me',q);inp.value='';typing('stChat',true);
-  setTimeout(function(){typing('stChat',false);addMsg('stChat','bot',tutorReply(subjName()+' Tutor',q),readOn.st);},700+Math.random()*500);
+  var p=activeProf();
+  /* Run the built-in engine first: it keeps the lesson position in step
+     (which topic, which part) and gives us something to show if the agent
+     can't be reached. */
+  stBrokeDown=false;stTaught=false;
+  var local=tutorReply(subjName()+' Tutor',q);
+  var task=stTaught?'teach':'answer';
+  if(stBrokeDown){
+    /* they named a topic — let the agent split it into real parts */
+    aiCall('parts',{ctx:aiCtx(p),q:stTopic},function(r){
+      typing('stChat',false);
+      if(r&&r.parts&&r.parts.length>=3){stParts=r.parts;local=breakdownText();}
+      addMsg('stChat','bot',local,readOn.st);
+    });
+    return;
+  }
+  aiCall(task,{ctx:aiCtx(p),q:q,history:aiHist('stChat',8)},function(r){
+    typing('stChat',false);
+    addMsg('stChat','bot',(r&&r.text)?r.text:local,readOn.st);
+  });
 }
 function sendTu(){
   var inp=document.getElementById('tuInput');var q=inp.value.trim();if(!q)return;
@@ -2074,22 +2154,38 @@ function lowerTopic(t){
   if(/^[A-Z][a-z]/.test(t)&&!/^(I|A)\b/.test(t))return t.charAt(0).toLowerCase()+t.slice(1);
   return t;
 }
-var stTopic='',stParts=[],stPartIdx=-1;
+var stTopic='',stParts=[],stPartIdx=-1,stLead='',stBrokeDown=false,stTaught=false;
+/* Kept separate so the breakdown can be rebuilt once the live agent returns
+   the real parts for this topic. */
+function breakdownText(){
+  return stLead+"\n\nHere's how I'd split it:\n\n"
+    +stParts.map(function(c,i){return (i+1)+". "+c;}).join("\n")
+    +"\n\nWhich part shall we start with? Type a number — or say \"start\" and I'll take them in order from 1.";
+}
 /* Opens a topic: names it, breaks it down, and asks which part to start with. */
 function startTopic(p,topic,fromSetup){
   stTopic=String(topic).replace(/\s+/g,' ').trim().replace(/[.!]$/,'');
-  stParts=topicParts(stTopic);stPartIdx=-1;
-  var lead=fromSetup
+  stParts=topicParts(stTopic);stPartIdx=-1;stBrokeDown=true;
+  stLead=fromSetup
     ? "You said you want to work on "+lowerTopic(stTopic)+" — so let's go straight into it."
     : "Right — "+lowerTopic(stTopic)+". Let's break it down.";
-  return lead+"\n\nHere's how I'd split it:\n\n"
-    +stParts.map(function(c,i){return (i+1)+". "+c;}).join("\n")
-    +"\n\nWhich part shall we start with? Type a number — or say \"start\" and I'll take them in order from 1.";
+  return breakdownText();
+}
+/* For breakdowns that are already on screen (chapter taps, the opening
+   greeting): ask the agent for the real parts, then rewrite the message. */
+function aiUpgradeBreakdown(node,p,speakIt){
+  if(!node||!stTopic||!aiUp())return;
+  var forTopic=stTopic;
+  aiCall('parts',{ctx:aiCtx(p),q:forTopic},function(r){
+    if(!r||!r.parts||r.parts.length<3||stTopic!==forTopic||stPartIdx>=0)return;
+    stParts=r.parts;
+    replaceMsg(node,breakdownText(),false);
+  });
 }
 /* A real mini-lesson for one part, then a check question and the next step. */
 function partLesson(p,i){
   if(i<0||i>=stParts.length)return null;
-  stPartIdx=i;
+  stPartIdx=i;stTaught=true;
   var part=stParts[i],subjShort=subjName();
   var board=(p&&p.board&&p.board.indexOf('isn\'t listed')<0&&p.board.indexOf('no exam board')<0)?p.board:'your exam board';
   var lvl=p?p.level.replace(/ \(.*\)/,''):'';
@@ -2143,7 +2239,9 @@ function showTutor(p){
   } else {
     g+="\n\nTell me the topic you're working on — a chapter title, a homework question, anything — and I'll break it into parts and teach it.";
   }
-  addMsg('stChat','bot',g,false);
+  var gNode=addMsg('stChat','bot',g,false);
+  /* the greeting carries the topic breakdown, so upgrade that too */
+  if(p.goal)aiUpgradeBreakdown(gNode,p,false);
 }
 /* The chapter plan built from the student's own textbook / syllabus */
 function renderStudyPlan(p){
@@ -2162,7 +2260,9 @@ function teachChapter(i){
   var q='Teach me chapter '+(i+1)+': '+p.chapters[i];
   addMsg('stChat','me',q);
   typing('stChat',true);
-  setTimeout(function(){typing('stChat',false);addMsg('stChat','bot',startTopic(p,p.chapters[i],false),readOn.st);
+  setTimeout(function(){typing('stChat',false);
+    var node=addMsg('stChat','bot',startTopic(p,p.chapters[i],false),readOn.st);
+    aiUpgradeBreakdown(node,p,readOn.st);
     document.getElementById('stChat').scrollIntoView({behavior:'smooth',block:'center'});},800);
 }
 /* ---------- Tutor tabs ---------- */
@@ -2461,7 +2561,11 @@ function coachPreset(text){
 function sendCo(){
   var inp=document.getElementById('coInput');var q=inp.value.trim();if(!q)return;
   addMsg('coChat','me',q);inp.value='';typing('coChat',true);
-  setTimeout(function(){typing('coChat',false);addMsg('coChat','bot',coachReply(q),readOn.co);},700+Math.random()*500);
+  var localCo=coachReply(q);
+  aiCall('coach',{ctx:aiCtx(activeProf()),q:q,history:aiHist('coChat',8)},function(r){
+    typing('coChat',false);
+    addMsg('coChat','bot',(r&&r.text)?r.text:localCo,readOn.co);
+  });
 }
 /* INTEGRATION POINT: replace coachReply() with a call to the WavesAI student study-coach agent
    (student-facing — talks to the learner about their weaknesses, challenges and how to improve).
