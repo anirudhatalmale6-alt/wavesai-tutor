@@ -89,6 +89,11 @@ header{position:sticky;top:0;z-index:100;background:rgba(253,251,247,.85);backdr
 .mechip.show{display:inline-flex}
 .mechip .dot{width:26px;height:26px;border-radius:50%;background:var(--gold);color:#fff;
   display:grid;place-items:center;font-size:12px;font-weight:700}
+/* Long-label buttons may wrap rather than run off a narrow screen. */
+.btn-wrap{white-space:normal;max-width:100%;text-align:center;line-height:1.35}
+.aicheck{margin-top:8px;text-align:center;font-size:12.5px;color:var(--muted);line-height:1.45;
+  max-width:min(56ch,100%);margin-left:auto;margin-right:auto;padding:0 10px;box-sizing:border-box}
+.aicheck a{color:var(--gold);font-weight:600;cursor:pointer;text-decoration:underline}
 .quota{display:none;margin-top:10px;text-align:center;font-size:13px;color:var(--muted)}
 .quota.show{display:block}
 .quota b{color:var(--navy);font-weight:600}
@@ -777,8 +782,8 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
           <p class="hint" style="margin:2px 0 10px">Copy the contents page out of your textbook, or paste the topic list from your exam board's specification. Your AI Tutor breaks it into chapters and builds a lesson for each one.</p>
           <textarea class="f" id="stSyllabus" rows="5" oninput="onSyllabusInput()" placeholder="Paste here, one topic or chapter per line. For example:&#10;1. Number&#10;2. Algebra&#10;3. Ratio, proportion and rates of change&#10;4. Geometry and measures&#10;5. Probability&#10;6. Statistics"></textarea>
           <div class="syll-actions">
-            <button class="btn btn-ghost btn-sm" type="button" onclick="useStandardSyllabus()">Use the standard topic list for my exam board</button>
-            <button class="btn btn-ghost btn-sm" type="button" onclick="document.getElementById('stSyllFile').click()">📎 Upload your syllabus or contents page</button>
+            <button class="btn btn-ghost btn-sm btn-wrap" type="button" onclick="useStandardSyllabus()">Use the standard topic list for my exam board</button>
+            <button class="btn btn-ghost btn-sm btn-wrap" type="button" onclick="document.getElementById('stSyllFile').click()">📎 Upload your syllabus or contents page</button>
             <input type="file" id="stSyllFile" accept=".txt,.csv,.md,.rtf" style="display:none" onchange="readSyllabusFile(this)">
           </div>
           <div class="chap-preview" id="stChapPreview"></div>
@@ -833,6 +838,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
           <button class="send" onclick="sendSt()">➤</button>
         </div>
         <div class="quota" id="stQuota"></div>
+        <div class="aicheck">Your AI Tutor can make mistakes. Always check anything important against your specification, textbook or teacher. <a onclick="go('terms')">More</a></div>
       </div>
       <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:16px">Powered by WavesAI Tutoring agents — trained on your exam board's specification, your class and your books. Try: “Explain photosynthesis simply” or “How do I solve 2x + 3 = 11?”</p>
       </div>
@@ -1161,6 +1167,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
           <button class="send" onclick="sendCo()">➤</button>
         </div>
         <div class="quota" id="coQuota"></div>
+        <div class="aicheck">Your AI Tutor can make mistakes. Always check anything important against your specification, textbook or teacher. <a onclick="go('terms')">More</a></div>
       </div>
       <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:16px">Whatever you're facing, we'll break it into small, doable steps. Tap 🔊 on any reply to hear it read aloud.</p>
     </div>
@@ -1203,6 +1210,9 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
 
         <h3>4. Accuracy — please read this one</h3>
         <p>AI can be confidently wrong. Your AI Tutor is told your exam board, level and books, and it teaches to them, but it can still make mistakes, miss a recent specification change, or explain something in a way your school does not use. Always check anything important against your own specification, textbook or teacher. We do not guarantee any particular grade, result or outcome, and we are not responsible for marks lost as a result of relying on an answer.</p>
+        <p><b>What this means in practice.</b> Your AI Tutor is a study aid. It is not a qualified teacher, not an examiner, and not a replacement for school, college or a human tutor. It can state something incorrect in a confident and convincing way, and it will not always know when it is wrong. It may be out of date where an exam board has changed its specification. It may mark practice work more generously or more harshly than a real examiner would. Treat every explanation as a starting point to be checked, never as a final authority, and never as the only source a student revises from.</p>
+        <p><b>Parents and guardians.</b> Where the student is under 18, the account holder is responsible for supervising how the service is used and for checking work where it matters. We recommend that a parent, guardian or teacher reviews anything that will be submitted, assessed or relied on for an exam.</p>
+        <p><b>No professional advice.</b> Nothing produced by the service is careers, medical, legal, financial or other professional advice, and it should not be relied on as such.</p>
 
         <h3>5. Honest use of your work</h3>
         <p>Your AI Tutor is built to teach you the method rather than hand you finished answers. Submitting AI-generated work as your own may breach your school's or exam board's rules on academic honesty, and that is your responsibility, not ours. Use it to understand the work, not to avoid it.</p>
@@ -1210,7 +1220,11 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
         <h3>6. Subscriptions and payment</h3>
         <p>Paid plans are billed monthly in advance and renew automatically until cancelled. You can cancel at any time and keep access until the end of the period you have paid for. Prices may change; we will give notice before a change affects your renewal. Statutory rights to cancel and to a refund are unaffected.</p>
 
-        <h3>7. Your information</h3>
+        <h3>7. Family plans and who may use an account</h3>
+        <p>Plans are sold per child. A one-child plan is for one named student, a two-child plan for two, and a three-child plan for three. Each student gets their own learning profile and their own daily fair-use allowance.</p>
+        <p>A family plan is for children living in the same household as the account holder. It may be used on as many devices as that family needs — a laptop at home, a phone on the way to school, a tablet at a grandparent's house — but it is not for sharing with friends, other families, classes, tutoring groups or anyone outside the household. Accounts that show use beyond a single household may be moved to the correct plan or suspended.</p>
+
+        <h3>8. Your information</h3>
         <ul>
           <li>Your profile — subject, country, level, exam board, class, books, exam date — is stored in your own browser, not in an account on our servers.</li>
           <li>When you ask a question, that question, your profile details and the recent conversation are sent to our AI provider so it can answer. They are not sold, and they are not used to identify you.</li>
@@ -1218,25 +1232,25 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
           <li>Clearing your browser data clears your profile and your saved progress.</li>
         </ul>
 
-        <h3>8. Availability</h3>
+        <h3>9. Availability</h3>
         <p>We aim to keep the service running at all times, but we cannot guarantee it. It may be unavailable, slowed or limited for maintenance, for reasons outside our control, or when a daily or monthly limit has been reached. If the AI is unreachable, the site falls back to its built-in lesson content so you can keep working.</p>
 
-        <h3>9. Acceptable use</h3>
+        <h3>10. Acceptable use</h3>
         <p>Do not use WavesAI Tutor to produce anything unlawful, abusive, hateful, sexual, or harmful, to attempt to extract or misuse our systems or keys, or to interfere with other people's use of the service. We may suspend or withdraw access where these terms are broken.</p>
 
-        <h3>10. Intellectual property</h3>
+        <h3>11. Intellectual property</h3>
         <p>The website, its content, design and branding belong to WavesAI. You may use the material generated for you for your own study. You may not copy, resell or redistribute the service or its content.</p>
 
-        <h3>11. Liability</h3>
+        <h3>12. Liability</h3>
         <p>WavesAI Tutor is provided on an "as is" basis. To the fullest extent permitted by law, we are not liable for indirect or consequential loss, for lost marks or missed opportunities, or for any loss arising from reliance on AI-generated content. Nothing in these terms limits liability for death or personal injury caused by negligence, or for fraud. Where liability cannot be excluded, it is limited to the amount you have paid us in the previous twelve months.</p>
 
-        <h3>12. Changes to these terms</h3>
+        <h3>13. Changes to these terms</h3>
         <p>We may update these terms. The date at the top shows when they last changed, and continuing to use the service after a change means you accept the updated terms.</p>
 
-        <h3>13. Law</h3>
+        <h3>14. Law</h3>
         <p>These terms are governed by the law of England and Wales, and the courts of England and Wales have jurisdiction.</p>
 
-        <h3>14. Contact</h3>
+        <h3>15. Contact</h3>
         <p>Questions about these terms or about your account: <a href="mailto:support@wavesaistudio.com">support@wavesaistudio.com</a>.</p>
       </div>
     </div>
