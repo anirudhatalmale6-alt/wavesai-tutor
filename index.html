@@ -54,6 +54,41 @@ header{position:sticky;top:0;z-index:100;background:rgba(253,251,247,.85);backdr
 .logo{display:flex;align-items:center;gap:11px;font-family:var(--serif);font-weight:800;font-size:22px;color:var(--navy)}
 .logo .mark{width:38px;height:38px;border-radius:11px;background:linear-gradient(140deg,var(--navy),var(--navy-soft));display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 .logo .mark svg{width:22px;height:22px}
+/* ---------- Accounts, trial & sign-in ----------
+   The AI Tutor costs real money per question, so it sits behind an account
+   with a 7-day trial. Everything here talks to the same wavesaistudio.com
+   endpoints the tutor already uses. */
+.authwrap{position:fixed;inset:0;z-index:400;display:none;align-items:center;justify-content:center;padding:20px;
+  background:rgba(27,45,79,.55);backdrop-filter:blur(4px)}
+.authwrap.show{display:flex}
+.authbox{background:var(--cream);border-radius:var(--radius);box-shadow:var(--shadow);
+  width:100%;max-width:420px;padding:32px 28px;max-height:92vh;overflow:auto}
+.authbox h2{font-family:var(--serif);color:var(--navy);font-size:26px;margin:0 0 6px}
+.authbox .authsub{color:var(--muted);font-size:14.5px;margin:0 0 20px;line-height:1.5}
+.authbox label{display:block;font-size:13.5px;font-weight:600;color:var(--navy);margin:14px 0 6px}
+.authbox .f{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;
+  font-family:var(--sans);font-size:15px;background:#fff;color:var(--ink)}
+.authbox .f:focus{outline:none;border-color:var(--gold)}
+.authbox .btn{width:100%;justify-content:center;margin-top:20px}
+.autherr{display:none;margin-top:14px;padding:11px 14px;border-radius:10px;
+  background:#FDF0EA;color:#9C3B10;font-size:13.5px;line-height:1.45}
+.autherr.show{display:block}
+.authswap{margin-top:18px;text-align:center;font-size:14px;color:var(--muted)}
+.authswap a{color:var(--gold);font-weight:600;cursor:pointer;text-decoration:none}
+.authclose{float:right;background:none;border:none;font-size:22px;color:var(--muted);cursor:pointer;line-height:1;padding:0}
+/* Trial countdown strip */
+.trialbar{display:none;background:var(--gold-glow);border-bottom:1px solid var(--line);
+  padding:9px 16px;text-align:center;font-size:13.5px;color:var(--navy)}
+.trialbar.show{display:block}
+.trialbar b{font-weight:700}
+.trialbar.ending{background:#FDF0EA;color:#9C3B10}
+.trialbar a{color:var(--gold);font-weight:700;cursor:pointer;text-decoration:underline}
+.trialbar.ending a{color:#9C3B10}
+/* "who's signed in" chip in the nav */
+.mechip{display:none;align-items:center;gap:7px;font-size:13.5px;color:var(--navy);font-weight:600;cursor:pointer}
+.mechip.show{display:inline-flex}
+.mechip .dot{width:26px;height:26px;border-radius:50%;background:var(--gold);color:#fff;
+  display:grid;place-items:center;font-size:12px;font-weight:700}
 .quota{display:none;margin-top:10px;text-align:center;font-size:13px;color:var(--muted)}
 .quota.show{display:block}
 .quota b{color:var(--navy);font-weight:600}
@@ -418,7 +453,8 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
       <a data-nav="coach" onclick="go('coach')">Coach</a>
     </nav>
     <div class="nav-cta">
-      <button class="btn btn-navy btn-sm" onclick="go('students')">Get Started</button>
+      <span class="mechip" id="meChip" onclick="authMenu()"><span class="dot" id="meInitial">S</span><span id="meName">Account</span></span>
+      <button class="btn btn-navy btn-sm" id="navCta" onclick="authStart()">Sign in</button>
       <button class="burger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -430,9 +466,36 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
     <a data-nav="translator" onclick="go('translator')">Translator</a>
     <a data-nav="parents" onclick="go('parents')">Parents</a>
     <a data-nav="coach" onclick="go('coach')">Coach</a>
-    <button class="btn btn-navy" style="margin-top:8px" onclick="go('students')">Get Started</button>
+    <button class="btn btn-navy" style="margin-top:8px" id="mmCta" onclick="authStart()">Sign in</button>
   </div>
 </header>
+
+<!-- Trial countdown. Hidden until an account is signed in. -->
+<div class="trialbar" id="trialBar"></div>
+
+<!-- Sign-in / sign-up. One box, two modes. -->
+<div class="authwrap" id="authWrap">
+  <div class="authbox">
+    <button class="authclose" onclick="authClose()" aria-label="Close">&times;</button>
+    <h2 id="authTitle">Start your free trial</h2>
+    <p class="authsub" id="authSub">7 days free. Every subject, as many questions as you like.</p>
+    <form onsubmit="authSubmit(event)">
+      <div id="authNameRow">
+        <label for="authName">Your name</label>
+        <input class="f" id="authName" autocomplete="name" placeholder="Emma">
+      </div>
+      <label for="authEmail">Email</label>
+      <input class="f" id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required>
+      <label for="authPass">Password</label>
+      <input class="f" id="authPass" type="password" autocomplete="current-password" placeholder="At least 8 characters" required>
+      <button class="btn btn-navy" id="authGo" type="submit">Start free trial</button>
+    </form>
+    <div class="autherr" id="authErr"></div>
+    <div class="authswap" id="authSwap">
+      Already have an account? <a onclick="authMode('login')">Sign in</a>
+    </div>
+  </div>
+</div>
 
 <!-- ============ HOME ============ -->
 <main id="home" class="view active">
@@ -1377,6 +1440,125 @@ function typing(chatId,on){
    that holds the key server-side. If that call fails for any reason (offline,
    rate limit, credit run out) the built-in lesson engine below answers instead,
    so a student never sees a broken screen. */
+/* ---------- Accounts, trial & sign-in ----------
+   The tutor endpoint costs real money per question, so it sits behind an
+   account. The token below is minted by the server and kept in localStorage;
+   the server is the thing that actually decides access, this is only the UI. */
+var AUTH_BASE='https://wavesaistudio.com/wp-json/wavesai/v1';
+var authAcct=null, authWorking=false;
+
+function authToken(){try{return localStorage.getItem('wavesai_tutor_token')||'';}catch(e){return '';}}
+function authSetToken(t){try{t?localStorage.setItem('wavesai_tutor_token',t):localStorage.removeItem('wavesai_tutor_token');}catch(e){}}
+
+function authPost(path,body,done){
+  fetch(AUTH_BASE+'/'+path,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(body||{})})
+    .then(function(r){return r.json();}).then(done)
+    .catch(function(){done({ok:false,error:"We couldn't reach the server just then. Please check your connection and try again."});});
+}
+
+/* Open the box. mode is 'signup' (default) or 'login'. */
+function authStart(mode){authMode(mode||'signup');document.getElementById('authWrap').classList.add('show');}
+function authClose(){document.getElementById('authWrap').classList.remove('show');authErr('');}
+function authMode(mode){
+  var signup=(mode!=='login');
+  document.getElementById('authTitle').textContent=signup?'Start your free trial':'Welcome back';
+  document.getElementById('authSub').textContent=signup
+    ? '7 days free. Every subject, as many questions as you like.'
+    : 'Sign in to carry on where you left off.';
+  document.getElementById('authNameRow').style.display=signup?'':'none';
+  document.getElementById('authGo').textContent=signup?'Start free trial':'Sign in';
+  document.getElementById('authPass').setAttribute('autocomplete',signup?'new-password':'current-password');
+  document.getElementById('authSwap').innerHTML=signup
+    ? 'Already have an account? <a onclick="authMode(\'login\')">Sign in</a>'
+    : "New here? <a onclick=\"authMode('signup')\">Start your free trial</a>";
+  document.getElementById('authWrap').dataset.mode=signup?'signup':'login';
+  authErr('');
+}
+function authErr(msg){
+  var el=document.getElementById('authErr');
+  el.textContent=msg||'';el.className='autherr'+(msg?' show':'');
+}
+
+function authSubmit(e){
+  e.preventDefault();
+  if(authWorking)return;
+  var signup=document.getElementById('authWrap').dataset.mode!=='login';
+  var email=document.getElementById('authEmail').value.trim();
+  var pass=document.getElementById('authPass').value;
+  if(signup&&pass.length<8){authErr('Your password needs to be at least 8 characters.');return;}
+  authWorking=true;
+  var btn=document.getElementById('authGo');
+  var label=btn.textContent;btn.textContent='One moment…';
+  authPost(signup?'tutor-signup':'tutor-login',
+    {email:email,password:pass,name:document.getElementById('authName').value.trim()},
+    function(j){
+      authWorking=false;btn.textContent=label;
+      if(!j||!j.ok){authErr((j&&j.error)||'Something went wrong. Please try again.');return;}
+      authSetToken(j.token);authAcct=j.account||null;
+      authClose();authPaint();
+      document.getElementById('authPass').value='';
+    });
+}
+
+function authSignOut(){authSetToken('');authAcct=null;authPaint();go('home');}
+function authMenu(){
+  if(!authAcct)return;
+  if(confirm('Signed in as '+(authAcct.email||'')+'.\n\nSign out?'))authSignOut();
+}
+
+/* Paint the nav chip and the trial strip from whatever the server last told us.
+   Nothing here is hardcoded — the days and the status both come from the API. */
+function authPaint(){
+  var chip=document.getElementById('meChip'),cta=document.getElementById('navCta'),
+      mm=document.getElementById('mmCta'),bar=document.getElementById('trialBar');
+  if(!authAcct){
+    if(chip)chip.classList.remove('show');
+    if(cta){cta.style.display='';cta.textContent='Sign in';cta.onclick=function(){authStart();};}
+    if(mm){mm.textContent='Sign in';mm.onclick=function(){authStart();};}
+    if(bar)bar.className='trialbar';
+    return;
+  }
+  var who=(authAcct.name||authAcct.email||'').trim();
+  if(chip){
+    chip.classList.add('show');
+    document.getElementById('meInitial').textContent=(who.charAt(0)||'S').toUpperCase();
+    document.getElementById('meName').textContent=who.split(' ')[0]||'Account';
+  }
+  if(cta)cta.style.display='none';
+  if(mm){mm.textContent='Sign out';mm.onclick=authSignOut;}
+
+  if(!bar)return;
+  if(authAcct.status==='trial'){
+    var d=authAcct.days_left;
+    bar.className='trialbar show'+(d<=2?' ending':'');
+    bar.innerHTML='Free trial — <b>'+d+' day'+(d===1?'':'s')+'</b> left. '+
+      '<a onclick="authSubscribe()">Subscribe to keep your AI Tutor</a>';
+  }else if(authAcct.status==='expired'){
+    bar.className='trialbar show ending';
+    bar.innerHTML='Your free trial has ended. <a onclick="authSubscribe()">Subscribe to carry on learning</a>';
+  }else{
+    bar.className='trialbar';           /* paid — no strip, nothing to nag about */
+  }
+}
+
+/* Checkout is wired once the payment keys are in. Until then, say so honestly
+   rather than showing a button that goes nowhere. */
+function authSubscribe(){
+  alert("Subscriptions are being switched on shortly — you'll be able to subscribe from right here.\n\nYour trial and your account are already saved, so nothing will be lost.");
+}
+
+/* On load, ask the server who this is. A missing or stale token just means
+   signed out — never an error the student has to see. */
+function authBoot(){
+  var t=authToken();
+  if(!t){authPaint();return;}
+  authPost('tutor-me',{token:t},function(j){
+    if(j&&j.ok&&j.account){authAcct=j.account;}
+    else{authSetToken('');authAcct=null;}
+    authPaint();
+  });
+}
+
 var AI_ENDPOINT='https://wavesaistudio.com/wp-json/wavesai/v1/tutor';
 var aiFails=0;                    /* stop hammering a dead endpoint */
 function aiUp(){return aiFails<3;}
@@ -1438,7 +1620,8 @@ function aiCall(task,payload,done){
   try{
     /* text/plain keeps this a simple cross-origin POST — no preflight */
     fetch(AI_ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain'},
-      body:JSON.stringify({task:task,ctx:payload.ctx||{},q:payload.q||'',history:payload.history||[],sid:studentId()})})
+      body:JSON.stringify({task:task,ctx:payload.ctx||{},q:payload.q||'',history:payload.history||[],
+        sid:studentId(),token:authToken()})})
       .then(function(r){return r.json();})
       .then(function(j){
         if(killed)return;clearTimeout(timer);
@@ -1448,6 +1631,15 @@ function aiCall(task,payload,done){
            straight through so the student gets told, not fobbed off with a
            canned answer from the built-in engine. */
         if(j&&j.limited){done({limited:true,error:j.error||'',capped:!!j.capped});return;}
+        /* Not signed in, or the trial ran out. Neither is a failure of the
+           endpoint, so don't count it against aiFails and don't fall back to
+           the built-in engine — the student needs to see the real reason. */
+        if(j&&(j.need_login||j.need_pay)){
+          if(j.need_login){authAcct=null;authPaint();authStart('login');}
+          else{authBoot();}
+          done({limited:true,error:j.message||j.error||'',capped:false});
+          return;
+        }
         aiFails++;done(null);
       })
       .catch(function(){if(killed)return;clearTimeout(timer);aiFails++;done(null);});
@@ -3114,6 +3306,7 @@ function markPrac(){
 function retryPrac(){document.getElementById('pracSetup').style.display='';document.getElementById('pracArea').innerHTML='';window.scrollTo({top:document.getElementById('tr-prac').offsetTop-90,behavior:'smooth'});}
 
 /* ---------- Init ---------- */
+authBoot();
 loadProfiles();
 initSubjectSelect();
 initCountries();
