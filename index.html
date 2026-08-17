@@ -188,7 +188,7 @@ section.block{padding:64px 0}
 .step p{color:var(--muted);font-size:15px}
 .pricing{max-width:520px;margin:44px auto 0}
 .price-card{background:linear-gradient(180deg,#fff,var(--panel));border:2px solid var(--gold);border-radius:24px;padding:38px 34px;text-align:center;box-shadow:var(--shadow)}
-.price-card .trial{display:inline-block;background:var(--gold-glow);color:var(--gold);font-weight:700;font-size:13px;padding:6px 16px;border-radius:999px;letter-spacing:.03em}
+.price-card .trial,.trial{display:inline-block;background:var(--gold-glow);color:var(--gold);font-weight:700;font-size:13px;padding:6px 16px;border-radius:999px;letter-spacing:.03em}
 .price-card .amt{font-family:var(--serif);font-size:52px;color:var(--navy);font-weight:800;margin:16px 0 2px;line-height:1}
 .price-card .amt span{font-size:18px;color:var(--muted);font-weight:400}
 .price-card .per-sub{color:var(--ink);font-size:15.5px;margin-top:8px}
@@ -197,6 +197,23 @@ section.block{padding:64px 0}
 .price-card li{padding:7px 0 7px 28px;position:relative;color:var(--ink);font-size:15px}
 .price-card li::before{content:"✓";position:absolute;left:0;color:var(--gold);font-weight:800}
 .price-card .btn{margin-top:26px}
+/* Plan grid: the paid tiers, sold by hours a week and by how many children. */
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:22px}
+.plan{background:#fff;border:1.5px solid var(--line);border-radius:20px;padding:26px 24px;text-align:center;position:relative;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.plan:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--gold)}
+.plan.best{border-color:var(--gold);border-width:2px;box-shadow:var(--shadow)}
+.plan .tag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:#fff;font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 14px;border-radius:999px;white-space:nowrap}
+.plan .p{font-family:var(--serif);font-size:40px;font-weight:800;color:var(--navy);line-height:1;margin:6px 0 2px}
+.plan .p span{font-size:15px;color:var(--muted);font-weight:400}
+.plan .hrs{font-weight:700;color:var(--navy);font-size:16px;margin-top:10px}
+.plan .who{color:var(--muted);font-size:14.5px;margin-top:3px}
+.plan-group-title{font-weight:800;color:var(--navy);font-size:15px;letter-spacing:.04em;text-transform:uppercase;margin:34px 0 0}
+.plan-note{color:var(--muted);font-size:14.5px;margin-top:16px;max-width:62ch}
+.plan-inc{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:26px 28px;margin-top:26px}
+.plan-inc h4{margin:0 0 12px;font-size:17px;color:var(--navy)}
+.plan-inc ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:4px 22px}
+.plan-inc li{padding:6px 0 6px 26px;position:relative;font-size:15px;color:var(--ink)}
+.plan-inc li::before{content:"✓";position:absolute;left:0;color:var(--gold);font-weight:800}
 @media(max-width:760px){.steps{grid-template-columns:1fr}}
 
 /* Sub-hero for inner views */
@@ -686,23 +703,66 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
 
       <div style="margin-top:56px">
         <p class="eyebrow">Simple pricing</p>
-        <h2>One plan. Every tool. Add subjects as you go.</h2>
-        <div class="pricing">
-          <div class="price-card">
-            <span class="trial">✦ 7-day free trial</span>
-            <div class="amt">£20<span> / month</span></div>
-            <div class="per-sub">Full access to <b>one subject</b> — then just <b>£5/month</b> per extra subject you add.</div>
-            <ul>
-              <li>Your AI Tutor for the subject, tuned to your exam board &amp; books</li>
-              <li>Practice exams marked instantly + revision tools</li>
-              <li>The Translator for language learning</li>
-              <li>Parent progress dashboard</li>
-              <li>Personal Study Coach</li>
-              <li>Read-aloud on everything · cancel anytime</li>
-            </ul>
-            <div><button class="btn btn-navy" onclick="go('students')">Start your free trial</button></div>
-            <p style="color:var(--muted);font-size:13px;margin-top:14px">7 days free — no charge today. Cancel before it ends and you won't be billed.</p>
+        <h2>Pick the hours you need. Every subject is included.</h2>
+        <p class="plan-note">A private tutor costs £30&ndash;£40 an hour, for one subject, at a time that suits them.
+        Your AI Tutor covers every subject your child studies, at any hour, for a few pounds a week.</p>
+
+        <p class="plan-group-title">Hours a week</p>
+        <div class="plan-grid">
+          <div class="plan">
+            <div class="p">£15<span> / month</span></div>
+            <div class="hrs">3 hours a week</div>
+            <div class="who">One child</div>
           </div>
+          <div class="plan best">
+            <span class="tag">Most popular</span>
+            <div class="p">£25<span> / month</span></div>
+            <div class="hrs">5 hours a week</div>
+            <div class="who">Two children</div>
+          </div>
+          <div class="plan">
+            <div class="p">£35<span> / month</span></div>
+            <div class="hrs">7 hours a week</div>
+            <div class="who">Three children</div>
+          </div>
+        </div>
+
+        <p class="plan-group-title">Unlimited</p>
+        <div class="plan-grid">
+          <div class="plan">
+            <div class="p">£50<span> / month</span></div>
+            <div class="hrs">Unlimited hours</div>
+            <div class="who">One child</div>
+          </div>
+          <div class="plan">
+            <div class="p">£75<span> / month</span></div>
+            <div class="hrs">Unlimited hours</div>
+            <div class="who">Two children</div>
+          </div>
+        </div>
+
+        <div class="plan-inc">
+          <h4>Every plan includes</h4>
+          <ul>
+            <li>Every subject &mdash; no extra charge for adding more</li>
+            <li>Tutoring tuned to your exam board, level and your own books</li>
+            <li>Practice exams marked instantly, with revision tools</li>
+            <li>The Translator for language learning</li>
+            <li>Parent progress dashboard</li>
+            <li>Personal Study Coach</li>
+            <li>Read-aloud on every answer and lesson</li>
+            <li>Cancel any time</li>
+          </ul>
+        </div>
+
+        <p class="plan-note">Hours are counted as questions and answers with your tutor &mdash; we count 20 of them as an hour, which is
+        roughly how long that takes. Your hours refresh every Monday, so a quiet week followed by a busy one is fine. On the family plans
+        the hours are shared between your children, however they want to use them.</p>
+
+        <div style="text-align:center;margin-top:26px">
+          <span class="trial">✦ 7-day free trial</span>
+          <div style="margin-top:16px"><button class="btn btn-navy" onclick="go('students')">Start your free trial</button></div>
+          <p style="color:var(--muted);font-size:13px;margin-top:14px">7 days free &mdash; no charge today. Cancel before it ends and you won't be billed.</p>
         </div>
       </div>
 
