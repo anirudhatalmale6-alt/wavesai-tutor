@@ -76,6 +76,21 @@ header{position:sticky;top:0;z-index:100;background:rgba(253,251,247,.85);backdr
 .authswap{margin-top:18px;text-align:center;font-size:14px;color:var(--muted)}
 .authswap a{color:var(--gold);font-weight:600;cursor:pointer;text-decoration:none}
 .authclose{float:right;background:none;border:none;font-size:22px;color:var(--muted);cursor:pointer;line-height:1;padding:0}
+/* Checkout picker — same shell as the sign-in box, a little wider so the
+   plans can sit in a readable list rather than a cramped grid. */
+.authbox.wide{max-width:520px}
+.pk{display:flex;align-items:center;gap:12px;width:100%;text-align:left;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;border-radius:14px;padding:13px 15px;margin-top:9px;
+  font-family:var(--sans);transition:border-color .15s ease,background .15s ease}
+.pk:hover{border-color:var(--gold)}
+.pk.on{border-color:var(--gold);border-width:2px;background:var(--gold-glow)}
+.pk .pkm{flex:1;min-width:0}
+.pk .pkt{font-weight:700;color:var(--navy);font-size:15px}
+.pk .pkd{color:var(--muted);font-size:13px;margin-top:1px}
+.pk .pkp{font-family:var(--serif);font-weight:800;color:var(--navy);font-size:20px;white-space:nowrap}
+.pktot{display:flex;justify-content:space-between;align-items:baseline;margin-top:18px;
+  padding-top:14px;border-top:1px solid var(--line);color:var(--navy);font-weight:700}
+.pktot span{font-family:var(--serif);font-size:24px}
 /* Trial countdown strip */
 .trialbar{display:none;background:var(--gold-glow);border-bottom:1px solid var(--line);
   padding:9px 16px;text-align:center;font-size:13.5px;color:var(--navy)}
@@ -199,7 +214,7 @@ section.block{padding:64px 0}
 .price-card .btn{margin-top:26px}
 /* Plan grid: the paid tiers, sold by hours a week and by how many children. */
 .plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:22px}
-.plan{background:#fff;border:1.5px solid var(--line);border-radius:20px;padding:26px 24px;text-align:center;position:relative;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.plan{cursor:pointer;background:#fff;border:1.5px solid var(--line);border-radius:20px;padding:26px 24px;text-align:center;position:relative;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
 .plan:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--gold)}
 .plan.best{border-color:var(--gold);border-width:2px;box-shadow:var(--shadow)}
 .plan .tag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:#fff;font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 14px;border-radius:999px;white-space:nowrap}
@@ -496,6 +511,26 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
 <div class="trialbar" id="trialBar"></div>
 
 <!-- Sign-in / sign-up. One box, two modes. -->
+<!-- Choose a plan, then off to Stripe. The prices here are only what the
+     parent reads; what they are actually charged comes from Stripe, so a
+     tampered page cannot buy a £95 plan for £15. -->
+<div class="authwrap" id="payWrap">
+  <div class="authbox wide">
+    <button class="authclose" onclick="payClose()" aria-label="Close">&times;</button>
+    <h2>Choose your plan</h2>
+    <p class="authsub">Cancel any time. Your tutor keeps everything you have already done.</p>
+    <div id="payPlans"></div>
+    <label for="paySubs">Extra subjects</label>
+    <select class="f" id="paySubs" onchange="payPaint()"></select>
+    <p class="authsub" style="margin:6px 0 0;font-size:13px">Each child gets one subject on the plan. Any subject after that is £5 a month.</p>
+    <div class="pktot">Total each month <span id="payTotal">£15</span></div>
+    <div class="autherr" id="payErr"></div>
+    <button class="btn btn-navy" id="payGo" onclick="payGo()">Continue to payment</button>
+    <p class="authsub" style="margin:14px 0 0;text-align:center;font-size:12.5px">
+      Payment is handled by Stripe. We never see your card details.</p>
+  </div>
+</div>
+
 <div class="authwrap" id="authWrap">
   <div class="authbox">
     <button class="authclose" onclick="authClose()" aria-label="Close">&times;</button>
@@ -709,18 +744,18 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
 
         <p class="plan-group-title">Hours a week</p>
         <div class="plan-grid">
-          <div class="plan">
+          <div class="plan" onclick="authSubscribe('capped1')" role="button" tabindex="0">
             <div class="p">£15<span> / month</span></div>
             <div class="hrs">3 hours a week</div>
             <div class="who">One child</div>
           </div>
-          <div class="plan best">
+          <div class="plan best" onclick="authSubscribe('capped2')" role="button" tabindex="0">
             <span class="tag">Most popular</span>
             <div class="p">£25<span> / month</span></div>
             <div class="hrs">5 hours a week</div>
             <div class="who">Up to two children</div>
           </div>
-          <div class="plan">
+          <div class="plan" onclick="authSubscribe('capped3')" role="button" tabindex="0">
             <div class="p">£35<span> / month</span></div>
             <div class="hrs">7 hours a week</div>
             <div class="who">Up to three children</div>
@@ -729,17 +764,17 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
 
         <p class="plan-group-title">Unlimited</p>
         <div class="plan-grid">
-          <div class="plan">
+          <div class="plan" onclick="authSubscribe('unlimited1')" role="button" tabindex="0">
             <div class="p">£50<span> / month</span></div>
             <div class="hrs">Unlimited hours</div>
             <div class="who">One child</div>
           </div>
-          <div class="plan">
+          <div class="plan" onclick="authSubscribe('unlimited2')" role="button" tabindex="0">
             <div class="p">£75<span> / month</span></div>
             <div class="hrs">Unlimited hours</div>
             <div class="who">Up to two children</div>
           </div>
-          <div class="plan">
+          <div class="plan" onclick="authSubscribe('unlimited3')" role="button" tabindex="0">
             <div class="p">£95<span> / month</span></div>
             <div class="hrs">Unlimited hours</div>
             <div class="who">Up to three children</div>
@@ -767,7 +802,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
 
         <div style="text-align:center;margin-top:26px">
           <span class="trial">✦ 7-day free trial</span>
-          <div style="margin-top:16px"><button class="btn btn-navy" onclick="go('students')">Start your free trial</button></div>
+          <div style="margin-top:16px"><button class="btn btn-navy" onclick="authToken()?authSubscribe(''):authStart('signup')">Start your free trial</button></div>
           <p style="color:var(--muted);font-size:13px;margin-top:14px">7 days free &mdash; no charge today. Cancel before it ends and you won't be billed.</p>
         </div>
       </div>
@@ -1580,6 +1615,9 @@ function authSubmit(e){
       authSetToken(j.token);authAcct=j.account||null;
       authClose();authPaint();
       document.getElementById('authPass').value='';
+      /* They clicked a plan before they had an account. Pick the thread back
+         up rather than dropping them on the page wondering what happened. */
+      if(payPending!==''){var pl=payPending;payPending='';setTimeout(function(){payOpen(pl);},250);}
     });
 }
 
@@ -1624,10 +1662,97 @@ function authPaint(){
   }
 }
 
-/* Checkout is wired once the payment keys are in. Until then, say so honestly
-   rather than showing a button that goes nowhere. */
-function authSubscribe(){
-  alert("Subscriptions are being switched on shortly — you'll be able to subscribe from right here.\n\nYour trial and your account are already saved, so nothing will be lost.");
+/* ---------- Subscribing ----------
+   The plan list is duplicated here for display only. Stripe holds the real
+   prices, and the server decides which price a plan key buys, so nothing a
+   student edits in this page can change what they are charged. */
+var PAY_PLANS=[
+  {k:'capped1',   t:'3 hours a week',  d:'One child',          p:15},
+  {k:'capped2',   t:'5 hours a week',  d:'Up to two children',  p:25},
+  {k:'capped3',   t:'7 hours a week',  d:'Up to three children',p:35},
+  {k:'unlimited1',t:'Unlimited hours', d:'One child',           p:50},
+  {k:'unlimited2',t:'Unlimited hours', d:'Up to two children',  p:75},
+  {k:'unlimited3',t:'Unlimited hours', d:'Up to three children',p:95}
+];
+var payPlan='capped1', payBusy=false;
+
+function authSubscribe(plan){
+  /* Nobody can subscribe without an account — the subscription has to attach
+     to one. Signing up first also means a card is never asked for before the
+     free trial has been offered. */
+  if(!authToken()){ payPending=plan||''; authStart('signup'); return; }
+  payOpen(plan);
+}
+var payPending='';
+
+function payOpen(plan){
+  payPlan=plan||payPlan;
+  var sel=document.getElementById('paySubs');
+  if(!sel.options.length){
+    for(var i=0;i<=5;i++){
+      var o=document.createElement('option');
+      o.value=i; o.textContent=i===0?'None — one subject each':(i+' extra subject'+(i>1?'s':'')+' (£'+(i*5)+' a month)');
+      sel.appendChild(o);
+    }
+  }
+  payErr('');
+  document.getElementById('payWrap').classList.add('show');
+  payPaint();
+}
+function payClose(){document.getElementById('payWrap').classList.remove('show');}
+function payErr(m){var e=document.getElementById('payErr');e.textContent=m||'';e.className='autherr'+(m?' show':'');}
+
+function payPaint(){
+  var wrap=document.getElementById('payPlans'); wrap.innerHTML='';
+  PAY_PLANS.forEach(function(pl){
+    var b=document.createElement('button');
+    b.type='button'; b.className='pk'+(pl.k===payPlan?' on':'');
+    b.onclick=function(){payPlan=pl.k;payPaint();};
+    b.innerHTML='<div class="pkm"><div class="pkt">'+pl.t+'</div><div class="pkd">'+pl.d+'</div></div>'+
+                '<div class="pkp">£'+pl.p+'</div>';
+    wrap.appendChild(b);
+  });
+  var extra=parseInt(document.getElementById('paySubs').value||'0',10)||0;
+  var base=0; PAY_PLANS.forEach(function(p){if(p.k===payPlan)base=p.p;});
+  document.getElementById('payTotal').textContent='£'+(base+extra*5);
+}
+
+function payGo(){
+  if(payBusy) return;
+  var btn=document.getElementById('payGo');
+  payBusy=true; btn.textContent='Opening secure payment…'; payErr('');
+  authPost('tutor-checkout',{
+    token:authToken(), plan:payPlan,
+    subjects:parseInt(document.getElementById('paySubs').value||'0',10)||0
+  },function(j){
+    if(j&&j.ok&&j.url){ window.location.href=j.url; return; }   /* Stripe takes it from here */
+    payBusy=false; btn.textContent='Continue to payment';
+    payErr((j&&j.error)||'Payment could not be started. Please try again.');
+  });
+}
+
+/* Coming back from Stripe. The redirect is not proof of anything — the
+   webhook is what actually marks the account as paying — so all we do here
+   is re-read the account and let the server say whether it went through. */
+function payReturn(){
+  if(location.search.indexOf('paid=1')===-1) return;
+  history.replaceState({},'',location.pathname);
+  var tries=0;
+  (function poll(){
+    authPost('tutor-me',{token:authToken()},function(j){
+      if(j&&j.ok&&j.account){
+        authAcct=j.account; authPaint();
+        if(authAcct.status==='active'){
+          alert('You are all set — thank you. Your plan is active and your tutor is ready.');
+          return;
+        }
+      }
+      /* Stripe's webhook usually lands within a second or two, but it is not
+         instant, so give it a few goes before telling anyone anything. */
+      if(++tries<6) setTimeout(poll,1500);
+      else alert('Payment received. Your plan will switch on within a minute — refresh the page if it has not.');
+    });
+  })();
 }
 
 /* On load, ask the server who this is. A missing or stale token just means
@@ -3390,6 +3515,7 @@ function retryPrac(){document.getElementById('pracSetup').style.display='';docum
 
 /* ---------- Init ---------- */
 authBoot();
+payReturn();
 loadProfiles();
 initSubjectSelect();
 initCountries();
