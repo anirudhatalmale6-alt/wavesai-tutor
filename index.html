@@ -1872,7 +1872,7 @@ function aiCall(task,payload,done){
       .then(function(r){return r.json();})
       .then(function(j){
         if(killed)return;clearTimeout(timer);
-        if(j)setQuota(j);
+        if(j&&j.counted!==false)setQuota(j);
         if(j&&j.ok){aiFails=0;done(j);return;}
         /* Hitting the daily allowance isn't the endpoint failing — pass it
            straight through so the student gets told, not fobbed off with a
