@@ -1514,12 +1514,21 @@ function serverSpeak(txt){
         if(first)speakNow(txt);                 /* nothing played yet — device voice it is */
         return;
       }
-      first=false;
+      var wasFirst=first; first=false;
       if(!ttsAudio)ttsAudio=new Audio();
       ttsAudio.onended=next;
+      /* A clip made a second ago can come back 404 or 412 for a moment from
+         behind the host's cache. One retry, then the device voice takes over. */
+      var tries=0;
+      ttsAudio.onerror=function(){
+        if(mine!==speakSeq)return;
+        if(tries++<1){setTimeout(function(){if(mine===speakSeq){ttsAudio.src=j.url+'?r=1';ttsAudio.play();}},900);return;}
+        ttsAudio.onerror=null;
+        if(wasFirst)speakNow(txt);
+      };
       ttsAudio.src=j.url;
       var p=ttsAudio.play();
-      if(p&&p.catch)p.catch(function(){if(mine===speakSeq&&first!==false)speakNow(txt);});
+      if(p&&p.catch)p.catch(function(){if(mine===speakSeq&&wasFirst)speakNow(txt);});
     }).catch(function(){
       if(mine===speakSeq&&first)speakNow(txt);
     });
