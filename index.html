@@ -524,6 +524,7 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
     <select class="f" id="paySubs" onchange="payPaint()"></select>
     <p class="authsub" style="margin:6px 0 0;font-size:13px">Each child gets one subject on the plan. Any subject after that is £5 a month.</p>
     <div class="pktot">Total each month <span id="payTotal">£15</span></div>
+    <p id="payTrialNote" style="display:none;color:var(--muted);font-size:13px;margin:8px 0 0"></p>
     <div class="autherr" id="payErr"></div>
     <button class="btn btn-navy" id="payGo" onclick="payGo()">Continue to payment</button>
     <p class="authsub" style="margin:14px 0 0;text-align:center;font-size:12.5px">
@@ -1782,6 +1783,17 @@ function payPaint(){
   var extra=parseInt(document.getElementById('paySubs').value||'0',10)||0;
   var base=0; PAY_PLANS.forEach(function(p){if(p.k===payPlan)base=p.p;});
   document.getElementById('payTotal').textContent='£'+(base+extra*5);
+  /* The monthly figure is the one they are choosing between, so it stays the
+     headline — but on a paid trial it is not what leaves their account today,
+     and being vague about that is how a chargeback starts. */
+  var tn=document.getElementById('payTrialNote');
+  if(tn){
+    if(offerPaid()){
+      tn.style.display='';
+      tn.innerHTML='You pay <b>'+OFFER.price+'</b> today. The £'+(base+extra*5)+
+        ' a month starts in '+OFFER.days+' days unless you cancel before then.';
+    }else{tn.style.display='none';}
+  }
 }
 
 /* Straight to Stripe's own billing page. A family who has paid for a trial
