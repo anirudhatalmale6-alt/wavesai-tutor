@@ -801,9 +801,9 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
         Each child gets one subject on their plan; any extra subject is £5 a month.</p>
 
         <div style="text-align:center;margin-top:26px">
-          <span class="trial">✦ 7-day free trial</span>
-          <div style="margin-top:16px"><button class="btn btn-navy" onclick="authToken()?authSubscribe(''):authStart('signup')">Start your free trial</button></div>
-          <p style="color:var(--muted);font-size:13px;margin-top:14px">7 days free &mdash; no charge today. Cancel before it ends and you won't be billed.</p>
+          <span class="trial" id="offerBadge">✦ 7-day free trial</span>
+          <div style="margin-top:16px"><button class="btn btn-navy" id="offerBtn" onclick="authToken()?authSubscribe(''):authStart('signup')">Start your free trial</button></div>
+          <p style="color:var(--muted);font-size:13px;margin-top:14px" id="offerNote">7 days free &mdash; no charge today. Cancel before it ends and you won't be billed.</p>
         </div>
       </div>
 
@@ -1323,12 +1323,12 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:36px;paddin
         <h3>5. Honest use of your work</h3>
         <p>Your AI Tutor is built to teach you the method rather than hand you finished answers. Submitting AI-generated work as your own may breach your school's or exam board's rules on academic honesty, and that is your responsibility, not ours. Use it to understand the work, not to avoid it.</p>
 
-        <h3>6. Free trial</h3>
-        <p>New accounts get a free trial for seven days. No card is asked for and nothing is charged — if you do nothing at the end of it, it simply stops. The trial includes a set number of AI questions in total across the whole seven days, so that a trial cannot quietly run up a cost; when those are used the trial ends early and you are invited to subscribe. Your work and your profile stay where they are, so subscribing picks up exactly where you left off.</p>
+        <h3 id="termsTrialH">6. Free trial</h3>
+        <p id="termsTrialP">New accounts get a free trial for seven days. No card is asked for and nothing is charged — if you do nothing at the end of it, it simply stops. The trial includes a set number of AI questions in total across the whole seven days, so that a trial cannot quietly run up a cost; when those are used the trial ends early and you are invited to subscribe. Your work and your profile stay where they are, so subscribing picks up exactly where you left off.</p>
 
         <h3>7. Subscriptions and payment</h3>
         <p>Paid plans are billed monthly in advance and renew automatically until cancelled. All prices are in pounds sterling and you are charged in pounds wherever you are in the world; your own bank may apply its own conversion if your card is not a sterling card.</p>
-        <p>Payments are taken by Stripe. We never see or store your card number. Subscribing charges the first month immediately — there is no card-based trial period — and you can cancel at any time from the billing page linked in your account, keeping access until the end of the month you have paid for. Prices may change; we will give notice before a change affects your renewal. Statutory rights to cancel and to a refund are unaffected.</p>
+        <p id="termsPayP">Payments are taken by Stripe. We never see or store your card number. Subscribing charges the first month immediately — there is no card-based trial period — and you can cancel at any time from the billing page linked in your account, keeping access until the end of the month you have paid for. Prices may change; we will give notice before a change affects your renewal. Statutory rights to cancel and to a refund are unaffected.</p>
 
         <h3>8. Family plans and who may use an account</h3>
         <p>Plans are sold per child. A one-child plan is for one named student, a two-child plan for two, and a three-child plan for three. Each student gets their own learning profile, and the plan's weekly hours are shared between them.</p>
@@ -1582,6 +1582,34 @@ function typing(chatId,on){
    account. The token below is minted by the server and kept in localStorage;
    the server is the thing that actually decides access, this is only the UI. */
 var AUTH_BASE='https://wavesaistudio.com/wp-json/wavesai/v1';
+
+/* ---------- What the first week costs ----------
+   Either the first week is free and no card is asked for, or it is sold for a
+   token amount with the plan starting when it ends. Which one is running is a
+   business decision that lives in one setting on the server, and the page asks
+   rather than assumes — otherwise the wording here, the wording in the terms
+   and the amount Stripe actually charges would drift apart, and the one that
+   ends up wrong is always the page nobody remembered to edit. */
+var OFFER={mode:'free',days:7,pence:0,price:''};
+function offerLoad(){
+  fetch(AUTH_BASE+'/tutor-offer').then(function(r){return r.json();}).then(function(j){
+    if(!j||!j.ok||!j.mode)return;
+    OFFER=j; offerPaint();
+  }).catch(function(){});   /* unreachable server: leave the free-trial wording alone */
+}
+function offerPaid(){return OFFER.mode==='paid'&&OFFER.price;}
+function offerPaint(){
+  if(!offerPaid())return;
+  var d=OFFER.days, p=OFFER.price;
+  var set=function(id,html){var el=document.getElementById(id);if(el)el.innerHTML=html;};
+  set('offerBadge','✦ '+d+' days for '+p);
+  set('offerBtn','Try it for '+p);
+  set('offerNote','Just '+p+' today for '+d+' days of everything. Your plan then starts at the price you picked &mdash; cancel any time before that and you pay nothing more.');
+  set('termsTrialH','6. Your first '+d+' days');
+  set('termsTrialP','New accounts pay '+p+' for their first '+d+' days. That charge is taken when you sign up and is not refundable, and it buys the plan you chose for those '+d+' days. When the '+d+' days end, the monthly price of that plan starts automatically and renews each month until you cancel &mdash; the date and the amount are both shown to you before you pay, and again in your confirmation. Cancel at any point during the '+d+' days and you are never charged the monthly price. There is a limit on how many AI questions the trial period includes, which is generous enough that ordinary use will not reach it. One '+p+' trial per household.');
+  set('termsPayP','Payments are taken by Stripe. We never see or store your card number. Where a paid trial applies, the trial amount is charged immediately and the first monthly payment is taken when the trial ends; otherwise the first month is charged immediately. You can cancel at any time from the billing page linked in your account, keeping access until the end of the period you have paid for. Prices may change; we will give notice before a change affects your renewal. Statutory rights to cancel and to a refund are unaffected.');
+}
+offerLoad();
 var authAcct=null, authWorking=false;
 
 function authToken(){try{return localStorage.getItem('wavesai_tutor_token')||'';}catch(e){return '';}}
@@ -1598,16 +1626,22 @@ function authStart(mode){authMode(mode||'signup');document.getElementById('authW
 function authClose(){document.getElementById('authWrap').classList.remove('show');authErr('');}
 function authMode(mode){
   var signup=(mode!=='login');
-  document.getElementById('authTitle').textContent=signup?'Start your free trial':'Welcome back';
+  var paid=offerPaid();
+  document.getElementById('authTitle').textContent=signup
+    ? (paid?'Try your AI Tutor for '+OFFER.price:'Start your free trial') : 'Welcome back';
   document.getElementById('authSub').textContent=signup
-    ? '7 days free. Every subject, as many questions as you like.'
+    ? (paid
+        ? OFFER.days+' days of everything for '+OFFER.price+'. Pick your plan on the next step.'
+        : '7 days free. Every subject, as many questions as you like.')
     : 'Sign in to carry on where you left off.';
   document.getElementById('authNameRow').style.display=signup?'':'none';
-  document.getElementById('authGo').textContent=signup?'Start free trial':'Sign in';
+  document.getElementById('authGo').textContent=signup?(paid?'Continue':'Start free trial'):'Sign in';
   document.getElementById('authPass').setAttribute('autocomplete',signup?'new-password':'current-password');
   document.getElementById('authSwap').innerHTML=signup
     ? 'Already have an account? <a onclick="authMode(\'login\')">Sign in</a>'
-    : "New here? <a onclick=\"authMode('signup')\">Start your free trial</a>";
+    : (paid
+        ? "New here? <a onclick=\"authMode('signup')\">Try it for "+OFFER.price+"</a>"
+        : "New here? <a onclick=\"authMode('signup')\">Start your free trial</a>");
   document.getElementById('authWrap').dataset.mode=signup?'signup':'login';
   authErr('');
 }
@@ -1637,6 +1671,10 @@ function authSubmit(e){
       /* They clicked a plan before they had an account. Pick the thread back
          up rather than dropping them on the page wondering what happened. */
       if(payPending!==''){var pl=payPending;payPending='';setTimeout(function(){payOpen(pl);},250);}
+      /* When the first week is sold rather than given away, signing up on its
+         own gets nobody anything — the plan picker is the next step, not an
+         afterthought they have to go and find. */
+      else if(signup&&offerPaid()){setTimeout(function(){payOpen('');},250);}
     });
 }
 
@@ -1668,16 +1706,26 @@ function authPaint(){
   if(mm){mm.textContent='Sign out';mm.onclick=authSignOut;}
 
   if(!bar)return;
-  if(authAcct.status==='trial'){
+  if(authAcct.paid_trial){
+    /* They have paid something and their plan is waiting to start. Not a nag —
+       the one thing they are owed is a plain warning of the day the full price
+       begins, so nobody is surprised by it on their statement. */
+    var pd=authAcct.paid_trial_days;
+    bar.className='trialbar show';
+    bar.innerHTML='Trial — <b>'+pd+' day'+(pd===1?'':'s')+'</b> left, then your plan starts. '+
+      '<a onclick="authPortal()">Manage or cancel</a>';
+  }else if(authAcct.status==='trial'){
     var d=authAcct.days_left;
     bar.className='trialbar show'+(d<=2?' ending':'');
     bar.innerHTML='Free trial — <b>'+d+' day'+(d===1?'':'s')+'</b> left. '+
       '<a onclick="authSubscribe()">Subscribe to keep your AI Tutor</a>';
   }else if(authAcct.status==='expired'){
     bar.className='trialbar show ending';
-    bar.innerHTML='Your free trial has ended. <a onclick="authSubscribe()">Subscribe to carry on learning</a>';
+    bar.innerHTML=offerPaid()
+      ? 'Pick a plan to start your '+OFFER.price+' trial. <a onclick="authSubscribe()">Choose a plan</a>'
+      : 'Your free trial has ended. <a onclick="authSubscribe()">Subscribe to carry on learning</a>';
   }else{
-    bar.className='trialbar';           /* paid — no strip, nothing to nag about */
+    bar.className='trialbar';           /* paying — no strip, nothing to nag about */
   }
 }
 
@@ -1734,6 +1782,18 @@ function payPaint(){
   var extra=parseInt(document.getElementById('paySubs').value||'0',10)||0;
   var base=0; PAY_PLANS.forEach(function(p){if(p.k===payPlan)base=p.p;});
   document.getElementById('payTotal').textContent='£'+(base+extra*5);
+}
+
+/* Straight to Stripe's own billing page. A family who has paid for a trial
+   has to be able to see and stop the thing they signed up to without writing
+   to anyone, and Stripe already hosts that screen — so this opens it rather
+   than reimplementing cancellation badly. */
+function authPortal(){
+  if(!authToken()){authStart('login');return;}
+  authPost('tutor-portal',{token:authToken()},function(j){
+    if(j&&j.ok&&j.url){window.location.href=j.url;return;}
+    alert((j&&j.error)||'We could not open your billing page just then. Please try again in a moment.');
+  });
 }
 
 function payGo(){
